@@ -44,6 +44,7 @@ $config = [
             'rules' => [
             ],
         ],
+
     ],
     'params' => $params,
 ];

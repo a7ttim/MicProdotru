@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Project;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,34 +62,22 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        if(Yii::$app->user->isGuest){
+            $model = new LoginForm();
+            return $this->render('../auth/login', [
+                'model' => $model,
+            ]);
+        }
         return $this->render('index');
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
+    public function actionProjects()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
+        $model = new Project();
+        $projects = Project::find()->all();
+        return $this->render('projects', [
             'model' => $model,
+            'projects' => $projects,
         ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }

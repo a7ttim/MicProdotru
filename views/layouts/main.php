@@ -31,14 +31,14 @@ AppAsset::register($this);
         'brandLabel' => 'MicPro.ru',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse navbar-fixed-top ',
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'nav nav-pills navbar-right'],
+        'options' => ['class' => 'nav navbar-right'],
         'items' => [
             Yii::$app->user->isGuest ? (
-                ['label' => 'Авторизация', 'url' => ['/auth/login']]
+                ['label' => 'Авторизация', 'url' => ['/auth']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/auth/logout'], 'post')
@@ -64,7 +64,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Created by MicTeam with  <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Created by MicTeam with love <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

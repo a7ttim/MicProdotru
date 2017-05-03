@@ -14,24 +14,47 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-?>
+use yii\widgets\LinkPager;
 
-<?
-foreach ($projects as $project){
-    ?>
-    <tr>
-        <td>
-            <h3>
-                <?= $project->name; ?>
-            </h3>
-        </td>
-        <td>
-            <p>
-                <?= $project->description; ?>
-            </p>
-        </td>
-    </tr>
-<?
-}
 ?>
-    </table>
+<table class="table table-responsive table-bordered">
+    <tbody>
+    <tr>
+        <th class="text-center">
+            #
+        </th>
+        <th>
+            Имя
+        </th>
+        <th>
+            Описание
+        </th>
+        <th class="text-center">
+            Ссылка
+        </th>
+    </tr>
+    <?
+    foreach ($projects as $project){
+        ?>
+        <tr>
+            <td class="text-center">
+                <?= $project->project_id; ?>
+            </td>
+            <td>
+                <?= $project->name; ?>
+            </td>
+            <td>
+                <?= $project->description; ?>
+            </td>
+            <td>
+                <a href="../project/info?project_id=<?= $project->project_id; ?>" class="btn btn-info center-block">
+                    Подробнее
+                </a>
+            </td>
+        </tr>
+        <?
+    }
+    ?>
+    </tbody>
+</table>
+<?= LinkPager::widget(['pagination' => $pagination]) ?>

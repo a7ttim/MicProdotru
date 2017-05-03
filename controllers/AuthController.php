@@ -20,6 +20,16 @@ use app\models\ContactForm;
 class AuthController extends Controller
 {
     /**
+     * Login index.
+     *
+     * @return Response|string
+     */
+
+    public function actionIndex(){
+        return $this->actionLogin();
+    }
+
+    /**
      * Login action.
      *
      * @return Response|string
@@ -37,10 +47,6 @@ class AuthController extends Controller
         return $this->render('login', [
             'model' => $model,
         ]);
-    }
-
-    public function actionIndex(){
-        return $this->actionLogin();
     }
 
     /**

@@ -48,4 +48,22 @@ return array (
       '@yii/faker' => $vendorDir . '/yiisoft/yii2-faker',
     ),
   ),
+  'shirase55/yii2-helpers' => 
+  array (
+    'name' => 'shirase55/yii2-helpers',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@shirase/yii2/helpers' => $vendorDir . '/shirase55/yii2-helpers/src',
+    ),
+  ),
+  'shirase55/yii2-datetime-widget' => 
+  array (
+    'name' => 'shirase55/yii2-datetime-widget',
+    'version' => '1.0.5.0',
+    'alias' => 
+    array (
+      '@shirase55/yii/datetime' => $vendorDir . '/shirase55/yii2-datetime-widget/src',
+    ),
+  ),
 );

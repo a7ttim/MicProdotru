@@ -57,6 +57,14 @@ $config = [
         ],
 
     ],
+
+    'modules' => [
+        'pe' => [
+
+            'class' => 'app\modules\pe\Module',
+
+        ],
+    ],
     'params' => $params,
 ];
 

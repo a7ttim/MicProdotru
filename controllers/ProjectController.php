@@ -16,16 +16,38 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\data\Pagination;
 
 class ProjectController extends Controller
 {
     public function actionList()
     {
         $model = new Project();
-        $projects = Project::find()->all();
+        $projects = Project::find();
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $projects->count()
+        ]);
+
+        $projects = $projects->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
         return $this->render('list', [
             'model' => $model,
             'projects' => $projects,
+            'pagination' => $pagination
+        ]);
+    }
+
+    public function actionInfo()
+    {
+        $model = new Project();
+        $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+
+        return $this->render('info', [
+            'model' => $model,
+            'project' => $project,
         ]);
     }
 

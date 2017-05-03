@@ -25,6 +25,11 @@ class ComposerStaticInit59aedcc9faeb414576fbc9ba5f8b1643
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
+        's' => 
+        array (
+            'shirase\\yii2\\helpers\\' => 21,
+            'shirase55\\yii\\datetime\\' => 23,
+        ),
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
@@ -103,6 +108,14 @@ class ComposerStaticInit59aedcc9faeb414576fbc9ba5f8b1643
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'shirase\\yii2\\helpers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/shirase55/yii2-helpers/src',
+        ),
+        'shirase55\\yii\\datetime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/shirase55/yii2-datetime-widget/src',
         ),
         'phpDocumentor\\Reflection\\' => 
         array (

@@ -39,6 +39,10 @@ class AuthController extends Controller
         ]);
     }
 
+    public function actionIndex(){
+        return $this->actionLogin();
+    }
+
     /**
      * Logout action.
      *

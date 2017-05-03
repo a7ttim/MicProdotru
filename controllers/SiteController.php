@@ -52,6 +52,7 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'defaultController'=>'site/index',
         ];
     }
 
@@ -63,21 +64,17 @@ class SiteController extends Controller
     public function actionIndex()
     {
         if(Yii::$app->user->isGuest){
+
             $model = new LoginForm();
+            if ($model->load(Yii::$app->request->post()) && $model->login()) {
+                return $this->goBack();
+            }
+
             return $this->render('../auth/login', [
                 'model' => $model,
             ]);
         }
+        else
         return $this->render('index');
-    }
-
-    public function actionProjects()
-    {
-        $model = new Project();
-        $projects = Project::find()->all();
-        return $this->render('projects', [
-            'model' => $model,
-            'projects' => $projects,
-        ]);
     }
 }

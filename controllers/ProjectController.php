@@ -23,10 +23,10 @@ class ProjectController extends Controller
     public function actionList()
     {
         $model = new Project();
-        $projects = Project::find();
+        $projects = Project::find()->where(['status' => 1, 'pm_id' => Yii::$app->user->identity->user_id]);
         $pagination = new Pagination([
-            'defaultPageSize' => 20,
-            'totalCount' => $projects->count()
+            'defaultPageSize' => 1,
+            'totalCount' => $projects->count(),
         ]);
 
         $projects = $projects->offset($pagination->offset)
@@ -36,12 +36,11 @@ class ProjectController extends Controller
         return $this->render('list', [
             'model' => $model,
             'projects' => $projects,
-            'pagination' => $pagination
+            'pagination' => $pagination,
         ]);
     }
 
-    public function actionInfo()
-    {
+    public function actionInfo()    {
         $model = new Project();
         $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
 

@@ -47,7 +47,7 @@ class Task extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'project_id', 'user_id'], 'required'],
-            [['project_id', 'user_id', 'parent_task_id', 'previous_task_id', 'employment_percentage', 'status', 'complete_percentage'], 'integer'],
+            [['project_id', 'user_id', 'parent_task_id', 'previous_task_id', /*'workload',*/'employment_percentage', 'status', 'complete_percentage'], 'integer'],
             [['start_date', 'plan_end_date', 'fact_end_date'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 5000],
@@ -65,19 +65,20 @@ class Task extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'task_id' => 'Task ID',
-            'name' => 'Name',
-            'project_id' => 'Project ID',
-            'user_id' => 'User ID',
-            'description' => 'Description',
-            'parent_task_id' => 'Parent Task ID',
-            'previous_task_id' => 'Previous Task ID',
-            'start_date' => 'Start Date',
-            'plan_end_date' => 'Plan End Date',
-            'fact_end_date' => 'Fact End Date',
-            'employment_percentage' => 'Employment Percentage',
-            'status' => 'Status',
-            'complete_percentage' => 'Complete Percentage',
+            'task_id' => 'Задача',
+            'name' => 'Название',
+            'project_id' => 'Проект',
+            'user_id' => 'Исполнитель',
+            'description' => 'Описание',
+            'parent_task_id' => 'Родительская задача',
+            'previous_task_id' => 'Предыдущая задача',
+            'start_date' => 'Дата начала',
+            'plan_end_date' => 'Плановая дата окончания',
+            'fact_end_date' => 'Фактическая дата окончания',
+            'employment_percentage' => 'Занятость, %',
+            //'workload' => 'Занятость, %',
+            'status' => 'Статус',
+            'complete_percentage' => 'Завершенность, %',
         ];
     }
 

@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 use app\models\Project;
+use app\models\Task;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -17,6 +18,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\data\Pagination;
+use yii\data\ActiveDataProvider;
 
 class ProjectController extends Controller
 {
@@ -40,13 +42,40 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function actionInfo()    {
-        $model = new Project();
-        $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+//    public function actionInfo()    {
+//        $model = new Project();
+//        $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+//
+//        return $this->render('info', [
+//            'model' => $model,
+//            'project' => $project,
+//        ]);
+//    }
 
-        return $this->render('info', [
-            'model' => $model,
-            'project' => $project,
+    public function actionInfoproject()    {
+        $model = new Task();
+        //$model = new Task();
+        $proj_id=Yii::$app->request->get('project_id');
+        $project = Project::findOne(['project_id' => $proj_id]);
+        $projectname=$project->name;
+        //$projectdesc=$project->description;
+        //$tasks = Task::find(['project_id' => $proj_id]);
+        $tasks=Task::find()->where(['project_id' => $proj_id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Task::find()->where(['project_id' => $proj_id]),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('infoproject', [
+            //'model' => $model,
+            //'dataProvider' => $tasks,
+            //'dataProvider' => $model,
+            'dataProvider' =>$dataProvider,
+            'projectname' => $projectname,
+            //'projectdesc' => $projectdesc,
         ]);
     }
 

@@ -84,11 +84,27 @@ class ProjectController extends Controller
         $model = new Task();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->task_id]);
+            return $this->redirect(['showtask', 'id' => $model->task_id]);
         } else {
             return $this->render('createtask', [
                 'model' => $model,
             ]);
+        }
+    }
+
+    public function actionShowtask($id)
+    {
+        return $this->render('showtask', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Task::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 

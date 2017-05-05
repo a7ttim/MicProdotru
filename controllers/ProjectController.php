@@ -70,13 +70,26 @@ class ProjectController extends Controller
         ]);
 
         return $this->render('infoproject', [
-            //'model' => $model,
+            'model' => $model,
             //'dataProvider' => $tasks,
             //'dataProvider' => $model,
             'dataProvider' =>$dataProvider,
             'projectname' => $projectname,
             //'projectdesc' => $projectdesc,
         ]);
+    }
+
+    public function actionCreatetask()
+    {
+        $model = new Task();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->task_id]);
+        } else {
+            return $this->render('createtask', [
+                'model' => $model,
+            ]);
+        }
     }
 
     public function actionIndex(){

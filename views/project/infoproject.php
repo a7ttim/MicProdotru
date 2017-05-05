@@ -56,8 +56,8 @@ use yii\grid\GridView;
         // 'start_date',
         // 'plan_end_date',
         // 'fact_end_date',
-         'employment_percentage',
-        //'status',
+        'employment_percentage',
+        'status',
 //            [
 //                'attribute' => 'status',
 //                'value' => 'status.status_name',

@@ -22,6 +22,7 @@ use yii\data\ActiveDataProvider;
 
 class ProjectController extends Controller
 {
+
     public function actionList()
     {
         $model = new Project();
@@ -54,13 +55,9 @@ class ProjectController extends Controller
 
     public function actionInfoproject()    {
         $model = new Task();
-        //$model = new Task();
         $proj_id=Yii::$app->request->get('project_id');
         $project = Project::findOne(['project_id' => $proj_id]);
         $projectname=$project->name;
-        //$projectdesc=$project->description;
-        //$tasks = Task::find(['project_id' => $proj_id]);
-        $tasks=Task::find()->where(['project_id' => $proj_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => Task::find()->where(['project_id' => $proj_id]),
@@ -71,11 +68,8 @@ class ProjectController extends Controller
 
         return $this->render('infoproject', [
             'model' => $model,
-            //'dataProvider' => $tasks,
-            //'dataProvider' => $model,
             'dataProvider' =>$dataProvider,
             'projectname' => $projectname,
-            //'projectdesc' => $projectdesc,
         ]);
     }
 
@@ -92,13 +86,6 @@ class ProjectController extends Controller
         }
     }
 
-    public function actionShowtask($id)
-    {
-        return $this->render('showtask', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
     protected function findModel($id)
     {
         if (($model = Task::findOne($id)) !== null) {
@@ -106,6 +93,35 @@ class ProjectController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionShowtask($id)
+    {
+        return $this->render('showtask', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+
+    public function actionUpdatetask($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //return $this->redirect(['showtask', 'id' => $model->task_id]);
+            return $this->redirect(['infoproject','project_id' =>$model->project_id]);
+        } else {
+            return $this->render('updatetask', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionDeletetask($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['infoproject']);
     }
 
     public function actionIndex(){

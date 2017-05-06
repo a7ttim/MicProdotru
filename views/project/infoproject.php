@@ -19,14 +19,15 @@ use app\models\Project;
 use app\models\Task;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 ?>
 <h1>
     <?= $projectname ?>
 </h1>
-<p>
-    <?= $projecdesc ?>
-</p>
+<!--<p>-->
+<!--    --><?//= $projecdesc ?>
+<!--</p>-->
 <p>
     <?= Html::a('Новая задача', ['createtask'], ['class' => 'btn btn-success']) ?>
 </p>
@@ -69,6 +70,13 @@ use yii\grid\GridView;
 
         'complete_percentage',
 
-        ['class' => 'yii\grid\ActionColumn'],
+        [
+            'attribute' => ' ',
+            'value' => function (Task $task) {
+                return Html::a('Подробнее', Url::to(['showtask', 'id' => $task->task_id]));
+            },
+            'format' => 'raw',
+        ],
+
     ],
 ]); ?>

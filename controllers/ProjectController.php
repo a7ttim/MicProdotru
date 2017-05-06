@@ -43,15 +43,15 @@ class ProjectController extends Controller
         ]);
     }
 
-//    public function actionInfo()    {
-//        $model = new Project();
-//        $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
-//
-//        return $this->render('info', [
-//            'model' => $model,
-//            'project' => $project,
-//        ]);
-//    }
+    public function actionInfo()    {
+        $model = new Project();
+        $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+
+        return $this->render('info', [
+            'model' => $model,
+            'project' => $project,
+        ]);
+    }
 
     public function actionInfoproject()    {
         $model = new Task();
@@ -108,7 +108,6 @@ class ProjectController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['showtask', 'id' => $model->task_id]);
             return $this->redirect(['infoproject','project_id' =>$model->project_id]);
         } else {
             return $this->render('updatetask', [
@@ -119,9 +118,9 @@ class ProjectController extends Controller
 
     public function actionDeletetask($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['infoproject']);
+        $model = $this->findModel($id);
+        $model->delete();
+        return $this->redirect(['infoproject','project_id' =>$model->project_id]);
     }
 
     public function actionIndex(){

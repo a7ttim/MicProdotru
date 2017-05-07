@@ -36,8 +36,16 @@ class AuthController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->render('../project/list');
+        if (Yii::$app->user->can('pm')) {
+            return $this->redirect('./project/list');
+        }
+		
+		if (Yii::$app->user->can('pe')) {
+            return $this->redirect('./task/list');
+        }
+		
+		if (Yii::$app->user->can('dh')) {
+            return $this->redirect('./resource/list');
         }
 
         $model = new LoginForm();

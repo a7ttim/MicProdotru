@@ -23,6 +23,17 @@ use yii\data\ActiveDataProvider;
 
 class ProjectController extends Controller
 {
+	public function beforeAction($action)
+	{
+		if (parent::beforeAction($action)) {
+			if (!\Yii::$app->user->can('pm')) {
+				throw new \yii\web\ForbiddenHttpException('Доступ закрыт.');
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
 
     public function actionList()
     {

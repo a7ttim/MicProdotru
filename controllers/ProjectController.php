@@ -67,12 +67,12 @@ class ProjectController extends Controller
 
     public function actionInfo()    {
         $model = new Task();
-        $proj_id=Yii::$app->request->get('project_id');
-        $project = Project::findOne(['project_id' => $proj_id]);
-        $projectname=$project->name;
+        $project_id=Yii::$app->request->get('project_id');
+        $project = Project::findOne(['project_id' => $project_id]);
+        $project_name=$project->name;
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['and',['project_id' => $proj_id],['status_id'=>[1,2,3]]]),
+            'query' => Task::find()->where(['and',['project_id' => $project_id],['status_id'=>[1,2,3]]]),
             'pagination' => [
                 'pageSize' => 10,
             ],
@@ -81,7 +81,7 @@ class ProjectController extends Controller
         return $this->render('info', [
             'model' => $model,
             'dataProvider' =>$dataProvider,
-            'projectname' => $projectname,
+            'projectname' => $project_name,
         ]);
     }
 
@@ -103,6 +103,11 @@ class ProjectController extends Controller
         $project_id = Yii::$app->request->get('project_id');
         $project = Project::findOne(['project_id' => $project_id]);
         $tasks = Task::find()->where(['project_id' => $project_id])->all();
+
+        /*$links = [];
+        foreach ($tasks as $task){
+            array_push($links, ["id" => $task->task_id, "text" => $task->name, "start_date" => $task->start_date, "duration" => 1]);
+        }*/
 
         /*$links = [];
         foreach ($tasks as $task){

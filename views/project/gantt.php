@@ -28,21 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <body>
     <div id="gantt_here" style="width:100%; height: auto; min-height: 200px;"></div>
     <script type="text/javascript">
-        var tasks =  {
-            data:[
-                {id: 1, text: "Project", start_date:"11-04-2013", duration:8, order:20, progress:0.6, open: true},
-        <?
-        foreach ($tasks as $task)
-        {
-        ?>
-                {id: 2, text: "zasdf", start_date:"11-04-2013", duration:8, order:20, progress:0.6, parent:1},
-        <?
-        }
-        ?>
-            ],
-            links:[
-            ]
-        };
+        var tasks =  = eval('<?= $json ?>');
         gantt.init("gantt_here");
         gantt.parse(tasks);
     </script>

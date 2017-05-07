@@ -38,7 +38,7 @@ class ProjectController extends Controller
     public function actionList()
     {
         $model = new Project();
-        $projects = Project::find()->where(['status' => 1, 'pm_id' => Yii::$app->user->identity->user_id]);
+        $projects = Project::find()->where(['status_id' => 1, 'pm_id' => Yii::$app->user->identity->user_id]);
         $pagination = new Pagination([
             'defaultPageSize' => 1,
             'totalCount' => $projects->count(),
@@ -55,7 +55,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function actionInfo()    {
+    /*public function actionInfo()    {
         $model = new Project();
         $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
 
@@ -63,22 +63,22 @@ class ProjectController extends Controller
             'model' => $model,
             'project' => $project,
         ]);
-    }
+    }*/
 
-    public function actionInfoproject()    {
+    public function actionInfo()    {
         $model = new Task();
         $proj_id=Yii::$app->request->get('project_id');
         $project = Project::findOne(['project_id' => $proj_id]);
         $projectname=$project->name;
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['and',['project_id' => $proj_id],['status'=>[1,2,3]]]),
+            'query' => Task::find()->where(['and',['project_id' => $proj_id],['status_id'=>[1,2,3]]]),
             'pagination' => [
                 'pageSize' => 10,
             ],
         ]);
 
-        return $this->render('infoproject', [
+        return $this->render('info', [
             'model' => $model,
             'dataProvider' =>$dataProvider,
             'projectname' => $projectname,
@@ -96,6 +96,23 @@ class ProjectController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionGantt()
+    {
+        $project_id = Yii::$app->request->get('project_id');
+        $project = Project::findOne(['project_id' => $project_id]);
+        $tasks = Task::find()->where(['project_id' => $project_id])->all();
+
+        /*$links = [];
+        foreach ($tasks as $task){
+            array_push($links, ["id" => $task->task_id, "text" => $task->name, "start_date" => $task->start_date, "duration" => 1]);
+        }*/
+
+        return $this->render('gantt', [
+            'project' => $project,
+            'tasks' => $tasks,
+        ]);
     }
 
     protected function findModel($id)

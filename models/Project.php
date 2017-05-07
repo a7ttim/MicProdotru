@@ -15,10 +15,11 @@ use Yii;
  * @property string $start_date
  * @property string $end_date
  * @property string $type
- * @property string $status
+ * @property int $status_id
  *
  * @property Department $department
  * @property User $pm
+ * @property Status $status
  * @property Task[] $tasks
  * @property WorkingOn[] $workingOns
  */
@@ -39,13 +40,14 @@ class Project extends \yii\db\ActiveRecord
     {
         return [
             [['department_id', 'pm_id'], 'required'],
-            [['department_id', 'pm_id'], 'integer'],
+            [['department_id', 'pm_id', 'status_id'], 'integer'],
             [['start_date', 'end_date'], 'safe'],
             [['name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 5000],
-            [['type', 'status'], 'string', 'max' => 20],
+            [['type'], 'string', 'max' => 20],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'department_id']],
             [['pm_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['pm_id' => 'user_id']],
+            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::className(), 'targetAttribute' => ['status_id' => 'status_id']],
         ];
     }
 
@@ -63,7 +65,7 @@ class Project extends \yii\db\ActiveRecord
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
             'type' => 'Type',
-            'status' => 'Status',
+            'status_id' => 'Status ID',
         ];
     }
 
@@ -81,6 +83,14 @@ class Project extends \yii\db\ActiveRecord
     public function getPm()
     {
         return $this->hasOne(User::className(), ['user_id' => 'pm_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(Status::className(), ['status_id' => 'status_id']);
     }
 
     /**

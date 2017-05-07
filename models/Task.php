@@ -15,10 +15,10 @@ use Yii;
  * @property int $parent_task_id
  * @property int $previous_task_id
  * @property string $start_date
- * @property string $plan_end_date
- * @property string $fact_end_date
+ * @property int $plan_duration
+ * @property int $fact_duration
  * @property int $employment_percentage
- * @property int $status
+ * @property int $status_id
  * @property int $complete_percentage
  *
  * @property Comment[] $comments
@@ -28,7 +28,7 @@ use Yii;
  * @property Task[] $tasks
  * @property Task $previousTask
  * @property Task[] $tasks0
- * @property TaskStatus $status0
+ * @property Status $status
  */
 class Task extends \yii\db\ActiveRecord
 {
@@ -47,15 +47,15 @@ class Task extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'project_id', 'user_id'], 'required'],
-            [['project_id', 'user_id', 'parent_task_id', 'previous_task_id', /*'workload',*/'employment_percentage', 'status', 'complete_percentage'], 'integer'],
-            [['start_date', 'plan_end_date', 'fact_end_date'], 'safe'],
+            [['project_id', 'user_id', 'parent_task_id', 'previous_task_id', 'plan_duration', 'fact_duration', 'employment_percentage', 'status_id', 'complete_percentage'], 'integer'],
+            [['start_date'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 5000],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'project_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
             [['parent_task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::className(), 'targetAttribute' => ['parent_task_id' => 'task_id']],
             [['previous_task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::className(), 'targetAttribute' => ['previous_task_id' => 'task_id']],
-            [['status'], 'exist', 'skipOnError' => true, 'targetClass' => TaskStatus::className(), 'targetAttribute' => ['status' => 'task_status_id']],
+            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::className(), 'targetAttribute' => ['status_id' => 'status_id']],
         ];
     }
 
@@ -65,20 +65,19 @@ class Task extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'task_id' => 'Задача',
-            'name' => 'Название',
-            'project_id' => 'Проект',
-            'user_id' => 'Исполнитель',
-            'description' => 'Описание',
-            'parent_task_id' => 'Родительская задача',
-            'previous_task_id' => 'Предыдущая задача',
-            'start_date' => 'Дата начала',
-            'plan_end_date' => 'Плановая дата окончания',
-            'fact_end_date' => 'Фактическая дата окончания',
-            'employment_percentage' => 'Занятость, %',
-            //'workload' => 'Занятость, %',
-            'status' => 'Статус',
-            'complete_percentage' => 'Завершенность, %',
+            'task_id' => 'Task ID',
+            'name' => 'Name',
+            'project_id' => 'Project ID',
+            'user_id' => 'User ID',
+            'description' => 'Description',
+            'parent_task_id' => 'Parent Task ID',
+            'previous_task_id' => 'Previous Task ID',
+            'start_date' => 'Start Date',
+            'plan_duration' => 'Plan Duration',
+            'fact_duration' => 'Fact Duration',
+            'employment_percentage' => 'Employment Percentage',
+            'status_id' => 'Status ID',
+            'complete_percentage' => 'Complete Percentage',
         ];
     }
 
@@ -141,8 +140,8 @@ class Task extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStatus0()
+    public function getStatus()
     {
-        return $this->hasOne(TaskStatus::className(), ['task_status_id' => 'status']);
+        return $this->hasOne(Status::className(), ['status_id' => 'status_id']);
     }
 }

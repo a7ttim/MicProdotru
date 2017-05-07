@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\models\Comment;
 use app\models\Project;
 use app\models\Task;
 use Yii;
@@ -60,7 +61,7 @@ class ProjectController extends Controller
         $projectname=$project->name;
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['project_id' => $proj_id]),
+            'query' => Task::find()->where(['and',['project_id' => $proj_id],['status'=>[1,2,3]]]),
             'pagination' => [
                 'pageSize' => 10,
             ],
@@ -119,7 +120,17 @@ class ProjectController extends Controller
     public function actionDeletetask($id)
     {
         $model = $this->findModel($id);
-        $model->delete();
+
+        $comment= new Comment();
+        $comment->user_id=1;
+        $comment->task_id=$model->task_id;
+        $comment->date_time=time();
+        //$user=User::findOne(Yii::$app->user->identity->user_id);
+        //$user_name=
+        $comment->text='Задача удалена';
+        $comment->save();
+        $model->status=4;
+        $model->save();
         return $this->redirect(['infoproject','project_id' =>$model->project_id]);
     }
 

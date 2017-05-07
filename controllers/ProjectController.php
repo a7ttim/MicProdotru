@@ -67,12 +67,12 @@ class ProjectController extends Controller
 
     public function actionInfo()    {
         $model = new Task();
-        $project_id=Yii::$app->request->get('project_id');
-        $project = Project::findOne(['project_id' => $project_id]);
-        $project_name=$project->name;
+        $proj_id=Yii::$app->request->get('project_id');
+        $project = Project::findOne(['project_id' => $proj_id]);
+        $projectname=$project->name;
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['and',['project_id' => $project_id],['status_id'=>[1,2,3]]]),
+            'query' => Task::find()->where(['project_id' => $proj_id]),
             'pagination' => [
                 'pageSize' => 10,
             ],
@@ -81,7 +81,7 @@ class ProjectController extends Controller
         return $this->render('info', [
             'model' => $model,
             'dataProvider' =>$dataProvider,
-            'projectname' => $project_name,
+            'projectname' => $projectname,
         ]);
     }
 

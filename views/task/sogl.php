@@ -46,7 +46,7 @@ use yii\helpers\Url;
                 Загруженность, %
             </th>
             <th>
-                Ответственный
+                Исполнитель
             </th>
             <th>
                 Подробно
@@ -62,16 +62,22 @@ use yii\helpers\Url;
                     <td> <?= $task['task_id']; ?></td>
                     <td> <?= $task['task'] ?></td>
                     <td> <?= $task['project'] ?></td>
-                    <td> <?= $task['description'] ?></td>
+                    <td>
+                        <?php if (strlen($task['description'])>55) echo substr($task['description'] , 0, 52)."...";
+                        else echo $task['description'];
+                        ?>
+                    </td>
                     <td> <?= date("d.m.y", strtotime($task['start_date'])) ?></td>
                     <td> <?= date("d.m.y", strtotime($task['plan_end_date'])) ?></td>
                     <td> <?= $task['employment_percentage'] ?></td>
-                    <td>КТО НАЗНАЧИЛ</td>
-                    <td><?= Html::a(
+                    <td><?= $task['user'] ?></td>
+                    <td>
+                        <?= Html::a(
                             'Подробно',
                             Url::to(['task/soglinfo', 'task_id' => $task['task_id']])
                         );
-                        ?></td>
+                        ?>
+                    </td>
                 </tr>
             <?php }
         }

@@ -1,0 +1,15 @@
+table {
+    font-size: 14px;
+    border-collapse: collapse;
+    color:#7a7a7a;
+    margin-left: 50px;
+}
+
+td{text-align: center;}
+th{text-align: center;}
+th,td {
+    padding: 10px 20px;
+}
+
+th,tr:nth-child(even) {background: #f0f0f0}
+tr:nth-child(odd) {background: #ffffff}

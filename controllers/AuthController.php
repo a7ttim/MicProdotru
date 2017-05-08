@@ -39,9 +39,9 @@ class AuthController extends Controller
         if (Yii::$app->user->can('pm')) {
             return $this->redirect('./project/list');
         }
-		
-		if (Yii::$app->user->can('pe')) {
-            return $this->redirect('./task/list');
+
+        if (Yii::$app->user->can('pe')) {
+            return $this->redirect('./task/sogl');
         }
 		
 		if (Yii::$app->user->can('dh')) {

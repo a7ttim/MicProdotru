@@ -6856,7 +6856,9 @@ table > tbody > tr > td,
 .table > tbody > tr > td,
 table > tfoot > tr > td,
 .table > tfoot > tr > td {
-  border: none;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+  border-color: #dedede;
 }
 table-bordered > thead > tr > th,
 .table-bordered > thead > tr > th,

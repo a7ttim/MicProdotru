@@ -11,10 +11,10 @@ use Yii;
  * @property string $name
  * @property string $login
  * @property string $password
+ * @property string $authKey
+ * @property string $accessToken
  * @property string $date_of_birth
  * @property string $sex
- * @property string $accessToken
- * @property string $authKey
  *
  * @property Comment[] $comments
  * @property Department[] $departments
@@ -39,11 +39,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'authKey', 'accessToken'], 'required'],
             [['date_of_birth'], 'safe'],
             [['name', 'login', 'password'], 'string', 'max' => 100],
+            [['authKey', 'accessToken'], 'string', 'max' => 255],
             [['sex'], 'string', 'max' => 20],
-            [['accessToken', 'authKey'], 'string', 'max' => 255],
         ];
     }
 
@@ -57,10 +57,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'name' => 'Name',
             'login' => 'Login',
             'password' => 'Password',
+            'authKey' => 'Auth Key',
+            'accessToken' => 'Access Token',
             'date_of_birth' => 'Date Of Birth',
             'sex' => 'Sex',
-            'accessToken' => 'Access Token',
-            'authKey' => 'Auth Key',
         ];
     }
 

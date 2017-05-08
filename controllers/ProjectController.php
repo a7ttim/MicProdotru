@@ -11,6 +11,8 @@ namespace app\controllers;
 use app\models\Comment;
 use app\models\Project;
 use app\models\Task;
+use app\models\User;
+use Faker\Provider\DateTime;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -94,12 +96,16 @@ class ProjectController extends Controller
         $project_id = Yii::$app->request->get('project_id');
         $project = Project::findOne(['project_id' => $project_id]);
         $tasks = Task::find()->where(['project_id' => $project_id])->all();
-
-        /*$links = [];
+        //$project
+        // Перевод данных в формат под диаграмму Гантта
+       /* $tasks_ = [];
         foreach ($tasks as $task){
-            array_push($links, ["id" => $task->task_id, "text" => $task->name, "start_date" => $task->start_date, "duration" => 1]);
+            array_push($tasks_, ["id" => $task->task_id, "text" => $task->name, "start_date" => $task->start_date, "duration" => $task->plan_duration, 'parent' => 999999000 + $project->project_id]);
         }*/
+        //$duration = new DateTime($project->start_date);
+       // array_unshift($tasks_, ["id" => 999999000 + $project->project_id, "text" => $project->name, "start_date" => $project->start_date, "duration" => 1, "open" => true]);
 
+        //$tasks__['data'] = $tasks_;
         /*$links = [];
         foreach ($tasks as $task){
             array_push($links, ["id" => $task->task_id, "text" => $task->name, "start_date" => $task->start_date, "duration" => 1]);
@@ -108,6 +114,7 @@ class ProjectController extends Controller
         return $this->render('gantt', [
             'project' => $project,
             'tasks' => $tasks,
+            'users' => $project->getUsers()->all(),
         ]);
     }
 

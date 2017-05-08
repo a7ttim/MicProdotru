@@ -108,4 +108,13 @@ class Project extends \yii\db\ActiveRecord
     {
         return $this->hasMany(WorkingOn::className(), ['project_id' => 'project_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(User::className(), ['user_id' => 'user_id'])
+            ->viaTable(WorkingOn::tableName(), ['project_id' => 'project_id']);
+    }
 }

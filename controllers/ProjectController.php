@@ -55,15 +55,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    /*public function actionInfo()    {
-        $model = new Project();
-        $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
-
-        return $this->render('info', [
-            'model' => $model,
-            'project' => $project,
-        ]);
-    }*/
 
     public function actionInfo()    {
         $model = new Task();
@@ -72,7 +63,7 @@ class ProjectController extends Controller
         $projectname=$project->name;
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['project_id' => $proj_id]),
+            'query' => Task::find()->where(['and',['project_id' => $proj_id],['status_id'=>[1,2,3]]]),
             'pagination' => [
                 'pageSize' => 10,
             ],
@@ -120,7 +111,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    protected function findModel($id)
+    protected function findTaskModel($id)
     {
         if (($model = Task::findOne($id)) !== null) {
             return $model;
@@ -131,18 +122,22 @@ class ProjectController extends Controller
 
     public function actionShowtask($id)
     {
+
+        $commentsModel=Comment::find()->where(['task_id' => $id]);
+
         return $this->render('showtask', [
-            'model' => $this->findModel($id),
+            'model' => $this->findTaskModel($id),
+            'comments'=> $commentsModel,
         ]);
     }
 
 
     public function actionUpdatetask($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findTaskModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['infoproject','project_id' =>$model->project_id]);
+            return $this->redirect(['info','project_id' =>$model->project_id]);
         } else {
             return $this->render('updatetask', [
                 'model' => $model,
@@ -152,7 +147,7 @@ class ProjectController extends Controller
 
     public function actionDeletetask($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findTaskModel($id);
 
         $comment= new Comment();
         $comment->user_id=1;
@@ -162,9 +157,9 @@ class ProjectController extends Controller
         //$user_name=
         $comment->text='Задача удалена';
         $comment->save();
-        $model->status=4;
+        $model->status_id=4;
         $model->save();
-        return $this->redirect(['infoproject','project_id' =>$model->project_id]);
+        return $this->redirect(['info','project_id' =>$model->project_id]);
     }
 
     public function actionIndex(){

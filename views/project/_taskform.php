@@ -26,11 +26,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'start_date')->textInput() ?>
 
-    <?= $form->field($model, 'plan_end_date')->textInput() ?>
+<!---->
+<!--    <input class="form-control" data-format="YYYY-MM-DD HH:mm" placeholder="Select datetimepicker" type="text">-->
+<!--    <span class="input-group-addon">-->
+<!--                            <span class="fa fa-calendar"></span>-->
+<!--                          </span>-->
 
-    <?= $form->field($model, 'fact_end_date')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+
+    <?= $form->field($model, 'plan_duration')->textInput() ?>
+
+    <?= $form->field($model, 'fact_duration')->textInput() ?>
+
+    <?= $form->field($model, 'status_id')->textInput() ?>
 
     <?= $form->field($model, 'complete_percentage')->textInput() ?>
 

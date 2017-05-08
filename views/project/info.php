@@ -58,7 +58,7 @@ use yii\helpers\Url;
         // 'plan_end_date',
         // 'fact_end_date',
         'employment_percentage',
-        'status',
+        'status_id',
 //            [
 //                'attribute' => 'status',
 //                'value' => 'status.status_name',

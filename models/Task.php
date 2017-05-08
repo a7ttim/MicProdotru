@@ -65,19 +65,19 @@ class Task extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'task_id' => 'Task ID',
-            'name' => 'Name',
-            'project_id' => 'Project ID',
-            'user_id' => 'User ID',
-            'description' => 'Description',
-            'parent_task_id' => 'Parent Task ID',
-            'previous_task_id' => 'Previous Task ID',
-            'start_date' => 'Start Date',
-            'plan_duration' => 'Plan Duration',
-            'fact_duration' => 'Fact Duration',
-            'employment_percentage' => 'Employment Percentage',
-            'status_id' => 'Status ID',
-            'complete_percentage' => 'Complete Percentage',
+            'task_id' => 'Задача',
+            'name' => 'Название',
+            'project_id' => 'Проект',
+            'user_id' => 'Исполнитель',
+            'description' => 'Описание',
+            'parent_task_id' => 'ID родительской задачи',
+            'previous_task_id' => 'ID предыдущей задачи',
+            'start_date' => 'Дата начала',
+            'plan_duration' => 'Плановая продолжительность',
+            'fact_duration' => 'Фактическая продолжительность',
+            'employment_percentage' => 'Занятость исполнитель, %',
+            'status_id' => 'Статус',
+            'complete_percentage' => 'Завершенность, %',
         ];
     }
 

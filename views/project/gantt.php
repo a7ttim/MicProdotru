@@ -11,9 +11,11 @@ $script = <<< JS
 var tasks = {
   data:[      
 JS;
-$script .= '{id:1, text:"Проект 1", start_date:"'.date('d.m.Y', strtotime($tasks[0]->start_date)).'", duration:14, executor:"Петров А.А."},';
+$script .= '{id:1, text:"'.$project->name.'", start_date:"'.date('d.m.Y', strtotime($tasks[0]->start_date)).'", duration:14, executor:"'.$project->pm_id.'"},';
 foreach ($tasks as $task){
-    $script .= '{id:'.$task->task_id.', text:"'.$task->name.'", start_date:"'.date('d.m.Y', strtotime($task->start_date)).'", duration:3, parent:1, executor:"'.$task->user_id.'"},';
+    $script .= '{id:'.$task->task_id.', text:"'.$task->name.'", start_date:"'.date('d.m.Y', strtotime($task->start_date)).'", duration:'.$task->plan_duration.', parent:'.((!isset($task->parent_task_id) || is_null($task->parent_task_id)) ? 1 : $task->parent_task_id).', '.""
+        /*executor:"'.\app\models\User::findOne(['user_id' => $task->user_id])->name.'", */
+        .'executor:'.$task->user_id.'},';
 }
 $script .= <<< JS
    ]
@@ -38,6 +40,7 @@ gantt.config.columns =  [
     {name:"executor",   label:"Исполнитель",   align: "center" },
     {name:"add", align: "center" }
 ];
+gantt.config.grid_width = 640;
         gantt.init("gantt_here");
         gantt.parse(tasks);
         

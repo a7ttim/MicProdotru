@@ -40,9 +40,9 @@ class ProjectController extends Controller
     public function actionList()
     {
         $model = new Project();
-        $projects = Project::find()->where(['status_id' => 1, 'pm_id' => Yii::$app->user->identity->user_id]);
+        $projects = Project::find()->where(['pm_id' => Yii::$app->user->identity->user_id]);
         $pagination = new Pagination([
-            'defaultPageSize' => 1,
+            'defaultPageSize' => 10,
             'totalCount' => $projects->count(),
         ]);
 

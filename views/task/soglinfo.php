@@ -44,8 +44,8 @@ use yii\helpers\Url;
                     <td><?=date("d.m.Y",strtotime($tasks['start_date']));?></td>
                 </tr>
                 <tr>
-                    <td>Завершение</td>
-                    <td><?=date("d.m.Y",strtotime($tasks['plan_end_date']));?></td>
+                    <td>Длительность</td>
+                    <td><?= $tasks['plan_duration'] ?></td>
                 </tr>
                 <tr>
                     <td>Исполнитель</td>

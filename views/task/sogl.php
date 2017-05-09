@@ -40,7 +40,7 @@ use yii\helpers\Url;
                 Начало
             </th>
             <th>
-                Завершение
+                Длительность
             </th>
             <th>
                 Загруженность, %
@@ -68,7 +68,7 @@ use yii\helpers\Url;
                         ?>
                     </td>
                     <td> <?= date("d.m.y", strtotime($task['start_date'])) ?></td>
-                    <td> <?= date("d.m.y", strtotime($task['plan_end_date'])) ?></td>
+                    <td> <?= $task['plan_duration'] ?></td>
                     <td> <?= $task['employment_percentage'] ?></td>
                     <td><?= $task['user'] ?></td>
                     <td>

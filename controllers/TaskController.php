@@ -40,8 +40,8 @@ class TaskController extends Controller
         $tasks = Project::find()
             ->joinWith('tasks')
             ->rightJoin('user','user.user_id=task.user_id')
-            ->select(['task.task_id','project.name as project','task.name as task','task.description','task.start_date','task.plan_end_date','task.workload','user.name as user'])
-            ->where(['task.user_id' => Yii::$app->user->identity->user_id ,'task.status' => 3])
+            ->select(['task.task_id','project.name as project','task.name as task','task.description','task.start_date','task.employment_percentage','task.plan_duration','user.name as user'])
+            ->where(['task.user_id' => Yii::$app->user->identity->user_id ,'task.status_id' => 3])
             ->asArray();
         $pagination = new Pagination([
             'defaultPageSize' => 2,
@@ -73,7 +73,7 @@ class TaskController extends Controller
             ->rightJoin('department','department.department_id=project.department_id')
             ->joinWith('tasks')
             ->rightJoin('user','user.user_id=task.user_id')
-            ->select(['task.task_id','project.name as project','task.name as task','task.description','task.start_date','task.plan_end_date','task.employment_percentage','department.department_name as department','user.name as user'])
+            ->select(['task.task_id','project.name as project','task.name as task','task.description','task.start_date','task.plan_duration','task.employment_percentage','department.department_name as department','user.name as user'])
             ->where(['task.task_id' =>$_GET['task_id']])
             ->asArray()
             ->one();

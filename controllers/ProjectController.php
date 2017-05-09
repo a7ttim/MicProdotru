@@ -95,11 +95,10 @@ class ProjectController extends Controller
     {
         $project_id = Yii::$app->request->get('project_id');
         $project = Project::findOne(['project_id' => $project_id]);
-        $tasks = Task::find()->where(['project_id' => $project_id])->all();
 
         return $this->render('gantt', [
             'project' => $project,
-            'tasks' => $tasks,
+            'tasks' => $project->getTasks()->all(),
             'users' => $project->getUsers()->all(),
         ]);
     }

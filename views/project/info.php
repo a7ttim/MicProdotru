@@ -21,8 +21,8 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
 
-$this->title = $projectname;
-$this->params['breadcrumbs'][] = ['label' => 'Проекты', 'url' => ['list']];
+$this->title = $project->name;
+$this->params['breadcrumbs'][] = ['label' => \app\models\Status::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1>

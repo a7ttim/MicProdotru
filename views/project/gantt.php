@@ -3,6 +3,7 @@ use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 
 $this->title = 'Диаграмма Гантта';
+$this->params['breadcrumbs'][] = ['label' => \app\models\Status::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
 $this->params['breadcrumbs'][] = ['label' => $project->name, 'url' => ['info','project_id' =>$project->project_id]];
 $this->params['breadcrumbs'][] = $this->title;
 

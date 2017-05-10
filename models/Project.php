@@ -57,15 +57,15 @@ class Project extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'project_id' => 'Project ID',
-            'name' => 'Name',
-            'department_id' => 'Department ID',
-            'pm_id' => 'Pm ID',
-            'description' => 'Description',
-            'start_date' => 'Start Date',
-            'end_date' => 'End Date',
-            'type' => 'Type',
-            'status_id' => 'Status ID',
+            'project_id' => 'Проект',
+            'name' => 'Название',
+            'department_id' => 'Подразделение',
+            'pm_id' => 'Менеджер',
+            'description' => 'Описание',
+            'start_date' => 'Начало',
+            'end_date' => 'Окончание',
+            'type' => 'Тип',
+            'status_id' => 'Статус',
         ];
     }
 

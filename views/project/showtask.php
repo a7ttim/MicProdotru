@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Task */
 
 $this->title = 'Информация о задаче: '.$model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Проекты', 'url' => ['list']];
+$this->params['breadcrumbs'][] = ['label' => \app\models\Status::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
 $this->params['breadcrumbs'][] = ['label' => $project->name, 'url' => ['info','project_id' => $project->project_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

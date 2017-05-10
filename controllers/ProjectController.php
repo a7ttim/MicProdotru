@@ -41,6 +41,7 @@ class ProjectController extends Controller
     {
         $model = new Project();
         $status_id = Yii::$app->request->get('status_id');
+        if(!($status_id > 0)) $status_id = 1;
         $dataProvider = new ActiveDataProvider([
             'query' => Project::find()->where(['and',['pm_id' => Yii::$app->user->identity->user_id],['status_id'=> $status_id]]),
             'pagination' => [

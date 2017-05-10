@@ -45,7 +45,7 @@ class ProjectController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Project::find()->where(['and',['pm_id' => Yii::$app->user->identity->user_id],['status_id'=> $status_id]]),
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 25,
             ],
         ]);
         return $this->render('list', [
@@ -64,7 +64,7 @@ class ProjectController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Task::find()->where(['and',['project_id' => $proj_id],['status_id'=>[1,2,3]]]),
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 25,
             ],
         ]);
 

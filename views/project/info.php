@@ -21,6 +21,9 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
 
+$this->title = $projectname;
+$this->params['breadcrumbs'][] = ['label' => 'Проекты', 'url' => ['list']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1>
     <?= $projectname ?>
@@ -29,7 +32,7 @@ use yii\helpers\Url;
 <!--    --><?//= $projecdesc ?>
 <!--</p>-->
 <p>
-    <?= Html::a('Новая задача', ['createtask'], ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
 </p>
 
 

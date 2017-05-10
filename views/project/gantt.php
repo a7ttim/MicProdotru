@@ -2,6 +2,10 @@
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 
+$this->title = 'Диаграмма Гантта';
+$this->params['breadcrumbs'][] = ['label' => $project->name, 'url' => ['info','project_id' =>$project->project_id]];
+$this->params['breadcrumbs'][] = $this->title;
+
 Pjax::begin();
 ?>
 <div id="gantt_here" style='height:400px;'></div>

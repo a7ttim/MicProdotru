@@ -78,19 +78,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function actionCreatetask()
-    {
-        $model = new Task();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['showtask', 'id' => $model->task_id]);
-        } else {
-            return $this->render('createtask', [
-                'model' => $model,
-            ]);
-        }
-    }
-
     public function actionGantt()
     {
         $project_id = Yii::$app->request->get('project_id');
@@ -101,6 +88,20 @@ class ProjectController extends Controller
             'tasks' => $project->getTasks()->all(),
             'users' => $project->getUsers()->all(),
         ]);
+    }
+
+    public function actionCreatetask()
+    {
+        $model = new Task();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['showtask', 'id' => $model->task_id]);
+        } else {
+            return $this->render('createtask', [
+                'model' => $model,
+                'project' => Project::findOne(['project_id' => $model->project_id]), // Для breadcrumbs
+            ]);
+        }
     }
 
     protected function findTaskModel($id)
@@ -119,9 +120,9 @@ class ProjectController extends Controller
         return $this->render('showtask', [
             'model' => $this->findTaskModel($id),
             'comments'=> $commentsModel,
+            'project' => Project::findOne(['project_id' => $this->findTaskModel($id)->project_id]), // Для breadcrumbs
         ]);
     }
-
 
     public function actionUpdatetask($id)
     {
@@ -132,6 +133,7 @@ class ProjectController extends Controller
         } else {
             return $this->render('updatetask', [
                 'model' => $model,
+                'project' => Project::findOne(['project_id' => $model->project_id]), // Для breadcrumbs
             ]);
         }
     }

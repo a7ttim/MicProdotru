@@ -13,9 +13,12 @@
 /* @var $model app\models\project */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\LinkPager;
 
+$this->title = 'Проекты';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <table class="table table-responsive table-bordered">
     <tbody>
@@ -32,6 +35,9 @@ use yii\widgets\LinkPager;
         <th class="text-center">
             Ссылка
         </th>
+        <th class="text-center">
+            Диаграмма
+        </th>
     </tr>
     <?
     foreach ($projects as $project){
@@ -47,9 +53,20 @@ use yii\widgets\LinkPager;
                 <?= $project->description; ?>
             </td>
             <td>
-                <a href="../project/info?project_id=<?= $project->project_id; ?>" class="btn btn-info center-block">
-                    Подробнее
-                </a>
+                <? echo Html::a(
+                        'Подробнее',
+                        Url::to(['project/info', 'project_id' => $project->project_id]),
+                        ['class' => 'btn-link center-block']
+                )
+                ?>
+            </td>
+            <td>
+                <? echo Html::a(
+                        'Подробнее',
+                        Url::to(['project/gantt', 'project_id' => $project->project_id]),
+                        ['class' => 'btn-link center-block']
+                )
+                ?>
             </td>
         </tr>
         <?

@@ -59,22 +59,22 @@ use yii\helpers\Url;
             foreach ($tasks as $task) {
                 ?>
                 <tr>
-                    <td> <?= $task['task_id']; ?></td>
-                    <td> <?= $task['task'] ?></td>
-                    <td> <?= $task['project'] ?></td>
+                    <td> <?= $task->task_id; ?></td>
+                    <td> <?= $task->name ?></td>
+                    <td> <?= $task->project->name ?></td>
                     <td>
-                        <?php if (strlen($task['description'])>55) echo substr($task['description'] , 0, 52)."...";
-                        else echo $task['description'];
+                        <?php if (strlen($task->description)>55) echo substr($task->description , 0, 52)."...";
+                        else echo $task->description;
                         ?>
                     </td>
-                    <td> <?= date("d.m.y", strtotime($task['start_date'])) ?></td>
-                    <td> <?= $task['plan_duration'] ?></td>
-                    <td> <?= $task['employment_percentage'] ?></td>
-                    <td><?= $task['user'] ?></td>
+                    <td> <?= date("d.m.y", strtotime($task->start_date)) ?></td>
+                    <td> <?= $task->plan_duration ?></td>
+                    <td> <?= $task->employment_percentage ?></td>
+                    <td><?= $task->user->name ?></td>
                     <td>
                         <?= Html::a(
                             'Подробно',
-                            Url::to(['task/soglinfo', 'task_id' => $task['task_id']])
+                            Url::to(['task/soglinfo', 'task_id' => $task->task_id])
                         );
                         ?>
                     </td>

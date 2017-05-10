@@ -37,12 +37,8 @@ class TaskController extends Controller
     public function actionSogl()
     {
         $model = new Task();
-        $tasks = Project::find()
-            ->joinWith('tasks')
-            ->rightJoin('user','user.user_id=task.user_id')
-            ->select(['task.task_id','project.name as project','task.name as task','task.description','task.start_date','task.employment_percentage','task.plan_duration','user.name as user'])
-            ->where(['task.user_id' => Yii::$app->user->identity->user_id ,'task.status_id' => 3])
-            ->asArray();
+        $tasks = Task::find()
+            ->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 3]);
         $pagination = new Pagination([
             'defaultPageSize' => 2,
             'totalCount' => $tasks->count(),
@@ -61,28 +57,13 @@ class TaskController extends Controller
 
     public function actionSoglinfo()    {
         $model = new Task();
-        $previous_task_id=Task::find()
-            ->select(['previous_task_id'])
-            ->where(['task_id' =>$_GET['task_id']])
-            ->one();
-        $previous_task_name=Task::find()
-            ->select(['name'])
-            ->where(['task_id' =>$previous_task_id])
-            ->one();
-        $tasks = Project::find()
-            ->rightJoin('department','department.department_id=project.department_id')
-            ->joinWith('tasks')
-            ->rightJoin('user','user.user_id=task.user_id')
-            ->select(['task.task_id','project.name as project','task.name as task','task.description','task.start_date','task.plan_duration','task.employment_percentage','department.department_name as department','user.name as user'])
-            ->where(['task.task_id' =>$_GET['task_id']])
-            ->asArray()
-            ->one();
+        $tasks = Task::findOne($_GET['task_id']);
+        $previous_task=Task::findOne($tasks->previous_task_id);
 
         return $this->render('soglinfo', [
             'model' => $model,
             'tasks' => $tasks,
-            'previous_task_id'=>$previous_task_id,
-            'previous_task_name'=>$previous_task_name,
+            'previous_task'=>$previous_task,
         ]);
     }
 

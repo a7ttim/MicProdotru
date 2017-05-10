@@ -16,11 +16,11 @@ $script = <<< JS
 var tasks = {
   data:[      
 JS;
-$script .= '{id:1, text:"'.$project->name.'", start_date:"'.date('d.m.Y', strtotime($tasks[0]->start_date)).'", duration:14, executor:"'.$project->pm_id.'"},';
+$script .= '{id:1, text:"'.$project->name.'", start_date:"'.date('d.m.Y', strtotime($tasks[0]->start_date)).'", duration:14, executor:"'.$project->pm->name.'"},';
 foreach ($tasks as $task){
     $script .= '{id:'.$task->task_id.', text:"'.$task->name.'", start_date:"'.date('d.m.Y', strtotime($task->start_date)).'", duration:'.$task->plan_duration.', parent:'.((!isset($task->parent_task_id) || is_null($task->parent_task_id)) ? 1 : $task->parent_task_id).', '.""
         /*executor:"'.\app\models\User::findOne(['user_id' => $task->user_id])->name.'", */
-        .'executor:'.$task->user_id.'},';
+        .'executor:"'.$task->user->name.'"},';
 }
 $script .= <<< JS
    ]
@@ -32,7 +32,7 @@ gantt.config.lightbox.sections = [
     {name:"executor", height:55, type:"select", map_to:"executor", options:[         
 JS;
 foreach ($users as $user){
-    $script .= '{key:"'.$user->user_id.'", label: "'.$user->name.'"},';
+    $script .= '{key:"'.$user->name.'", label: "'.$user->name.'"},';
 }
 $script .= <<< JS
      ]}

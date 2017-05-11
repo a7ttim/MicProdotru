@@ -16,9 +16,10 @@ use yii\bootstrap\ActiveForm;
 use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
-
+$this->title = 'На согласование';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div style="margin-left: 50px"><h1>Задачи на согласование</h1></div>
+<h1>На согласование</h1>
 <?php Pjax::begin(); ?>
 <div>
     <table>
@@ -74,7 +75,7 @@ use yii\helpers\Url;
                     <td>
                         <?= Html::a(
                             'Подробно',
-                            Url::to(['task/soglinfo', 'task_id' => $task->task_id])
+                            Url::to(['soglinfo', 'task_id' => $task->task_id])
                         );
                         ?>
                     </td>
@@ -84,8 +85,6 @@ use yii\helpers\Url;
         ?>
         </tbody>
     </table>
-    <div style="margin-left: 50px;">
         <?= LinkPager::widget(['pagination' => $pagination]); ?>
-    </div>
 </div>
 <?php Pjax::end(); ?>

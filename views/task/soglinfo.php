@@ -16,9 +16,13 @@ use yii\bootstrap\ActiveForm;
 use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+
+$this->title = $tasks->name;
+$this->params['breadcrumbs'][] = ['label' => "На согласование", 'url' => ['sogl']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div style="margin-left: 50px"><h1>Задача №<?=$tasks->task_id ?> "<?=$tasks->name ?>"</h1></div>
-<div style="margin-top: 2%">
+<h1>Задача №<?=$tasks->task_id ?> "<?=$tasks->name ?>"</h1>
+<div>
     <table class="detailed">
         <thead>
         <tr>
@@ -87,16 +91,16 @@ use yii\helpers\Url;
         <?= Html::submitButton('Отклонить', ['name'=>'cancel','class' => 'btn btn-danger']) ?>
         <?php
             if($_POST['ok']){
-            $tasks->status=2;
+            $tasks->status_id=2;
             $tasks->save();
         ?>
-        <?= Yii::$app->db->createCommand()->update('task', ['status' => 2], ['task_id' => $tasks['task_id']])->execute();?>
+        <?= Yii::$app->db->createCommand()->update('task', ['status_id' => 2], ['task_id' => $tasks->task_id])->execute();?>
 
         <?php }
             if($_POST['cancel']){
-            $tasks->status=5;
+            $tasks->status_id=5;
             $tasks->save();?>
-            <?= Yii::$app->db->createCommand()->update('task', ['status' => 5], ['task_id' => $tasks['task_id']])->execute();
+            <?= Yii::$app->db->createCommand()->update('task', ['status_id' => 5], ['task_id' => $tasks->task_id])->execute();
         ?>
         <?php }?>
 

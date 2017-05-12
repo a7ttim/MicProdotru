@@ -11,7 +11,26 @@ body {
 }
 
 .wrap > .container {
-    padding: 70px 15px 20px;
+    padding-top: 70px;
+	padding-left: 0px;
+	margin-left: 190px!important;
+    margin-right: 30px !important;
+}
+
+.nav-pills > li > a {
+    border-radius: 0px !important;
+}
+
+.nav-pills > li > a:hover {
+    background: #7e949a !important;
+}
+
+.main_li {
+	background: #7e949a !important;
+}
+
+.nav-stacked > li + li {
+    margin-top: 0px !important; 
 }
 
 .footer {

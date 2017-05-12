@@ -50,9 +50,37 @@ AppAsset::register($this);
                 . '</li>'
             )
         ],
-    ]);
+    ]);	
     NavBar::end();
-    ?>
+	?>
+		
+<aside id="secondary" class='bs-sidebar hidden-print affix' role="complementary">
+<?
+	if(!Yii::$app->user->isGuest) {
+		$items;
+		if(Yii::$app->user->can('pe')) {
+			$items[] = ['label' => 'Мои задачи', 'url' => ['/task/list'], 'linkOptions'=>['class'=>'main_li']];
+			$items[] = ['label' => 'На согласовании', 'url' => ['/task/sogl']];
+			$items[] = ['label' => 'На исполнении', 'url' => ['/task/isp']];
+		}
+		if(Yii::$app->user->can('pm')) {
+			$items[] = ['label' => 'Мои проекты', 'url' => ['project/list'], 'linkOptions'=>['class'=>'main_li']];
+			$items[] = ['label' => 'В разработке', 'url' => ['/project/razr']];
+			$items[] = ['label' => 'На согласовании', 'url' => ['/project/sogl']];
+			$items[] = ['label' => 'На исполнении', 'url' => ['/project/isp']];
+			$items[] = ['label' => 'Завершенные', 'url' => ['/project/compl']];
+		}
+		if(Yii::$app->user->can('dh')) {
+			$items[] = ['label' => 'Мои ресурсы', 'url' => ['resource/list'],'linkOptions'=>['class'=>'main_li']];
+		}
+		echo Nav::widget([
+            'options' => ['class' => 'clearfix nav-pills nav-stacked', 'id'=>'main-menu',
+			'style' => 'padding-top:60px; background:#8accbf;'], // стили ul
+            'items' => $items,   
+        ]);
+	}
+?> 
+</aside>
 
     <div class="container">
         <?= Breadcrumbs::widget([

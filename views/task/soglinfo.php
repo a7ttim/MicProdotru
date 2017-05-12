@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </thead>
         <tbody>
                 <tr>
-                    <td>Название</td>
+                    <td>Название <?= $post ?></td>
                     <td><?=$tasks->name ?></td>
                 </tr>
                 <tr>
@@ -86,18 +86,24 @@ $this->params['breadcrumbs'][] = $this->title;
     </table>
 
     <div class="form-group" style="margin-top: 2%">
-        <?= Html::beginForm(['sogl'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-        <?= Html::submitButton('Принять', ['name'=>'ok','class' => 'btn btn-success']) ?>
+        <?= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+        <?= Html::submitButton('Принять', ['name'=>'ok', 'value' => 'accepted', 'class' => 'btn btn-success']) ?>
         <?= Html::submitButton('Отклонить', ['name'=>'cancel','class' => 'btn btn-danger']) ?>
         <?php
-            if($_POST['ok']){
+        echo "--->".$_POST['name'];
+            if($_POST['name'] == 'ok'){
+                echo "fkdgjsngjesnjegekj";
             $tasks->status_id=2;
             $tasks->save();
         ?>
         <?= Yii::$app->db->createCommand()->update('task', ['status_id' => 2], ['task_id' => $tasks->task_id])->execute();?>
 
         <?php }
-            if($_POST['cancel']){
+        else {
+                echo $_POST['name']."-".$_POST['ok']."-".$_POST['cancel'] ;
+        }
+            if($_POST['name'] == 'cancel'){
+                echo "fkdgjsngjesnjegekj";
             $tasks->status_id=5;
             $tasks->save();?>
             <?= Yii::$app->db->createCommand()->update('task', ['status_id' => 5], ['task_id' => $tasks->task_id])->execute();

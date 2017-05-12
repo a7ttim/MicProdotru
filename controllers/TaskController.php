@@ -64,6 +64,7 @@ class TaskController extends Controller
             'model' => $model,
             'tasks' => $tasks,
             'previous_task'=>$previous_task,
+            'post' => Yii::$app->request->post('ok'),
         ]);
     }
 

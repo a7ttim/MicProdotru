@@ -11,6 +11,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\ContactForm */
 /* @var $model app\models\project */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
@@ -21,64 +22,66 @@ use app\models\Task;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use yii\widgets\Pjax;
 
 $this->title = $project->name;
 $this->params['breadcrumbs'][] = ['label' => \app\models\Status::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>
-    <?= $project->name ?>
-</h1>
-<p>
-    <?= $project->description ?>
-</p>
-<p>
-    <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
-    <?= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
-</p>
+<div class="project-info">
+    <?php Pjax::begin(); ?>
+    <h1>
+        <?= $project->name ?>
+    </h1>
+    <p>
+        <?= $project->description ?>
+    </p>
+    <p>
+        <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
+    </p>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
 
-
-<?= GridView::widget([
-    'dataProvider' => $dataProvider,
-    //'filterModel' => $searchModel,
-    'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
-
-        //'task_id',
-        'name',
-        //'project_id',
+            //'task_id',
+            'name',
+            //'project_id',
 //        [
 //            'attribute' => 'project_id',
 //            'value' => 'project.name',
 //        ],
-        //'user_id',
-        [
-            'attribute' => 'user_id',
-            'value' => 'user.name',
-        ],
-        [
-            'attribute' => 'description',
-            'format' => 'text',
-            'value' => function ($model){
-                return StringHelper::truncate($model->description, 25);
-            }
-        ],
-        // 'parent_task_id',
-        // 'previous_task_id',
-        // 'start_date',
-        // 'plan_end_date',
-        // 'fact_end_date',
+            //'user_id',
+            [
+                'attribute' => 'user_id',
+                'value' => 'user.name',
+            ],
+            [
+                'attribute' => 'description',
+                'format' => 'text',
+                'value' => function ($model){
+                    return StringHelper::truncate($model->description, 25);
+                }
+            ],
+            // 'parent_task_id',
+            // 'previous_task_id',
+            // 'start_date',
+            // 'plan_end_date',
+            // 'fact_end_date',
 //        'employment_percentage',
-        [
-            'attribute' => 'employment_percentage',
-            'value' => function (Task $task) {
-                return Html::decode(\app\components\ProgressBarWidget::widget([
-                    'value' => $task->employment_percentage,
-                ]));
-            },
-            'format' => 'html',
-        ],
+            [
+                'attribute' => 'employment_percentage',
+                'value' => function (Task $task) {
+                    return Html::decode(\app\components\ProgressBarWidget::widget([
+                        'value' => $task->employment_percentage,
+                    ]));
+                },
+                'format' => 'html',
+            ],
 //       'status_id',
 //            [
 //                'attribute' => 'status',
@@ -90,24 +93,29 @@ $this->params['breadcrumbs'][] = $this->title;
 //        ],
 
 //        'complete_percentage',
-        [
-            'attribute' => 'complete_percentage',
-            'value' => function (Task $task) {
-                return Html::decode(\app\components\ProgressBarWidget::widget([
+            [
+                'attribute' => 'complete_percentage',
+                'value' => function (Task $task) {
+                    return Html::decode(\app\components\ProgressBarWidget::widget([
                         'value' => $task->complete_percentage,
-                ]));
-            },
-            'format' => 'html',
-            'contentOptions' => ['style' => 'width:200px;'],
-        ],
+                    ]));
+                },
+                'format' => 'html',
+                'contentOptions' => ['style' => 'width:200px;'],
+            ],
 
-        [
-            'attribute' => 'Подробнее',
-            'value' => function (Task $task) {
-                return Html::a('Подробнее', Url::to(['showtask', 'id' => $task->task_id]));
-            },
-            'format' => 'raw',
-        ],
+            [
+                'attribute' => 'Подробнее',
+                'value' => function (Task $task) {
+                    return Html::a('<span class="fa fa-search"></span>Подробнее', Url::to(['showtask', 'id' => $task->task_id]), [
+                        'title' => Yii::t('app', 'Подробнее'),
+                        'class' =>'btn btn-info btn-xs',
+                    ]);
+                },
+                'format' => 'raw',
+            ],
 
-    ],
-]); ?>
+        ],
+    ]); ?>
+    <?php Pjax::end(); ?>
+</div>

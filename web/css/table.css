@@ -2,11 +2,7 @@ table {
     font-size: 14px;
     border-collapse: collapse;
     color:#7a7a7a;
-<<<<<<< HEAD
     margin-left: 10px;
-=======
-    margin-left: 50px;
->>>>>>> 4430607cbd4fbcfda853b1e97e05f740ba0ab176
 }
 table.detailed{
     width:50%;

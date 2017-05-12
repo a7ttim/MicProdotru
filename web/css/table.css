@@ -13,5 +13,22 @@ th,td {
     padding: 10px 20px;
 }
 
-th,tr:nth-child(even) {background: #f0f0f0}
-tr:nth-child(odd) {background: #ffffff}
+th,tr:nth-child(even) {background: #f0f0f0 !important}
+tr:nth-child(odd) {background: #ffffff !important}
+
+th{
+    border: 1px solid #ffffff !important;
+    color: black;
+}
+
+.progress{
+    background: #ccc !important;
+    height: 20px !important;
+    margin-bottom: 0 !important;
+}
+.progress-bar{
+    padding: 5px !important;
+    height: 20px !important;
+    line-height: 10px;
+    text-shadow: 1px, 1px, 1px, 1px, rgba(0, 0, 0, 0.8) !important;
+}

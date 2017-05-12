@@ -144,4 +144,10 @@ class Task extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Status::className(), ['status_id' => 'status_id']);
     }
+
+    public function getDepartment()
+    {
+        return $this->hasOne(Department::className(), ['department_id' => 'department_id'])
+            ->viaTable(Project::tableName(), ['project_id' => 'project_id']);
+    }
 }

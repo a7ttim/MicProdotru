@@ -12,49 +12,56 @@
 /* @var $model app\models\ContactForm */
 /* @var $model app\models\project */
 
+
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\LinkPager;
+use app\models\Project;
+use app\models\Task;
+use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\helpers\Url;
 
+$this->title = \app\models\Status::findOne(['status_id' => $status_id])->status_name;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<table class="table table-responsive table-bordered">
-    <tbody>
-    <tr>
-        <th class="text-center">
-            #
-        </th>
-        <th>
-            Имя
-        </th>
-        <th>
-            Описание
-        </th>
-        <th class="text-center">
-            Ссылка
-        </th>
-    </tr>
-    <?
-    foreach ($projects as $project){
-        ?>
-        <tr>
-            <td class="text-center">
-                <?= $project->project_id; ?>
-            </td>
-            <td>
-                <?= $project->name; ?>
-            </td>
-            <td>
-                <?= $project->description; ?>
-            </td>
-            <td>
-                <a href="../project/info?project_id=<?= $project->project_id; ?>" class="btn btn-info center-block">
-                    Подробнее
-                </a>
-            </td>
-        </tr>
-        <?
-    }
-    ?>
-    </tbody>
-</table>
-<?= LinkPager::widget(['pagination' => $pagination]) ?>
+<h1>
+    <?= $this->title ?>
+</h1>
+
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    //'filterModel' => $searchModel,
+    'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
+        'name',
+        [
+            'attribute' => 'pm_id',
+            'value' => 'pm.name',
+        ],
+        [
+            'attribute' => 'description',
+            'format' => 'text',
+            'value' => function ($model){
+                return StringHelper::truncate($model->description, 50);
+            }
+        ],
+        [
+            'attribute' => 'Информация',
+            'value' => function (Project $project) {
+                return Html::a('Подробнее', Url::to(['info', 'project_id' => $project->project_id]));
+            },
+            'format' => 'raw',
+        ],
+        [
+            'attribute' => 'Визуализация',
+            'value' => function (Project $project) {
+                return Html::a('Подробнее', Url::to(['gantt', 'project_id' => $project->project_id]));
+            },
+            'format' => 'raw',
+        ],
+
+    ],
+]); ?>
+<?/*= LinkPager::widget(['pagination' => $pagination]) */?>

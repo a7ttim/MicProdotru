@@ -40,20 +40,18 @@ class ProjectController extends Controller
     public function actionList()
     {
         $model = new Project();
-        $projects = Project::find()->where(['pm_id' => Yii::$app->user->identity->user_id]);
-        $pagination = new Pagination([
-            'defaultPageSize' => 10,
-            'totalCount' => $projects->count(),
+        $status_id = Yii::$app->request->get('status_id');
+        if(!($status_id > 0)) $status_id = 1;
+        $dataProvider = new ActiveDataProvider([
+            'query' => Project::find()->where(['and',['pm_id' => Yii::$app->user->identity->user_id],['status_id'=> $status_id]]),
+            'pagination' => [
+                'pageSize' => 25,
+            ],
         ]);
-
-        $projects = $projects->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
         return $this->render('list', [
             'model' => $model,
-            'projects' => $projects,
-            'pagination' => $pagination,
+            'dataProvider' => $dataProvider,
+            'status_id' => $status_id,
         ]);
     }
 
@@ -62,19 +60,29 @@ class ProjectController extends Controller
         $model = new Task();
         $proj_id=Yii::$app->request->get('project_id');
         $project = Project::findOne(['project_id' => $proj_id]);
-        $projectname=$project->name;
 
         $dataProvider = new ActiveDataProvider([
             'query' => Task::find()->where(['and',['project_id' => $proj_id],['status_id'=>[1,2,3]]]),
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 25,
             ],
         ]);
 
         return $this->render('info', [
             'model' => $model,
             'dataProvider' =>$dataProvider,
-            'projectname' => $projectname,
+            'project' => $project, // breadcrumbs
+        ]);
+    }
+
+    public function actionGantt()
+    {
+        $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+
+        return $this->render('gantt', [
+            'project' => $project,
+            'tasks' => $project->getTasks()->all(),
+            'users' => $project->getUsers()->all(),
         ]);
     }
 
@@ -82,26 +90,14 @@ class ProjectController extends Controller
     {
         $model = new Task();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()){
             return $this->redirect(['showtask', 'id' => $model->task_id]);
         } else {
             return $this->render('createtask', [
                 'model' => $model,
+                'project' => Project::findOne(['project_id' => Yii::$app->request->get('project_id')]), // Для breadcrumbs, в $model->project_id пусто :C
             ]);
         }
-    }
-
-    public function actionGantt()
-    {
-        $project_id = Yii::$app->request->get('project_id');
-        $project = Project::findOne(['project_id' => $project_id]);
-        $tasks = Task::find()->where(['project_id' => $project_id])->all();
-
-        return $this->render('gantt', [
-            'project' => $project,
-            'tasks' => $tasks,
-            'users' => $project->getUsers()->all(),
-        ]);
     }
 
     protected function findTaskModel($id)
@@ -120,9 +116,9 @@ class ProjectController extends Controller
         return $this->render('showtask', [
             'model' => $this->findTaskModel($id),
             'comments'=> $commentsModel,
+            'project' => Project::findOne(['project_id' => $this->findTaskModel($id)->project_id]), // Для breadcrumbs
         ]);
     }
-
 
     public function actionUpdatetask($id)
     {
@@ -133,6 +129,7 @@ class ProjectController extends Controller
         } else {
             return $this->render('updatetask', [
                 'model' => $model,
+                'project' => Project::findOne(['project_id' => $model->project_id]), // Для breadcrumbs
             ]);
         }
     }

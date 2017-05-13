@@ -16,75 +16,61 @@ use yii\bootstrap\ActiveForm;
 use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+use yii\grid\GridView;
+use yii\helpers\StringHelper;
+use app\models\Task;
+use yii\i18n\Formatter;
+
 $this->title = 'На согласование';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>На согласование</h1>
+<h1><?= Html::encode($this->title) ?></h1>
 <?php Pjax::begin(); ?>
-<div>
-    <table>
-        <thead>
-        <tr>
-            <th>
-                #
-            </th>
-            <th>
-                Название
-            </th>
-            <th>
-                Проект
-            </th>
-            <th>
-                Описание
-            </th>
-            <th>
-                Начало
-            </th>
-            <th>
-                Длительность
-            </th>
-            <th>
-                Загруженность, %
-            </th>
-            <th>
-                Исполнитель
-            </th>
-            <th>
-                Подробно
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        if(count($tasks)>0) {
-            foreach ($tasks as $task) {
-                ?>
-                <tr>
-                    <td> <?= $task->task_id; ?></td>
-                    <td> <?= $task->name ?></td>
-                    <td> <?= $task->project->name ?></td>
-                    <td>
-                        <?php if (strlen($task->description)>55) echo substr($task->description , 0, 52)."...";
-                        else echo $task->description;
-                        ?>
-                    </td>
-                    <td> <?= date("d.m.y", strtotime($task->start_date)) ?></td>
-                    <td> <?= $task->plan_duration ?></td>
-                    <td> <?= $task->employment_percentage ?></td>
-                    <td><?= $task->user->name ?></td>
-                    <td>
-                        <?= Html::a(
-                            'Подробно',
-                            Url::to(['soglinfo', 'task_id' => $task->task_id])
-                        );
-                        ?>
-                    </td>
-                </tr>
-            <?php }
-        }
-        ?>
-        </tbody>
-    </table>
-        <?= LinkPager::widget(['pagination' => $pagination]); ?>
-</div>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'name',
+            [
+                'attribute' => 'project_id',
+                'value' => 'project.name',
+            ],
+            [
+                'attribute' => 'description',
+                'format' => 'text',
+                'value' => function ($model){
+                    return StringHelper::truncate($model->description, 25);
+                }
+            ],
+            [
+                'attribute' => 'start_date',
+                'format' => ['date', 'php:d.m.Y']
+            ],
+            'plan_duration',
+            [
+                'attribute' => 'employment_percentage',
+                'value' => function (Task $task) {
+                    return Html::decode(\app\components\ProgressBarWidget::widget([
+                        'value' => $task->employment_percentage,
+                    ]));
+                },
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => 'user.name',
+            ],
+            [
+                'value' => function (Task $task) {
+                    return Html::a('Подробнее', Url::to(['soglinfo', 'task_id' => $task->task_id]));
+                },
+                'format' => 'raw',
+            ],
+
+        ],
+    ]); ?>
+
 <?php Pjax::end(); ?>

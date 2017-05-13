@@ -19,6 +19,7 @@ use app\models\Project;
 use app\models\User;
 use app\models\Department;
 use yii\data\Pagination;
+use yii\data\ActiveDataProvider;
 
 class TaskController extends Controller
 {
@@ -37,21 +38,16 @@ class TaskController extends Controller
     public function actionSogl()
     {
         $model = new Task();
-        $tasks = Task::find()
-            ->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 3]);
-        $pagination = new Pagination([
-            'defaultPageSize' => 2,
-            'totalCount' => $tasks->count(),
+        $dataProvider = new ActiveDataProvider([
+            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 3]),
+            'pagination' => [
+                'pageSize' => 2,
+            ],
         ]);
-
-        $tasks = $tasks->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
 
         return $this->render('sogl', [
             'model' => $model,
-            'tasks' => $tasks,
-            'pagination' => $pagination,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

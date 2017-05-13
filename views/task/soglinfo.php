@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </tr>
                 <tr>
                     <td>Описание</td>
-                    <td style="display: block; max-height: 300px; overflow-y: auto; overflow-x: hidden;"><?= $tasks->description ?></td>
+                    <td  class="detailed"> <div style="max-height: 300px; overflow-y: auto;"><?= $tasks->description ?></div></td>
                 </tr>
                 <tr>
                     <td>Департамент</td>

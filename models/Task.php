@@ -75,7 +75,7 @@ class Task extends \yii\db\ActiveRecord
             'start_date' => 'Дата начала',
             'plan_duration' => 'Плановая продолжительность',
             'fact_duration' => 'Фактическая продолжительность',
-            'employment_percentage' => 'Занятость исполнитель, %',
+            'employment_percentage' => 'Занятость исполнителя, %',
             'status_id' => 'Статус',
             'complete_percentage' => 'Завершенность, %',
         ];

@@ -27,6 +27,10 @@ class AppAsset extends AssetBundle
         'scripts/dhtmlxgantt.js',
         'scripts/locale_ru.js'
     ];
+    public $fonts = [
+        'fonts/glyphicons-halflings-regular.ttf',
+    ];
+
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',

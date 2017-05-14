@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'value' => function (Task $task) {
-                    return Html::a('Подробнее', Url::to(['soglinfo', 'task_id' => $task->task_id]));
+                    return Html::a('Подробнее', Url::to(['soglinfo', 'task_id' => $task->task_id]),['class' =>'btn btn-info btn-xs']);
                 },
                 'format' => 'raw',
             ],

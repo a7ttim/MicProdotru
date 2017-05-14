@@ -32,7 +32,7 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'task_id'], 'required'],
+            [['user_id', 'task_id', 'text'], 'required'],
             [['user_id', 'task_id'], 'integer'],
             [['date_time'], 'safe'],
             [['text'], 'string', 'max' => 5000],

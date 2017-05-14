@@ -104,6 +104,69 @@ class TaskController extends Controller
         ]);
     }
 
+    public function actionIsp()
+    {
+        $model = new Task();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 3]),
+            'pagination' => [
+                'pageSize' => 2,
+            ],
+        ]);
+
+        return $this->render('isp', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionIspinfo()    {
+        $model = new Task();
+        $modelcom = new Comment();
+        $tasks = Task::findOne(Yii::$app->request->get('task_id'));
+        $previous_task=Task::findOne($tasks->previous_task_id);
+        $comments = Comment::find()->where(['task_id'=>Yii::$app->request->get('task_id')]);
+        $pagination = new Pagination([
+            'defaultPageSize' => 1,
+            'totalCount' => $comments->count(),
+        ]);
+
+        $comments = $comments->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        if (Yii::$app->request->post('complete')) {
+            $tasks->status_id=Yii::$app->request->post('complete');
+            $tasks->complete_percentage=100;
+            $tasks->save();
+            return $this->goBack();
+        }
+
+        if (Yii::$app->request->post('cp')) {
+            $tasks->complete_percentage=Yii::$app->request->post('cp');
+            $tasks->save();
+            return $this->refresh();
+        }
+
+        if (Yii::$app->request->post('text')) {
+            $modelcom->text=Yii::$app->request->post('text');
+            $modelcom->user_id=Yii::$app->user->identity->user_id;
+            $modelcom->task_id=$tasks->task_id;
+            $modelcom->date_time=date('Y-m-d H:i:s');
+            $modelcom->save();
+            return $this->refresh();
+        }
+
+        return $this->render('ispinfo', [
+            'model' => $model,
+            'modelcom' => $modelcom,
+            'tasks' => $tasks,
+            'previous_task'=>$previous_task,
+            'comments'=>$comments,
+            'pagination' => $pagination,
+        ]);
+    }
+
     public function actionIndex(){
         return $this->actionSogl();
     }

@@ -137,7 +137,6 @@ class TaskController extends Controller
 
         if (Yii::$app->request->post('complete')) {
             $tasks->status_id=Yii::$app->request->post('complete');
-            $tasks->complete_percentage=100;
             $tasks->save();
             return $this->goBack();
         }

@@ -22,7 +22,7 @@ $this->title = $tasks->name;
 $this->params['breadcrumbs'][] = ['label' => "На согласование", 'url' => ['sogl']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Задача №<?=$tasks->task_id ?> "<?=$tasks->name ?>"</h1>
+<h1><?=$tasks->name ?></h1>
 <div style="display: inline-block; width: 100%">
     <div style="width: 50%; float: left">
         <table style="width: 100%">

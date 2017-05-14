@@ -40,6 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
         <?= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
+        <?= Html::a('Удалить', ['deleteproject', 'id' => $project->project_id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Вы дейстительно хотите удалить этот проект?',
+                'method' => 'post',
+            ],
+        ]) ?>
+
     </p>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?= GridView::widget([

@@ -159,6 +159,24 @@ class ProjectController extends Controller
         return $this->redirect(['info','project_id' =>$model->project_id]);
     }
 
+    protected function findProjectModel($id)
+    {
+        if (($model = Project::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionDeleteproject($id)
+    {
+        $model=$this->findProjectModel($id);
+        $model->status_id=4;
+        $model->save();
+
+        return $this->redirect(['list']);
+    }
+
     public function actionIndex(){
         return $this->actionList();
     }

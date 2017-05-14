@@ -25,7 +25,7 @@ use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 $this->title = $project->name;
-$this->params['breadcrumbs'][] = ['label' => \app\models\Status::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
+$this->params['breadcrumbs'][] = ['label' => \app\models\ProjectStatus::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-info">

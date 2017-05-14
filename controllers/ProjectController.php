@@ -111,11 +111,19 @@ class ProjectController extends Controller
 
     public function actionShowtask($id)
     {
-        $commentsModel=Comment::find()->where(['task_id' => $id]);
+
+
+//for comments (Anastasia added)
+        $comments = new ActiveDataProvider([
+            'query' => Comment::find()->where(['task_id' => $id]),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
 
         return $this->render('showtask', [
             'model' => $this->findTaskModel($id),
-            'comments'=> $commentsModel,
+            'comments'=> $comments, //for comments (Anastasia added)
             'project' => Project::findOne(['project_id' => $this->findTaskModel($id)->project_id]), // Для breadcrumbs
         ]);
     }

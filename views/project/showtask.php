@@ -2,15 +2,32 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Task */
 
 $this->title = 'Информация о задаче: '.$model->name;
-$this->params['breadcrumbs'][] = ['label' => \app\models\Status::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
+$this->params['breadcrumbs'][] = ['label' => \app\models\ProjectStatus::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
 $this->params['breadcrumbs'][] = ['label' => $project->name, 'url' => ['info','project_id' => $project->project_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+
+//for comments (Anastasia added)
+<?php
+//$this->registerJs(
+//    '$("document").ready(function(){
+//        $("#new_note").on("pjax:end", function() {
+//        $.pjax.reload({container:"#notes"});  //Reload GridView
+//    });
+//});'
+//);
+//?>
+
 <div class="task-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -31,253 +48,66 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             //'task_id',
             'name',
-            'project_id',
-            'user_id',
+            //'project_id',
             'description',
+            //'user_id',
+            [                                                  // name свойство зависимой модели owner
+                'label' => 'Исполнитель',
+                'value' => $model->user->name,
+                'contentOptions' => ['class' => 'bg-red'],     // настройка HTML атрибутов для тега, соответсвующего value
+                'captionOptions' => ['tooltip' => 'Tooltip'],  // настройка HTML атрибутов для тега, соответсвующего label
+            ],
             //'parent_task_id',
             //'previous_task_id',
-            'start_date',
+            //'start_date',
             //'plan_end_date',
             //'fact_end_date',
             'employment_percentage',
             //'status',
+            [
+                'label' => 'Статус',
+                'value' => $model->status->status_name,
+                'contentOptions' => ['class' => 'bg-red'],     // настройка HTML атрибутов для тега, соответсвующего value
+                'captionOptions' => ['tooltip' => 'Tooltip'],  // настройка HTML атрибутов для тега, соответсвующего label
+            ],
             'complete_percentage',
         ],
     ]) ?>
 </div>
 
 
-
-<!--<div class="box-header orange-background">-->
-<!--    <div class="title">-->
-<!--        <i class="fa fa-comments-o"></i>-->
-<!--        Chat-->
-<!--    </div>-->
-<!--    <div class="actions">-->
-<!--        <a class="btn box-remove btn-xs btn-link" href="#"><i class="fa fa-times"></i>-->
-<!--        </a>-->
-<!--        <a class="btn box-collapse btn-xs btn-link" href="#"><i></i>-->
-<!--        </a>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<div class="box-content box-no-padding">-->
-<!--    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 300px;"><div class="scrollable" data-scrollable-height="300" data-scrollable-start="bottom" style="overflow: hidden; width: auto; height: 300px;">-->
-<!--            <ul class="list-unstyled list-hover list-striped">-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Staci</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="October 20, 2016 - 22:45">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Tempore debitis rerum voluptatum repellat esse et est saepe sunt-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Staci</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="October 20, 2016 - 22:44">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Doloremque ducimus mollitia et adipisci-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Staci</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="October 20, 2016 - 22:43">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Error velit excepturi in ut et quo eos molestiae voluptatem architecto sequi-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Staci</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="" data-original-title="October 20, 2016 - 22:42">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Deleniti alias suscipit dolor hic non voluptas veniam laudantium est reiciendis hic inventore omnis omnis-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Staci</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="October 20, 2016 - 22:41">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Eum consectetur earum voluptatem aliquid id-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Niall</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="October 20, 2016 - 22:40">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Et asperiores voluptate velit et deserunt maxime repellendus nihil dolorem repudiandae itaque at-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Staci</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="" data-original-title="October 20, 2016 - 22:39">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Ut non occaecati voluptatum debitis cumque hic facere sapiente architecto cum vitae molestiae alias-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Staci</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="October 20, 2016 - 22:38">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Ut et quaerat quia quia ipsum reiciendis-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Staci</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="October 20, 2016 - 22:37">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Et assumenda minus laudantium qui-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="message">-->
-<!--                    <div class="avatar">-->
-<!--                        <img alt="Avatar" src="assets/images/avatar.jpg" width="23" height="23">-->
-<!--                    </div>-->
-<!--                    <div class="name-and-time">-->
-<!--                        <div class="name pull-left">-->
-<!--                            <small>-->
-<!--                                <a class="text-contrast" href="#">Niall</a>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                        <div class="time pull-right">-->
-<!--                            <small class="date pull-right text-muted">-->
-<!--                                <span class="timeago fade has-tooltip in" data-placement="top" title="" data-original-title="October 20, 2016 - 22:36">7 months ago</span>-->
-<!--                                <i class="fa fa-clock-o"></i>-->
-<!--                            </small>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="body">-->
-<!--                        Sunt vel id molestias hic iusto optio-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div><div class="slimScrollBar" style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 134.529px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"></div></div>-->
-<!--    <form action="#" accept-charset="UTF-8" class="new-message" method="post"><input autocomplete="off" class="form-control" id="message_body" name="message[body]" placeholder="Type your message here..." type="text">-->
-<!--        <button class="btn btn-success" type="submit">-->
-<!--            <i class="fa fa-plus"></i>-->
-<!--        </button>-->
-<!--    </form>-->
+//for comments (Anastasia added)
+<!--<h2>Комментарии</h2>-->
+<!--<div>-->
+<!--        --><?php //yii\widgets\Pjax::begin(['id' => 'new_note']) ?>
+<!--        --><?php //$form = ActiveForm::begin(['options' => ['data-pjax' => true]]); ?>
+<!---->
+<!--<!--    -->--><?////=$form->field($comments, 'text')->textarea(['rows' => 6]) ?>
+<!---->
+<!--        <div class="form-group">-->
+<!--            --><?//= Html::submitButton('+', ['class' => 'btn btn-success']) ?>
+<!--        </div>-->
+<!---->
+<!--        --><?php //ActiveForm::end(); ?>
+<!--        --><?php //Pjax::end(); ?>
+<!---->
+<!---->
+<!---->
+<!--    --><?php //yii\widgets\Pjax::begin(['id' => 'notes']) ?>
+<!--    --><?//= GridView::widget([
+//        'dataProvider' => $comments,
+//        'columns' => [
+//            //['class' => 'yii\grid\SerialColumn'],
+//
+//            'text',
+//            //'user_id',
+//            [
+//                'attribute' => 'user_id',
+//                'value' => 'user.name',
+//            ],
+//            'date_time',
+//        ],
+//    ]); ?>
+<!---->
+<!--    --><?php //Pjax::end(); ?>
 <!--</div>-->

@@ -47,11 +47,11 @@ class Comment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'comment_id' => 'Comment ID',
-            'text' => 'Text',
-            'user_id' => 'User ID',
-            'task_id' => 'Task ID',
-            'date_time' => 'Date Time',
+            'comment_id' => 'ID комментария',
+            'text' => 'Текст комментария',
+            'user_id' => 'Автор',
+            'task_id' => 'Задача',
+            'date_time' => 'Дата, время',
         ];
     }
 

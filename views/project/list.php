@@ -23,7 +23,7 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
 
-$this->title = \app\models\Status::findOne(['status_id' => $status_id])->status_name;
+$this->title = \app\models\ProjectStatus::findOne(['status_id' => $status_id])->status_name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1>

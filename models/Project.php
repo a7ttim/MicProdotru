@@ -90,7 +90,7 @@ class Project extends \yii\db\ActiveRecord
      */
     public function getStatus()
     {
-        return $this->hasOne(Status::className(), ['status_id' => 'status_id']);
+        return $this->hasOne(ProjectStatus::className(), ['status_id' => 'status_id']);
     }
 
     /**

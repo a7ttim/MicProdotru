@@ -142,7 +142,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getStatus()
     {
-        return $this->hasOne(Status::className(), ['status_id' => 'status_id']);
+        return $this->hasOne(TaskStatus::className(), ['status_id' => 'status_id']);
     }
 
     public function getDepartment()

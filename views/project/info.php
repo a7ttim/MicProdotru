@@ -47,12 +47,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
-        <?= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+        <?php $form = ActiveForm::begin(); ?>
+        <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
 
         <?= Html::submitButton($project->status_id==5 ? '> На согласование': (($project->status_id==1) ? '> На исполнение': 'Завершить'),
-            ['disabled'=>($project->status_id==[3])?true:false, 'name'=>'move', 'value' => $project->status_id, 'class' => 'btn btn-success']) ?>
+            ['disabled'=>($project->status_id==[3])?true:false, 'name'=>'move', 'value' => $project->project_id, 'class' => 'btn btn-success']) ?>
 
-        <?= Html::endForm() ?>
+        <?//= Html::endForm() ?>
+
+        <?php ActiveForm::end(); ?>
 
         <?//= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
 <!--        --><?php //echo CHtml::submitButton('Publish',array('disabled'=>($model->status==1)?true:false)); ?>

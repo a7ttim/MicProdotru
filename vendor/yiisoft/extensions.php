@@ -60,7 +60,7 @@ return array (
   'shirase55/yii2-datetime-widget' => 
   array (
     'name' => 'shirase55/yii2-datetime-widget',
-    'version' => '1.0.5.0',
+    'version' => '9999999-dev',
     'alias' => 
     array (
       '@shirase55/yii/datetime' => $vendorDir . '/shirase55/yii2-datetime-widget/src',

@@ -25,6 +25,7 @@ use yii\data\ActiveDataProvider;
 
 class ProjectController extends Controller
 {
+    // Статусы
 	public function beforeAction($action)
 	{
 		if (parent::beforeAction($action)) {
@@ -107,10 +108,13 @@ class ProjectController extends Controller
         //Actions for project
         if (Yii::$app->request->post('move')) {
             $status_id=Yii::$app->request->post('move');
+
             if ($status_id==5) //На разработке
             {
                 $project->status_id=1; //На согласовании
                 //here will be the logic for mail
+                // emailto();
+
             }
             elseif ($status_id==1){$project->status_id=2;} //На исполнении
             else {$project->status_id=3;}//Завершен

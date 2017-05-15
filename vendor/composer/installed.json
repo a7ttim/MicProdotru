@@ -3160,17 +3160,17 @@
     },
     {
         "name": "shirase55/yii2-datetime-widget",
-        "version": "1.0.5",
-        "version_normalized": "1.0.5.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/shirase/yii2-datetime-widget.git",
-            "reference": "34f92e2af84f067843f6e10f750df2f18f03d23d"
+            "reference": "3f7a3564f201a1422dced27fe70839700d1fcbf8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/shirase/yii2-datetime-widget/zipball/34f92e2af84f067843f6e10f750df2f18f03d23d",
-            "reference": "34f92e2af84f067843f6e10f750df2f18f03d23d",
+            "url": "https://api.github.com/repos/shirase/yii2-datetime-widget/zipball/3f7a3564f201a1422dced27fe70839700d1fcbf8",
+            "reference": "3f7a3564f201a1422dced27fe70839700d1fcbf8",
             "shasum": ""
         },
         "require": {
@@ -3178,7 +3178,7 @@
             "shirase55/yii2-helpers": "*",
             "yiisoft/yii2": "~2.0"
         },
-        "time": "2016-05-17T12:51:50+00:00",
+        "time": "2017-02-06T12:38:25+00:00",
         "type": "yii2-extension",
         "extra": {
             "asset-installer-paths": {

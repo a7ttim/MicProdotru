@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use shirase55\yii;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\project */
@@ -21,10 +20,8 @@ use shirase55\yii;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
-    <?php echo shirase55\yii\datetime\DateTimeWidget::widget([
-        'phpDatetimeFormat' => 'yyyy-MM-dd',
-    ]) ; ?>
-
+    <?= $form->field($model, 'start_date')->textInput() ?>
+    <?//shirase55 datetime?>
     <?= $form->field($model, 'end_date')->textInput() ?>
 
 <!--    --><?//= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>

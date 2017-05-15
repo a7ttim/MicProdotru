@@ -66,10 +66,11 @@ AppAsset::register($this);
 		}
 		if(Yii::$app->user->can('pm')) {
 			$items[] = ['label' => 'Мои проекты', 'url' => ['project/list'], 'linkOptions'=>['class'=>'main_li']];
-			$items[] = ['label' => 'В разработке', 'url' => ['/project/list', 'status_id' => 1]];
-			$items[] = ['label' => 'На согласовании', 'url' => ['/project/list', 'status_id' => 2]];
-			$items[] = ['label' => 'На исполнении', 'url' => ['/project/list', 'status_id' => 3]];
-			$items[] = ['label' => 'Завершенные', 'url' => ['/project/list', 'status_id' => 4]];
+			$items[] = ['label' => 'В разработке', 'url' => ['/project/list', 'status_id' => 5]];
+			$items[] = ['label' => 'На согласовании', 'url' => ['/project/list', 'status_id' => 1]];
+			$items[] = ['label' => 'На исполнении', 'url' => ['/project/list', 'status_id' => 2]];
+			$items[] = ['label' => 'Завершенные', 'url' => ['/project/list', 'status_id' => 3]];
+            $items[] = ['label' => 'Корзина', 'url' => ['/project/list', 'status_id' => 4]];
 		}
 		if(Yii::$app->user->can('dh')) {
 			$items[] = ['label' => 'Мои ресурсы', 'url' => ['resource/list'],'linkOptions'=>['class'=>'main_li']];

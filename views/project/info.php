@@ -39,7 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
         <?= Html::a('Удалить', ['deleteproject', 'id' => $project->project_id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -47,6 +46,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+
+        <?= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+
+        <?= Html::submitButton($project->status_id==5 ? '> На согласование': (($project->status_id==1) ? '> На исполнение': 'Завершить'),
+            ['disabled'=>($project->status_id==[3])?true:false, 'name'=>'move', 'value' => $project->status_id, 'class' => 'btn btn-success']) ?>
+
+        <?= Html::endForm() ?>
+
+        <?//= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
+<!--        --><?php //echo CHtml::submitButton('Publish',array('disabled'=>($model->status==1)?true:false)); ?>
+
+
+
 
     </p>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

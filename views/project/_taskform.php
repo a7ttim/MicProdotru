@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'employment_percentage')->textInput() ?>
+
     <?= $form->field($model, 'parent_task_id')->textInput() ?>
 
     <?= $form->field($model, 'previous_task_id')->textInput() ?>

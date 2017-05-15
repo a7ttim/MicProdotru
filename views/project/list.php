@@ -30,6 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->title ?>
 </h1>
 
+<?= Html::a('+ Новый проект', ['createproject'], ['class' => 'btn btn-success']) ?>
+
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     //'filterModel' => $searchModel,
@@ -64,4 +66,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ],
 ]); ?>
+
 <?/*= LinkPager::widget(['pagination' => $pagination]) */?>

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
-//for comments (Anastasia added)
+<!--//for comments (Anastasia added)-->
 <?php
 //$this->registerJs(
 //    '$("document").ready(function(){
@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 
-//for comments (Anastasia added)
+<!--for comments (Anastasia added)-->
 <!--<h2>Комментарии</h2>-->
 <!--<div>-->
 <!--        --><?php //yii\widgets\Pjax::begin(['id' => 'new_note']) ?>

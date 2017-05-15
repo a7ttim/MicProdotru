@@ -37,6 +37,42 @@ class ProjectController extends Controller
 		}
 	}
 
+    public function actionCreateproject()
+    {
+        $model = new project();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->status_id=5;
+            $model->save();
+            return $this->redirect(['showproject', 'id' => $model->project_id]);
+        } else {
+            return $this->render('createproject', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionShowproject($id)
+    {
+        return $this->render('showproject', [
+            'model' => $this->findProjectModel($id),
+        ]);
+    }
+
+    public function actionUpdateproject($id)
+    {
+        $model = $this->findProjectModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['showproject', 'id' => $model->project_id]);
+        } else {
+            return $this->render('updateproject', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+
     public function actionList()
     {
         $model = new Project();
@@ -67,6 +103,20 @@ class ProjectController extends Controller
                 'pageSize' => 25,
             ],
         ]);
+
+        //Actions for project
+        if (Yii::$app->request->post('move')) {
+            $status_id=Yii::$app->request->post('move');
+            if ($status_id==5) //На разработке
+            {
+                $project->status_id=1; //На согласовании
+                //here will be the logic for mail
+            }
+            elseif ($status_id==1){$project->status_id=2;} //На исполнении
+            else {$project->status_id=3;}//Завершен
+            $project->save();
+            return $this->goBack();
+        }
 
         return $this->render('info', [
             'model' => $model,

@@ -21,15 +21,18 @@ use yii\helpers\StringHelper;
 use app\models\Task;
 use yii\i18n\Formatter;
 
-$this->title = 'На согласование';
+$this->title = 'Завершенные';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 <?php Pjax::begin(); ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+
             'name',
             [
                 'attribute' => 'project_id',
@@ -46,26 +49,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'start_date',
                 'format' => ['date', 'php:d.m.Y']
             ],
-            'plan_duration',
-            [
-                'attribute' => 'employment_percentage',
-                'value' => function (Task $task) {
-                    return Html::decode(\app\components\ProgressBarWidget::widget([
-                        'value' => $task->employment_percentage,
-                    ]));
-                },
-                'format' => 'html',
-            ],
+            'fact_duration',
             [
                 'attribute' => 'user_id',
                 'value' => 'user.name',
             ],
             [
                 'value' => function (Task $task) {
-                    return Html::a('Подробнее', Url::to(['soglinfo', 'task_id' => $task->task_id]),['class' =>'btn btn-info btn-xs']);
+                    return Html::a('Подробнее', Url::to(['complinfo', 'task_id' => $task->task_id]),['class' =>'btn btn-info btn-xs']);
                 },
                 'format' => 'raw',
             ],
+
         ],
     ]); ?>
+
 <?php Pjax::end(); ?>

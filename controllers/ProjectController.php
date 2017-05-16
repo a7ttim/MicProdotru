@@ -25,6 +25,7 @@ use yii\data\ActiveDataProvider;
 
 class ProjectController extends Controller
 {
+    // Статусы
 	public function beforeAction($action)
 	{
 		if (parent::beforeAction($action)) {
@@ -36,6 +37,42 @@ class ProjectController extends Controller
 			return false;
 		}
 	}
+
+    public function actionCreateproject()
+    {
+        $model = new project();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->status_id=5;
+            $model->save();
+            return $this->redirect(['showproject', 'id' => $model->project_id]);
+        } else {
+            return $this->render('createproject', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionShowproject($id)
+    {
+        return $this->render('showproject', [
+            'model' => $this->findProjectModel($id),
+        ]);
+    }
+
+    public function actionUpdateproject($id)
+    {
+        $model = $this->findProjectModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['showproject', 'id' => $model->project_id]);
+        } else {
+            return $this->render('updateproject', [
+                'model' => $model,
+            ]);
+        }
+    }
+
 
     public function actionList()
     {
@@ -67,6 +104,23 @@ class ProjectController extends Controller
                 'pageSize' => 25,
             ],
         ]);
+
+        //Actions for project
+        if (Yii::$app->request->post('move')) {
+            //$status_id=Yii::$app->request->post('move');
+
+            if ($project->status_id==5) //На разработке
+            {
+                $project->status_id=1; //На согласовании
+                //here will be the logic for mail
+                // emailto();
+
+            }
+            elseif ($project->status_id==1){$project->status_id=2;} //На исполнении
+            else {$project->status_id=3;}//Завершен
+            $project->save();
+            return $this->goBack();
+        }
 
         return $this->render('info', [
             'model' => $model,
@@ -111,11 +165,19 @@ class ProjectController extends Controller
 
     public function actionShowtask($id)
     {
-        $commentsModel=Comment::find()->where(['task_id' => $id]);
+
+
+//for comments (Anastasia added)
+        $comments = new ActiveDataProvider([
+            'query' => Comment::find()->where(['task_id' => $id]),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
 
         return $this->render('showtask', [
             'model' => $this->findTaskModel($id),
-            'comments'=> $commentsModel,
+            'comments'=> $comments, //for comments (Anastasia added)
             'project' => Project::findOne(['project_id' => $this->findTaskModel($id)->project_id]), // Для breadcrumbs
         ]);
     }
@@ -149,6 +211,24 @@ class ProjectController extends Controller
         $model->status_id=4;
         $model->save();
         return $this->redirect(['info','project_id' =>$model->project_id]);
+    }
+
+    protected function findProjectModel($id)
+    {
+        if (($model = Project::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionDeleteproject($id)
+    {
+        $model=$this->findProjectModel($id);
+        $model->status_id=4;
+        $model->save();
+
+        return $this->redirect(['list']);
     }
 
     public function actionIndex(){

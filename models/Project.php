@@ -47,7 +47,7 @@ class Project extends \yii\db\ActiveRecord
             [['type'], 'string', 'max' => 20],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'department_id']],
             [['pm_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['pm_id' => 'user_id']],
-            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => Status::className(), 'targetAttribute' => ['status_id' => 'status_id']],
+            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectStatus::className(), 'targetAttribute' => ['status_id' => 'status_id']],
         ];
     }
 
@@ -90,7 +90,7 @@ class Project extends \yii\db\ActiveRecord
      */
     public function getStatus()
     {
-        return $this->hasOne(Status::className(), ['status_id' => 'status_id']);
+        return $this->hasOne(ProjectStatus::className(), ['status_id' => 'status_id']);
     }
 
     /**

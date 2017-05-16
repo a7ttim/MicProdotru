@@ -21,15 +21,18 @@ use yii\helpers\StringHelper;
 use app\models\Task;
 use yii\i18n\Formatter;
 
-$this->title = 'На согласование';
+$this->title = 'На исполнение';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 <?php Pjax::begin(); ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+
             'name',
             [
                 'attribute' => 'project_id',
@@ -61,11 +64,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'user.name',
             ],
             [
+                'attribute' => 'complete_percentage',
                 'value' => function (Task $task) {
-                    return Html::a('Подробнее', Url::to(['soglinfo', 'task_id' => $task->task_id]),['class' =>'btn btn-info btn-xs']);
+                    return Html::decode(\app\components\ProgressBarWidget::widget([
+                        'value' => $task->complete_percentage,
+                    ]));
+                },
+                'format' => 'html',
+            ],
+            [
+                'value' => function (Task $task) {
+                    return Html::a('Подробнее', Url::to(['ispinfo', 'task_id' => $task->task_id]),['class' =>'btn btn-info btn-xs']);
                 },
                 'format' => 'raw',
             ],
+
         ],
     ]); ?>
+
 <?php Pjax::end(); ?>

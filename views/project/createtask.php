@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Task */
 
 $this->title = 'Новая задача';
-$this->params['breadcrumbs'][] = ['label' => \app\models\Status::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
+$this->params['breadcrumbs'][] = ['label' => \app\models\ProjectStatus::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
 $this->params['breadcrumbs'][] = ['label' => $project->name, 'url' => ['info','project_id' => $project->project_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

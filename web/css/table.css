@@ -6,9 +6,7 @@ table {
 table.detailed{
     width:50%;
 }
-td.detailed{
-    width:50%;
-}
+
 td,th{text-align: center;}
 th,td {
     padding: 10px 20px;

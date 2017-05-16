@@ -5,22 +5,21 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "status".
+ * This is the model class for table "project_status".
  *
  * @property int $status_id
  * @property string $status_name
  *
  * @property Project[] $projects
- * @property Task[] $tasks
  */
-class Status extends \yii\db\ActiveRecord
+class ProjectStatus extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'status';
+        return 'project_status';
     }
 
     /**
@@ -51,13 +50,5 @@ class Status extends \yii\db\ActiveRecord
     public function getProjects()
     {
         return $this->hasMany(Project::className(), ['status_id' => 'status_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTasks()
-    {
-        return $this->hasMany(Task::className(), ['status_id' => 'status_id']);
     }
 }

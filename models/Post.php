@@ -39,7 +39,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             'post_id' => 'Post ID',
-            'post_name' => 'Post Name',
+            'post_name' => 'Должность',
         ];
     }
 

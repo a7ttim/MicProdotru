@@ -36,6 +36,7 @@ class Department extends \yii\db\ActiveRecord
         return [
             [['parent_department_id', 'head_id'], 'integer'],
             [['head_id'], 'required'],
+			[['department_id'], 'safe'],
             [['department_name'], 'string', 'max' => 100],
             [['parent_department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['parent_department_id' => 'department_id']],
             [['head_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['head_id' => 'user_id']],
@@ -49,7 +50,7 @@ class Department extends \yii\db\ActiveRecord
     {
         return [
             'department_id' => 'Department ID',
-            'department_name' => 'Department Name',
+            'department_name' => 'Отдел',
             'parent_department_id' => 'Parent Department ID',
             'head_id' => 'Head ID',
         ];
@@ -84,7 +85,7 @@ class Department extends \yii\db\ActiveRecord
      */
     public function getEmployments()
     {
-        return $this->hasMany(Employment::className(), ['department_id' => 'department_id']);
+        return $this->hasOne(Employment::className(), ['department_id' => 'department_id']);
     }
 
     /**

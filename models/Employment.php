@@ -37,6 +37,7 @@ class Employment extends \yii\db\ActiveRecord
             [['user_id', 'department_id', 'post_id'], 'required'],
             [['user_id', 'department_id', 'post_id'], 'integer'],
             [['begin_date', 'end_date'], 'safe'],
+			[['department_id'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'department_id']],
             [['post_id'], 'exist', 'skipOnError' => true, 'targetClass' => Post::className(), 'targetAttribute' => ['post_id' => 'post_id']],

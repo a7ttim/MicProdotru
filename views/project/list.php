@@ -52,16 +52,24 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute' => 'Информация',
             'value' => function (Project $project) {
-                return Html::a('Подробнее', Url::to(['info', 'project_id' => $project->project_id]));
+                return Html::a('<span class="fa fa-search"></span>Подробнее', Url::to(['info', 'project_id' => $project->project_id]), [
+                    'title' => Yii::t('app', 'Подробнее'),
+                    'class' =>'btn btn-info btn-xs',
+                ]);
             },
             'format' => 'raw',
+            'contentOptions' => ['style' => 'width:30px;'],
         ],
         [
             'attribute' => 'Визуализация',
             'value' => function (Project $project) {
-                return Html::a('Подробнее', Url::to(['gantt', 'project_id' => $project->project_id]));
+                return Html::a('<span class="fa fa-search"></span>Подробнее', Url::to(['gantt', 'project_id' => $project->project_id]), [
+                    'title' => Yii::t('app', 'Подробнее'),
+                    'class' =>'btn btn-primary btn-xs',
+                ]);
             },
             'format' => 'raw',
+            'contentOptions' => ['style' => 'width:30px;'],
         ],
 
     ],

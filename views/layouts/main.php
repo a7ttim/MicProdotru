@@ -28,33 +28,44 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'MicPro.ru',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top ',
-        ],
+    'brandLabel' => 'MicPro.ru',
+    'brandUrl' => Yii::$app->homeUrl,
+    'options' => [
+    'class' => 'navbar-inverse navbar-fixed-top',
+    ],
     ]);
+
+    echo Yii::$app->user->can('pm') ? Nav::widget([
+        'items' => [
+            [
+                'label' => 'Проекты',
+                'items' => [
+                    //'<li class="dropdown-header">Dropdown Header</li>',
+                    ['label' => 'В разработке', 'url' => ['/project/list', 'status_id' => 5]],
+                    ['label' => 'На согласовании', 'url' => ['/project/list', 'status_id' => 1]],
+                    ['label' => 'На исполнении', 'url' => ['/project/list', 'status_id' => 2]],
+                    ['label' => 'Завершенные', 'url' => ['/project/list', 'status_id' => 3]],
+                    '<li class="divider"></li>',
+                    ['label' => 'Корзина', 'url' => ['/project/list', 'status_id' => 4]],
+                ],
+            ],
+        ],
+        'options' => ['class' =>'navbar-nav'],
+    ]): '';
     echo Nav::widget([
-        'options' => ['class' => 'nav navbar-right'],
+        'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             Yii::$app->user->isGuest ? (
-                ['label' => 'Авторизация', 'url' => ['/auth']]
+            ['label' => 'Авторизация', 'url' => ['/auth']]
             ) : (
-                '<li>'
-                . Html::beginForm(['/auth/logout'], 'post')
-                . Html::submitButton(
-                    'Выход (' . Yii::$app->user->identity->name . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
+            ['label' => 'Выход '. Yii::$app->user->identity->name, 'url' => ['/auth/logout']]
+            ),
         ],
-    ]);	
+    ]);
     NavBar::end();
-	?>
-		
-<aside id="secondary" class='bs-sidebar hidden-print affix' role="complementary">
+    ?>
+    <div class="row header-fix">
+<div id="secondary" class='col-md-2' role="complementary">
 <?
 	if(!Yii::$app->user->isGuest) {
 		$items;
@@ -76,19 +87,20 @@ AppAsset::register($this);
 			$items[] = ['label' => 'Мои ресурсы', 'url' => ['resource/list'],'linkOptions'=>['class'=>'main_li']];
 		}
 		echo Nav::widget([
-            'options' => ['class' => 'clearfix nav-pills nav-stacked', 'id'=>'main-menu',
-			'style' => 'padding-top:60px; background:#8accbf;'], // стили ul
+            'options' => ['class' => 'clearfix nav-pills nav-stacked', 'id'=>'main-menu'], // стили ul
             'items' => $items,   
         ]);
 	}
-?> 
-</aside>
+?>
+</div>
 
-    <div class="container">
+
+    <div class="col-md-9 api-content">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= $content ?>
+    </div>
     </div>
 </div>
 

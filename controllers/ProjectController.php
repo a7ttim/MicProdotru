@@ -99,7 +99,7 @@ class ProjectController extends Controller
         $project = Project::findOne(['project_id' => $proj_id]);
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['and',['project_id' => $proj_id],['status_id'=>[1,2,3]]]),
+            'query' => $project->getTasks()->with('user'),
             'pagination' => [
                 'pageSize' => 25,
             ],
@@ -126,7 +126,7 @@ class ProjectController extends Controller
 
         return $this->render('info', [
             'model' => $model,
-            'dataProvider' =>$dataProvider,
+            'dataProvider' => $dataProvider,
             'project' => $project, // breadcrumbs
         ]);
     }

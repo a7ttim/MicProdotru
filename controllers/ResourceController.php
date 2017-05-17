@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: A7ttim
- * Date: 03.05.2017
- * Time: 13:21
- */
-
 namespace app\controllers;
 
 use Yii;
@@ -17,6 +10,10 @@ use app\models\ContactForm;
 use app\models\Employment;
 use app\models\Department;
 use yii\data\Pagination;
+use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\BaseHtml;
 
 class ResourceController extends Controller
 {
@@ -34,27 +31,44 @@ class ResourceController extends Controller
 	
     public function actionList()
     {
-        $model = new Employment();
 		$dep = Department::findOne(['head_id' => Yii::$app->user->identity->user_id]);
-        $resources = Employment::find()->where(['department_id' => $dep->department_id]);
+		$deps = Department::find()
+				->select(['department.department_id'])
+				->where(['parent_department_id' => $dep->department_id])
+				->asArray()->all();
+		$deps_ar[] = $dep->department_id;
+		for($i = 0; $i < count($deps); ++$i){
+			$deps_ar[] = $deps[$i]['department_id'];
+		}
+		
         $pagination = new Pagination([
             'defaultPageSize' => 10,
-            'totalCount' => $resources->count(),
+            'totalCount' => 100,
         ]);
 
-        $resources = $resources->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
+        $dataProvider = new ActiveDataProvider([
+            'query' => Employment::find()
+			->joinWith('department')
+			->joinWith('user')
+			->joinWith('post')
+			->where(['in', 'department.department_id', $deps_ar]),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+		
+		?><script>console.log(<?print_r($dataProvider);?>)</script><?
+		
+		$mod = new Employment();
+		$model = $mod::find()->joinWith('department');
+		
         return $this->render('list', [
-            'model' => $model,
-            'resources' => $resources,
-            'pagination' => $pagination,
+			'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionInfo()    {
-        
+    public function actionInfo(){  
     }
 
     public function actionIndex(){

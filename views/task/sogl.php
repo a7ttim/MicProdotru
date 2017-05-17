@@ -26,13 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 <?php Pjax::begin(); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'name',
             [
                 'attribute' => 'project_id',
@@ -69,8 +66,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'raw',
             ],
-
         ],
     ]); ?>
-
 <?php Pjax::end(); ?>

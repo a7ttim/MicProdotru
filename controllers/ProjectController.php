@@ -143,8 +143,6 @@ class ProjectController extends Controller
     public function actionCreatetask()
     {
         $model = new Task();
-        $model->project_id=$project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
-        $model->complete_percentage=0;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
             return $this->redirect(['showtask', 'id' => $model->task_id]);

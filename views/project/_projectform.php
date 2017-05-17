@@ -23,7 +23,7 @@ use app\models\Department;
     <?= $form->field($model, 'pm_id')->dropDownList(ArrayHelper::map(User::find()->andWhere('user_id>1')->all(),
         'user_id', 'name')) ?>//user_id=1 - Системный
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'start_date')->textInput() ?>
     <?//shirase55 datetime?>

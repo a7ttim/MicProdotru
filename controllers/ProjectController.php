@@ -41,10 +41,10 @@ class ProjectController extends Controller
     public function actionCreateproject()
     {
         $model = new project();
+        $model->pm_id=Yii::$app->user->identity->user_id;
+        $model->status_id=5;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->status_id=5;
-            $model->save();
             return $this->redirect(['showproject', 'id' => $model->project_id]);
         } else {
             return $this->render('createproject', [
@@ -143,6 +143,8 @@ class ProjectController extends Controller
     public function actionCreatetask()
     {
         $model = new Task();
+        $model->project_id=$project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+        $model->complete_percentage=0;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
             return $this->redirect(['showtask', 'id' => $model->task_id]);

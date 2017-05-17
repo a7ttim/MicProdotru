@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Task */
@@ -14,9 +16,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'project_id')->textInput() ?>
+<!--    --><?//= $form->field($model, 'project_id')->textInput() ?>
 
     <?= $form->field($model, 'user_id')->textInput() ?>
+
+<!--    --><?//= $form->field($model, 'user_id')->dropDownList(ArrayHelper::map(User::find(), 'id', 'name')) ?>
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 

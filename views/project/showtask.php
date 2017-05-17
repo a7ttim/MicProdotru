@@ -78,11 +78,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <!--for comments (Anastasia added)-->
 <!--<h2>Комментарии</h2>-->
-<!--<div>-->
+<!--<div>
 <!--        --><?php //yii\widgets\Pjax::begin(['id' => 'new_note']) ?>
 <!--        --><?php //$form = ActiveForm::begin(['options' => ['data-pjax' => true]]); ?>
-<!---->
-<!--<!--    -->--><?////=$form->field($comments, 'text')->textarea(['rows' => 6]) ?>
+<!--<!--    --><?////=$form->field($comments, 'text')->textarea(['rows' => 6]) ?>
 <!---->
 <!--        <div class="form-group">-->
 <!--            --><?//= Html::submitButton('+', ['class' => 'btn btn-success']) ?>

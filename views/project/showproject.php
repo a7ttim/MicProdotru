@@ -29,15 +29,36 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'project_id',
+            //'project_id',
             'name',
-            'department_id',
-            'pm_id',
+
+            //'department_id',
+            [
+                'label' => 'Подразделение',
+                'value' => $model->department->department_name,
+                'contentOptions' => ['class' => 'bg-red'],     // настройка HTML атрибутов для тега, соответсвующего value
+                'captionOptions' => ['tooltip' => 'Tooltip'],  // настройка HTML атрибутов для тега, соответсвующего label
+            ],
+
+            //'pm_id',
+            [
+                'label' => 'Менеджер',
+                'value' => $model->pm->name,
+                'contentOptions' => ['class' => 'bg-red'],     // настройка HTML атрибутов для тега, соответсвующего value
+                'captionOptions' => ['tooltip' => 'Tooltip'],  // настройка HTML атрибутов для тега, соответсвующего label
+            ],
+
             'description',
             'start_date',
             'end_date',
 //            'type',
-            'status_id',
+            //'status_id',
+            [
+                'label' => 'Статус',
+                'value' => $model->status->status_name,
+                'contentOptions' => ['class' => 'bg-red'],     // настройка HTML атрибутов для тега, соответсвующего value
+                'captionOptions' => ['tooltip' => 'Tooltip'],  // настройка HTML атрибутов для тега, соответсвующего label
+            ],
         ],
     ]) ?>
 

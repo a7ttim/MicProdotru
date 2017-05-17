@@ -105,7 +105,7 @@ class ProjectController extends Controller
             ],
         ]);
 
-        //Actions for project
+        //Actions for project (move status)
         if (Yii::$app->request->post('move')) {
 
             if ($project->status_id==5) //На разработке
@@ -115,10 +115,12 @@ class ProjectController extends Controller
                 // emailto();
 
             }
-            elseif ($project->status_id==1){$project->status_id=2;} //На исполнении
-            else {$project->status_id=3;}//Завершен
+            elseif ($project->status_id==1){$project->status_id=2;} //На исполнение
+            elseif ($project->status_id==2){$project->status_id=3;} //В завершенные
+            else {$project->status_id=5;} //Удаленные или завершенные восстановить - в разработку
+
             $project->save();
-            return $this->goBack();
+            return $this->redirect(['list','status_id' =>$project->status_id]);
         }
 
         return $this->render('info', [

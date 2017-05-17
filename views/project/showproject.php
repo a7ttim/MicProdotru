@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('К созданию задач', ['info', 'project_id' => $model->project_id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('К проекту', ['info', 'project_id' => $model->project_id], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Редактировать', ['updateproject', 'id' => $model->project_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['deleteproject', 'id' => $model->project_id], [
             'class' => 'btn btn-danger',

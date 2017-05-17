@@ -123,6 +123,7 @@ class ProjectController extends Controller
             return $this->redirect(['list','status_id' =>$project->status_id]);
         }
 
+
         return $this->render('info', [
             'model' => $model,
             'dataProvider' =>$dataProvider,

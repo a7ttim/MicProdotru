@@ -17,10 +17,11 @@ use app\models\Department;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->andWhere('parent_department_id is null')->all(),
-        'department_id', 'department_name'),['prompt'=> 'Выберете подразделение']) ?>
+    <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->andWhere('parent_department_id is null')
+        ->orderBy('department_name')->all(),
+        'department_id', 'department_name'),['prompt'=> 'Выберите подразделение']) ?>
 
-    <?= $form->field($model, 'pm_id')->dropDownList(ArrayHelper::map(User::find()->andWhere('user_id>1')->all(),
+    <?= $form->field($model, 'pm_id')->dropDownList(ArrayHelper::map(User::find()->andWhere('user_id>1')->orderBy('name')->all(),
         'user_id', 'name')) ?>
 
     <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>

@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             [
-                'attribute' => 'Подробнее',
+                'attribute' => '',
                 'value' => function (Task $task) {
                     return Html::a('<span class="fa fa-search"></span>Подробнее', Url::to(['showtask', 'id' => $task->task_id]), [
                         'title' => Yii::t('app', 'Подробнее'),

@@ -107,7 +107,6 @@ class ProjectController extends Controller
 
         //Actions for project
         if (Yii::$app->request->post('move')) {
-            //$status_id=Yii::$app->request->post('move');
 
             if ($project->status_id==5) //На разработке
             {
@@ -143,6 +142,9 @@ class ProjectController extends Controller
     public function actionCreatetask()
     {
         $model = new Task();
+        $model->status_id=5;
+        $model->complete_percentage=0;
+        $model->project_id= Yii::$app->request->get('project_id');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
             return $this->redirect(['showtask', 'id' => $model->task_id]);

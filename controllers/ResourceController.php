@@ -72,14 +72,20 @@ class ResourceController extends Controller
 			->where(['employment.user_id' => $id])->asArray()->all();
 		
 		$dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->joinWith('project')->where(['task.user_id' => $id]),
+            'query' => Task::find()->joinWith('project')
+			->where(['and', ['task.user_id' => $id], ['task.status_id' => 2]]),
             'pagination' => [
                 'pageSize' => 8,
             ],
         ]);
+		$wl = 0;
+		foreach ($dataProvider->models as $model) {
+			$wl += ($model->employment_percentage * $model->complete_percentage / 100);
+		}
         return $this->render('info', [
 			'usr' => $usr[0],
             'model' => $model,
+			'workload' => $wl,
             'dataProvider' => $dataProvider,
         ]);
     }

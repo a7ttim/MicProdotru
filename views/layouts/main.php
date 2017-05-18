@@ -85,6 +85,7 @@ AppAsset::register($this);
 		}
 		if(Yii::$app->user->can('dh')) {
 			$items[] = ['label' => 'Мои ресурсы', 'url' => ['resource/list'],'linkOptions'=>['class'=>'main_li']];
+			$items[] = ['label' => 'Статистика', 'url' => ['resource/stat'],'linkOptions'=>['class'=>'main_li']];
 		}
 		echo Nav::widget([
             'options' => ['class' => 'clearfix nav-pills nav-stacked', 'id'=>'main-menu'], // стили ul

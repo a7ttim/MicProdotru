@@ -29,6 +29,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['post_name'], 'string', 'max' => 100],
+			[['post_name'], 'safe'],
         ];
     }
 

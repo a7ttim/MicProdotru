@@ -140,6 +140,13 @@ a.desc:after {
     padding-right: 3% !important;
 }
 .dop { 
-	font-size: 19px !important;
-	margin-bottom: 0px !important;
+	font-size: 21px !important;
+    margin-top: 30px !important;
+    margin-left: 10px;
+}
+.isp_progr {
+	width:150px;
+	margin-left:10px;
+	margin-right:20px;
+	margin-top: 10px;
 }

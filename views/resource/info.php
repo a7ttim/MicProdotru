@@ -13,17 +13,18 @@ $this->title = 'Информация о сотруднике';
 $this->params['breadcrumbs'][] = ['label' => "Список ресурсов", 'url' => ['list']];
 $this->params['breadcrumbs'][] = $usr['department_name'];
 ?>
-<table style='width:100%; margin-bottom:30px;'>
-<tr>
-	<td class='inf'><h2><?=$usr['name']?>,</h2></td>
-	<td class='inf'><h2 class='dop'><?=$usr['post_name']?></h2></td>
-</tr>
-<tr>
-	<td class='inf'><h4>Загруженность:</h4></td>
-	<td class='inf'><?=Html::decode(\app\components\ProgressBarWidget::widget([
-                        'value' => $workload,]));?></td>
-</tr>
-</table>
+<div style='display:flex;'>
+	<h2><?=$usr['name']?>, </h2>
+	<h2 class='dop'> <?=$usr['post_name']?></h2>
+</div>
+<div style='display:flex;'>
+	<h4>Загруженность:</h4> 
+	<div class='isp_progr'>
+	<?=Html::decode(\app\components\ProgressBarWidget::widget(['value' => $workload,]));?></div>
+	<h4>Задач на исполнении 
+		<span class="pull-right badge badge-success" style='margin-left:10px;'><?=$count?></span>
+	</h4>
+</div>
 
    <?= GridView::widget([
         'dataProvider' => $dataProvider,

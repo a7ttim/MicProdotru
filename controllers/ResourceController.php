@@ -79,15 +79,18 @@ class ResourceController extends Controller
             ],
         ]);
 		$wl = 0;
+		$cnt = 0;
 		foreach ($dataProvider->models as $model) {
 			if($model->complete_percentage > 0)
 				$wl += ($model->employment_percentage * $model->complete_percentage / 100);
 			else $wl += $model->employment_percentage;
+			$cnt++;
 		}
         return $this->render('info', [
 			'usr' => $usr[0],
             'model' => $model,
 			'workload' => $wl,
+			'count' => $cnt,
             'dataProvider' => $dataProvider,
         ]);
     }

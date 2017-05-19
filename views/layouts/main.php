@@ -74,6 +74,7 @@ AppAsset::register($this);
 			$items[] = ['label' => 'На согласовании', 'url' => ['/task/sogl']];
 			$items[] = ['label' => 'На исполнении', 'url' => ['/task/isp']];
             $items[] = ['label' => 'Завершенные', 'url' => ['/task/compl']];
+            $items[] = ['label' => 'Статистика', 'url' => ['/task/stat']];
 		}
 		if(Yii::$app->user->can('pm')) {
 			$items[] = ['label' => 'Мои проекты', 'url' => ['project/list'], 'linkOptions'=>['class'=>'main_li']];

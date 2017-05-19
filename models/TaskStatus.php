@@ -39,8 +39,8 @@ class TaskStatus extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'task_status_id' => 'Task Status ID',
-            'status_name' => 'Status Name',
+            'task_status_id' => 'Статус',
+            'status_name' => 'Статус',
         ];
     }
 

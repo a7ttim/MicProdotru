@@ -216,6 +216,22 @@ class TaskController extends Controller
         ]);
     }
 
+    public function actionStat()
+    {
+        $model = new Task();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id]),
+            'pagination' => [
+                'pageSize' => 2,
+            ],
+        ]);
+
+        return $this->render('stat', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     public function actionIndex(){
         return $this->actionSogl();
     }

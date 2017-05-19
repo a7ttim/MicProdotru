@@ -140,7 +140,7 @@ class Project extends \yii\db\ActiveRecord
                     $model->user_id = $user;
                     $model->save();
                 }
-                if (isset($arr[$user])) { // сверяем массивы и удаляем элементы
+                if (isset($arr[$user]) && isset($user)) { // сверяем массивы и удаляем элементы
                     unset($arr[$user]);
                 }
             }

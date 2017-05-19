@@ -51,10 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'fact_duration',
             [
-                'attribute' => 'user_id',
-                'value' => 'user.name',
-            ],
-            [
                 'value' => function (Task $task) {
                     return Html::a('Подробнее', Url::to(['complinfo', 'task_id' => $task->task_id]),['class' =>'btn btn-info btn-xs']);
                 },

@@ -55,10 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td><?= $tasks->fact_duration ?></td>
                     </tr>
                     <tr>
-                        <td>Исполнитель</td>
-                        <td><?=$tasks->user->name ?></td>
-                    </tr>
-                    <tr>
                         <td>Загруженность</td>
                         <td><?=$tasks->employment_percentage ?></td>
                     </tr>

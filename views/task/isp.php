@@ -60,10 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
             ],
             [
-                'attribute' => 'user_id',
-                'value' => 'user.name',
-            ],
-            [
                 'attribute' => 'complete_percentage',
                 'value' => function (Task $task) {
                     return Html::decode(\app\components\ProgressBarWidget::widget([

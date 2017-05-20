@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?=$tasks->name ?></h1>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6" style="margin-bottom: 2%">
         <table style="width: 100%">
             <thead>
                 <tr>
@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </tbody>
         </table>
     </div>
-    <div class="col-md-6" style="margin-top: 2%">
+    <div class="col-md-6">
         <table  style="width: 100%">
             <thead>
                 <tr>

@@ -139,6 +139,7 @@ class ProjectController extends Controller
             'project' => $project,
             'tasks' => $project->getTasks()->all(),
             'users' => $project->getUsers()->all(),
+            'links' => $project->getTasks()->where(['not',['parent_task_id'=>null]])->all(),
         ]);
     }
 

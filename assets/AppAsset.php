@@ -25,6 +25,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'scripts/dhtmlxgantt.js',
+        'scripts/dhtmlxgantt_tooltip.js',
         'scripts/locale_ru.js'
     ];
     public $fonts = [

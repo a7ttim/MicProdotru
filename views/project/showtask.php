@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
@@ -37,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['deletetask', 'id' => $model->task_id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы дейстительно хотите удалить эту заачу?',
+                'confirm' => 'Вы действительно хотите удалить эту задачу?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -75,38 +76,44 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 </div>
 
+<div class="col-md-6">
+    <table style="width: 100%">
+        <thead>
+        <tr>
+            <th>
+                Комментарии
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (!empty($comments))
+        {
+            foreach($comments as $comment)
+            {?>
+                <tr>
+                    <td><?=$comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time))?></td>
+                </tr>
+                <tr>
+                    <td><?=$comment->text?></td>
+                </tr>
+                <?php
+            }
+        }
+        else
+        {?>
+            <tr>
+                <td>Комментарии отсутствуют</td>
+            </tr>
+            <?php
+        }?>
+        </tbody>
+    </table>
+    <?= LinkPager::widget(['pagination' => $pagination]); ?>
 
-<!--for comments (Anastasia added)-->
-<!--<h2>Комментарии</h2>-->
-<!--<div>
-<!--        --><?php //yii\widgets\Pjax::begin(['id' => 'new_note']) ?>
-<!--        --><?php //$form = ActiveForm::begin(['options' => ['data-pjax' => true]]); ?>
-<!--<!--    --><?////=$form->field($comments, 'text')->textarea(['rows' => 6]) ?>
-<!---->
-<!--        <div class="form-group">-->
-<!--            --><?//= Html::submitButton('+', ['class' => 'btn btn-success']) ?>
-<!--        </div>-->
-<!---->
-<!--        --><?php //ActiveForm::end(); ?>
-<!--        --><?php //Pjax::end(); ?>
-<!---->
-<!---->
-<!---->
-<!--    --><?php //yii\widgets\Pjax::begin(['id' => 'notes']) ?>
-<!--    --><?//= GridView::widget([
-//        'dataProvider' => $comments,
-//        'columns' => [
-//            //['class' => 'yii\grid\SerialColumn'],
-//
-//            'text',
-//            //'user_id',
-//            [
-//                'attribute' => 'user_id',
-//                'value' => 'user.name',
-//            ],
-//            'date_time',
-//        ],
-//    ]); ?>
-<!---->
-<!--    --><?php //Pjax::end(); ?>
-<!--</div>-->
+    <?php $form = ActiveForm::begin(); ?>
+    <?= $form->field($modelcom, 'text')->textarea(['name'=>'text','maxlength' => true,'style'=>'resize:none;'])->label(false) ?>
+    <div class="form-group">
+        <?= Html::submitButton('Добавить комментарий', ['class' =>  'btn btn-success']) ?>
+    </div>
+    <?php ActiveForm::end(); ?>
+</div>

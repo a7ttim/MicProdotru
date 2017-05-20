@@ -170,19 +170,31 @@ class ProjectController extends Controller
 
     public function actionShowtask($id)
     {
-
-
-//for comments (Anastasia added)
-        $comments = new ActiveDataProvider([
-            'query' => Comment::find()->where(['task_id' => $id]),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+        $modelcom = new Comment();
+        $comments = Comment::find()->where(['task_id'=>$id]);
+        $pagination = new Pagination([
+            'defaultPageSize' => 1,
+            'totalCount' => $comments->count(),
         ]);
+        $comments = $comments->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        if (Yii::$app->request->post('text')) {
+            $modelcom->text=Yii::$app->request->post('text');
+            $modelcom->user_id=Yii::$app->user->identity->user_id;
+            $modelcom->task_id=$id;
+            $modelcom->date_time=date('Y-m-d H:i:s');
+            $modelcom->save();
+            return $this->refresh();
+        }
+
 
         return $this->render('showtask', [
             'model' => $this->findTaskModel($id),
-            'comments'=> $comments, //for comments (Anastasia added)
+            'modelcom' => $modelcom,
+            'comments'=> $comments,
+            'pagination' => $pagination,
             'project' => Project::findOne(['project_id' => $this->findTaskModel($id)->project_id]), // Для breadcrumbs
         ]);
     }

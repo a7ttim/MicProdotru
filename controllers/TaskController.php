@@ -52,12 +52,12 @@ class TaskController extends Controller
         ]);
     }
 
-    public function actionSoglinfo()    {
+    public function actionSoglinfo($task_id)    {
         $model = new Task();
         $modelcom = new Comment();
-        $tasks = Task::findOne(Yii::$app->request->get('task_id'));
+        $tasks = Task::findOne($task_id);
         $previous_task=Task::findOne($tasks->previous_task_id);
-        $comments = Comment::find()->where(['task_id'=>Yii::$app->request->get('task_id')]);
+        $comments = Comment::find()->where(['task_id'=>$task_id]);
         $pagination = new Pagination([
             'defaultPageSize' => 1,
             'totalCount' => $comments->count(),
@@ -120,12 +120,12 @@ class TaskController extends Controller
         ]);
     }
 
-    public function actionIspinfo()    {
+    public function actionIspinfo($task_id)    {
         $model = new Task();
         $modelcom = new Comment();
-        $tasks = Task::findOne(Yii::$app->request->get('task_id'));
+        $tasks = Task::findOne($task_id);
         $previous_task=Task::findOne($tasks->previous_task_id);
-        $comments = Comment::find()->where(['task_id'=>Yii::$app->request->get('task_id')]);
+        $comments = Comment::find()->where(['task_id'=>$task_id]);
         $pagination = new Pagination([
             'defaultPageSize' => 1,
             'totalCount' => $comments->count(),
@@ -182,12 +182,12 @@ class TaskController extends Controller
         ]);
     }
 
-    public function actionComplinfo()    {
+    public function actionComplinfo($task_id)    {
         $model = new Task();
         $modelcom = new Comment();
-        $tasks = Task::findOne(Yii::$app->request->get('task_id'));
+        $tasks = Task::findOne($task_id);
         $previous_task=Task::findOne($tasks->previous_task_id);
-        $comments = Comment::find()->where(['task_id'=>Yii::$app->request->get('task_id')]);
+        $comments = Comment::find()->where(['task_id'=>$task_id]);
         $pagination = new Pagination([
             'defaultPageSize' => 1,
             'totalCount' => $comments->count(),

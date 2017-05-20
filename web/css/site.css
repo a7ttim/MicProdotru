@@ -150,3 +150,9 @@ a.desc:after {
 	margin-right:20px;
 	margin-top: 10px;
 }
+
+a, a:hover, a:focus, a:active{
+    outline:none;
+    color:black;
+    text-decoration: none;
+}

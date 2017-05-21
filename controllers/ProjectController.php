@@ -131,9 +131,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function actionGantt()
+    public function actionGantt($project_id)
     {
-        $project = Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+        $project = Project::findOne(['project_id' => $project_id]);
 
         return $this->render('gantt', [
             'project' => $project,

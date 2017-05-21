@@ -8,6 +8,7 @@ use app\models\Department;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use app\models\Task;
+use app\models\User;
 
 class ResourceController extends Controller
 {
@@ -92,6 +93,28 @@ class ResourceController extends Controller
 			'workload' => $wl,
 			'count' => $cnt,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionGantt()
+    {
+        $id = Yii::$app->user->identity->user_id;
+
+        $dep = Department::findOne(['head_id' => $id]);
+        $deps = Department::find()
+            ->select(['department_id'])
+            ->where(['parent_department_id' => $dep->department_id])
+            ->asArray()->all();
+        $deps_ar = array();
+        array_push($deps_ar,$dep->department_id,$deps);
+
+        $employments = Employment::find()->where(['in','department_id',$deps_ar])->andWhere(['not', ['user_id' => $id]])->all();
+        $tasks = Task::find()->where(['in','user_id', $employments])->all();
+
+        return $this->render('gantt', [
+            'tasks' => $tasks,
+            'employments' => $employments,
+            'links' => Task::find()->where(['in','user_id', $employments])->andWhere(['not',['parent_task_id'=>null]])->all(),
         ]);
     }
 

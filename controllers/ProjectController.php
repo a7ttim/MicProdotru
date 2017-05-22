@@ -42,7 +42,7 @@ class ProjectController extends Controller
     {
         $model = new project();
         $model->pm_id=Yii::$app->user->identity->user_id;
-        $model->status_id=5;
+        $model->status_id =5;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['showproject', 'id' => $model->project_id]);

@@ -125,6 +125,7 @@ class Project extends \yii\db\ActiveRecord
     public function afterFind()
     {
         $this->users_array = $this->users; // Пересваивание, массивы должны бать одинаковыми
+
     }
 
     public function afterSave($insert, $changedAttributes)

@@ -22,6 +22,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
+use app\models\WorkingOn;
 
 class ProjectController extends Controller
 {
@@ -45,6 +46,10 @@ class ProjectController extends Controller
         $model->status_id =5;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model = new WorkingOn();
+            $model->project_id = $this->project_id;
+            $model->user_id = $this->pm_id;
+            $model->save();
             return $this->redirect(['showproject', 'id' => $model->project_id]);
         } else {
             return $this->render('createproject', [

@@ -42,6 +42,7 @@ AppAsset::register($this);
                 'items' => [
                     //'<li class="dropdown-header">Dropdown Header</li>',
                     ['label' => 'В разработке', 'url' => ['/project/list', 'status_id' => 5]],
+                    '<li><span class="badge pull-right">5</span></li>',
                     ['label' => 'На согласовании', 'url' => ['/project/list', 'status_id' => 1]],
                     ['label' => 'На исполнении', 'url' => ['/project/list', 'status_id' => 2]],
                     ['label' => 'Завершенные', 'url' => ['/project/list', 'status_id' => 3]],

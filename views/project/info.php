@@ -51,8 +51,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $form = ActiveForm::begin(); ?>
         <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
 
-        <?= Html::submitButton($project->status_id==5 ? '> На согласование': (($project->status_id==1) ? '> На исполнение': (($project->status_id==2) ? 'Завершить':'На разработку')),
-            ['name'=>'move', 'value' => $project->project_id, 'class' => 'btn btn-success btn-info']) ?>
+        <?= Html::submitButton($project->status_id==5 ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
+            (($project->status_id==2) ? 'Завершить':'На разработку')),
+            [
+                'data' => ($project->status_id==2) ? ['confirm' => 'Вы действительно хотите завершить проект?']:'',//надо как-то перенести наличие незавершенных задач из контроллера
+                'name'=>'move',
+                'value' => $project->project_id,
+                'class' => 'btn btn-success btn-info',
+                ]) ?>
 
         <?//= Html::endForm() ?>
 

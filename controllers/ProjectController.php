@@ -23,6 +23,7 @@ use app\models\ContactForm;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use app\models\WorkingOn;
+use yii\helpers\ArrayHelper;
 
 class ProjectController extends Controller
 {
@@ -116,12 +117,23 @@ class ProjectController extends Controller
             if ($project->status_id==5) //На разработке
             {
                 $project->status_id=1; //На согласовании
-                //here will be the logic for mail
-                // emailto();
-
+                //здесь будет логика для оповещений
+                // желательно сделать отдельную процедуру в этом контроллере для оповещения по конкретной задаче,
+                // т.к. это пригодится для согласования отдельных задач
+                // т.е здесь вытаскиваем все задачи проекта на согласование, делаем по ним цикл
+                // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
             }
             elseif ($project->status_id==1){$project->status_id=2;} //На исполнение
-            elseif ($project->status_id==2){$project->status_id=3;} //В завершенные
+            elseif ($project->status_id==2)
+            {
+                //проверка, есть ли незавершенные задачи в этом проекте
+                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' != 3]])->count();
+                if($incompleted_tasks>0)
+                {}
+                else {$project->status_id=3; }//В завершенные
+
+            }
+
             else {$project->status_id=5;} //Удаленные или завершенные восстановить - в разработку
 
             $project->save();

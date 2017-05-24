@@ -114,9 +114,18 @@ class ProjectController extends Controller
         //Actions for project (move status)
         if (Yii::$app->request->post('move')) {
 
+            //смена статуса задач проекта
             if ($project->status_id==5) //На разработке
             {
                 $project->status_id=1; //На согласовании
+
+//                $tasks=$project->getTasks()->where('status_id !=[3,4]');
+//
+//                foreach ($tasks as $task) {
+//                        $task->status_id=1;
+//                        $task->save();
+//                }
+
                 //здесь будет логика для оповещений
                 // желательно сделать отдельную процедуру в этом контроллере для оповещения по конкретной задаче,
                 // т.к. это пригодится для согласования отдельных задач
@@ -124,22 +133,24 @@ class ProjectController extends Controller
                 // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
             }
             elseif ($project->status_id==1){$project->status_id=2;} //На исполнение
-            elseif ($project->status_id==2)
+            elseif ($project->status_id==2) //На исполнении
             {
                 //проверка, есть ли незавершенные задачи в этом проекте
 
-                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' != 3]])->count();
+                //$incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' != 3]])->count();
 
                 //$incompleted_tasks = 0;
 
-                if($incompleted_tasks==0)
-                {
-                    $project->status_id=3;
-                }//В завершенные
-                else
-                {
-                    return $this->goBack();//временно. Надо как-то передать обратно во вью
-                }
+//                if($incompleted_tasks==0)
+//                {
+                    $project->status_id=3; //В завершенные
+
+
+//                }
+//                else
+//                {
+//                    return $this->goBack();//временно. Надо как-то передать обратно во вью
+//                }
 
             }
 

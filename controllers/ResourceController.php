@@ -114,7 +114,7 @@ class ResourceController extends Controller
         return $this->render('gantt', [
             'tasks' => $tasks,
             'employments' => $employments,
-            'links' => Task::find()->where(['in','user_id', $employments])->andWhere(['not',['parent_task_id'=>null]])->all(),
+            'links' => Task::find()->where(['in','user_id', $employments])->andWhere(['not',['previous_task_id'=>null]])->all(),
         ]);
     }
 

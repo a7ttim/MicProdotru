@@ -142,12 +142,10 @@ class ProjectController extends Controller
                 if($incompleted_tasks==0)
                 {
                     $project->status_id=3; //В завершенные
-
-
                 }
                 else
                 {
-                    return $this->goBack();//временно. Надо как-то передать обратно во вью
+                    return $this->redirect(['list','status_id' =>2]);//временно. Надо как-то передать обратно во вью
                 }
 
             }

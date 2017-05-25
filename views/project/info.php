@@ -48,16 +48,29 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin();
+
+//        if ($project->status_id==2)
+//        {
+//            $incompl_tasks=0;
+//
+//            foreach ($dataProvider as $task)
+//            {
+//                if ($task['status_id']!=[3,4]){$incompl_tasks++;}
+//                    if ($task->status_id!=[3,4]){$incompl_tasks++;}
+//            }
+//        }
+
+        ?>
+
+
 
         <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-
-
 
         <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
             (($project->status_id==2) ? 'Завершить':'На разработку')),
             [
-                'data' => ($project->status_id==2) ? ['confirm' => 'Вы действительно хотите завершить проект?']:'',//надо как-то перенести наличие незавершенных задач из контроллера
+                //'data' => (($project->status_id==2)&&($incompl_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompl_tasks.' незавершенные задачи. Вы действительно хотите завершить проект?']:'',//надо как-то перенести наличие незавершенных задач из контроллера
                 'name'=>'move',
                 'value' => $project->project_id,
                 'class' => 'btn btn-success btn-info',

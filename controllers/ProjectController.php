@@ -137,20 +137,18 @@ class ProjectController extends Controller
             {
                 //проверка, есть ли незавершенные задачи в этом проекте
 
-                //$incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' != 3]])->count();
+                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
 
-                //$incompleted_tasks = 0;
-
-//                if($incompleted_tasks==0)
-//                {
+                if($incompleted_tasks==0)
+                {
                     $project->status_id=3; //В завершенные
 
 
-//                }
-//                else
-//                {
-//                    return $this->goBack();//временно. Надо как-то передать обратно во вью
-//                }
+                }
+                else
+                {
+                    return $this->goBack();//временно. Надо как-то передать обратно во вью
+                }
 
             }
 

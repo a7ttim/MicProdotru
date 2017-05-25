@@ -49,7 +49,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
 
         <?php $form = ActiveForm::begin(); ?>
+
         <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+
+
 
         <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
             (($project->status_id==2) ? 'Завершить':'На разработку')),

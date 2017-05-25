@@ -130,10 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
             ],
 //       'status_id',
-//            [
-//                'attribute' => 'status',
-//                'value' => 'status.status_name',
-//            ],
+
 //        [
 //            'attribute' => 'status',
 //            'filter' => array("1"=>"На согласовании","2"=>"На исполнении","3"=>"Завершена","4"=>"Удалена","5"=>"На исполнении"),
@@ -149,6 +146,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html',
                 'contentOptions' => ['style' => 'width:200px;'],
+            ],
+
+            [
+                'attribute' => 'status_id',
+                'value' => 'status.status_name',
             ],
 
             [

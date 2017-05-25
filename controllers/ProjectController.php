@@ -12,6 +12,7 @@ use app\models\Comment;
 use app\models\Project;
 use app\models\Task;
 use app\models\User;
+use Codeception\Lib\Notification;
 use Faker\Provider\DateTime;
 use Yii;
 use yii\filters\AccessControl;
@@ -122,15 +123,15 @@ class ProjectController extends Controller
                 $tasks=$project->getTasks()->where(['not in','status_id',[3,4]])->all();
 
                 foreach ($tasks as $task){
-                        $task->status_id = 1;
-                        $task->save();
-                }
+                    $task->status_id = 1;
+                    $task->save();
 
-                //здесь будет логика для оповещений
-                // желательно сделать отдельную процедуру в этом контроллере для оповещения по конкретной задаче,
-                // т.к. это пригодится для согласования отдельных задач
-                // т.е здесь вытаскиваем все задачи проекта на согласование, делаем по ним цикл
-                // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
+                    //здесь будет логика для оповещений
+                    // желательно сделать отдельную процедуру в этом контроллере для оповещения по конкретной задаче,
+                    // т.к. это пригодится для согласования отдельных задач
+                    // т.е здесь вытаскиваем все задачи проекта на согласование, делаем по ним цикл
+                    // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
+                }
             }
             elseif ($project->status_id==1){$project->status_id=2;} //На исполнение
             elseif ($project->status_id==2) //На исполнении

@@ -15,8 +15,6 @@ Pjax::begin();
 ?>
 <div id="gantt_here" style='height:400px;'></div>
 <?php
-//начало многосточной строки, можно использовать любые кавычки
-
 $script = <<< JS
 
 gantt.config.columns =  [
@@ -28,13 +26,15 @@ gantt.config.subscales = [
 ];
 
 gantt.templates.task_text = function(start,end,task){
-    if(task.parent) return task.progress*100 + "%";
-    else return task.progress*100 + "%";
+    if(task.duration === 1 || task.duration === 2) return task.progress*100 + "%";
+    else return "<b>Загруженность исполнителя: </b>" + task.progress*100 + "%";
 };
 
 gantt.templates.tooltip_text = function(start, end, task){ 
-    if(task.id === 1) return "<b> Менеджер проекта:</b> " + task.executor + "<br><b>Длительность (в днях):</b> " + task.duration;
-    else return "<b> Исполнитель:</b> " + task.executor  + "<br><b>Длительность (в днях):</b> " + task.duration;;
+    if (task.parent === 0)     return "<b> Завершено: </b>" + task.complete_percentage  + 
+    "%" + "<br><b>Длительность (в днях): </b>" + task.duration;
+    else return   "<b>Проект: </b>" + task.projectname + "<br><b>Описание задачи: </b>" + task.description + "<br><b> Завершено: </b>" + task.complete_percentage  + 
+    "%" + "<br><b>Длительность (в днях): </b>" + task.duration;
 }
 
 gantt.config.readonly = true;
@@ -43,19 +43,39 @@ gantt.config.readonly = true;
         gantt.parse({
           data:[      
 JS;
+
+
 /*            text:"' . $user->user->getTasks()->one()->name . '",
 
 
               duration:"' . $employment->user->getTasks()->sum('plan_duration') . '"
 */
 
+/*    $diff = strtotime($employment->user->getTasks()->orderBy('end_date DESC')->one()->end_date) - strtotime($employment->user->getTasks()->orderBy('start_date ASC')->one()->start_date);
+    $days = $diff / 60 / 60 / 24;
+*/
 foreach ($employments as $employment) {
+    /*$total_compl = array();
+    foreach($tasks as $task)
+    {
+        array_push($total_compl, \app\models\Task::find()->joinWith('user')->select('task.complete_percentage')->where(['user.user_id' => $employment->user_id])->one());
+        $total_compl = array_sum($total_compl);
+        $total_compl = $total_compl / count($tasks);
+        print_r($total_compl);
+    }*/
+
+    for($i = 0; $i < $employment->user->getTasks()->count('task_id')-1; $i++)
+    {
+        $complete_percentage = $employment->user->getTasks()->sum('complete_percentage')/$employment->user->getTasks()->count('task_id');
+    }
+
     $script .= '{
             id:' . $employment->employment_id . ',
             text:"' . $employment->user->name . '",
-            start_date:"' . date('d.m.Y', strtotime($employment->user->getTasks()->orderBy('start_date ASC')->one()->start_date)) . '",
+            start_date:"' . date('d.m.Y', strtotime($employment->user->getTasks()->min('start_date'))) . '",
             progress: ' . (($employment->user->getTasks()->sum('employment_percentage')>100) ? $employment->user->getTasks()->sum('employment_percentage')/100 : $employment->user->getTasks()->sum('employment_percentage')/100) .',
-            duration:"' . $employment->user->getTasks()->orderBy('plan_duration DESC')->one()->plan_duration . '",
+            complete_percentage: ' . $complete_percentage . ',
+            duration:' . $employment->user->getTasks()->max('start_date' + 'plan_duration') . ', //что тут происходит ваще
             color:"' . ($employment->user->getTasks()->sum('employment_percentage')>100 ? "red" : "default") . '"
             },';
 }
@@ -64,24 +84,32 @@ foreach ($tasks as $task) {
     $script .= '{
             id:' . $task->task_id . ',
             text:"' . $task->name . '",
+            description:"' . $task->description . '",
             start_date:"' . date('d.m.Y', strtotime($task->start_date)) . '",
             duration:'.$task->plan_duration.',
             progress: 0.'.$task->employment_percentage.',
-            parent:'.$task->user->getEmployments()->one()->employment_id .'},';
+            complete_percentage: '.$task->complete_percentage.',
+            projectname:"'. $task->project->name .'",
+            parent:'. ($task->user->user_id === \app\models\Task::find()->joinWith('user')->select('user.user_id')->where(['task.task_id'=>$task->parent_task_id])->one()->user_id
+       ? $task->parent_task_id : $task->user->getEmployments()->one()->employment_id) .'},';
 }
+/*
+\app\models\Task::find()->joinWith('user')->select('user.user_id')->where(['task.task_id'=>$task->parent_task_id])->one()
+($task->user->name === $task->user->where(['task_id'=>$task->parent_task_id])->name ? $task->parent_task_id : $task->user->getEmployments()->one()->employment_id) */
 $script .= <<< JS
    ], 
    links:[      
 JS;
+
 foreach ($links as $link){
-    $script .= '{id:'.$link->task_id.', source:"'.$link->parent_task_id.'", target:"'.$link->task_id.'", type:1},';
+    ($link->task_id % 2 === 0) ? $cnt = 2 : $cnt = 1;
+    $script .= '{id:'.$link->task_id.', source:"'.$link->previous_task_id.'", target:"'.$link->task_id.'", type:'. $cnt .'},';
 }
 $script .= <<< JS
    ]
 });
         
 JS;
-//маркер конца строки, обязательно сразу, без пробелов и табуляции
 $this->registerJs($script, yii\web\View::POS_READY);
 Pjax::end(); ?>
 

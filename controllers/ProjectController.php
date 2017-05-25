@@ -119,12 +119,12 @@ class ProjectController extends Controller
             {
                 $project->status_id=1; //На согласовании
 
-//                $tasks=$project->getTasks()->where('status_id !=[3,4]');
-//
-//                foreach ($tasks as $task) {
-//                        $task->status_id=1;
-//                        $task->save();
-//                }
+                $tasks=$project->getTasks()->where(['not in','status_id',[3,4]])->all();
+
+                foreach ($tasks as $task){
+                        $task->status_id = 1;
+                        $task->save();
+                }
 
                 //здесь будет логика для оповещений
                 // желательно сделать отдельную процедуру в этом контроллере для оповещения по конкретной задаче,

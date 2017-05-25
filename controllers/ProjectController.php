@@ -12,6 +12,7 @@ use app\models\Comment;
 use app\models\Project;
 use app\models\Task;
 use app\models\User;
+use Codeception\Lib\Notification;
 use Faker\Provider\DateTime;
 use Yii;
 use yii\filters\AccessControl;
@@ -23,6 +24,7 @@ use app\models\ContactForm;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use app\models\WorkingOn;
+use yii\helpers\ArrayHelper;
 
 class ProjectController extends Controller
 {
@@ -46,10 +48,10 @@ class ProjectController extends Controller
         $model->status_id =5;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model = new WorkingOn();
-            $model->project_id = $this->project_id;
-            $model->user_id = $this->pm_id;
-            $model->save();
+            //$model = new WorkingOn();
+            //$model->project_id = $this->project_id;
+            //$model->user_id = $this->pm_id;
+            //$model->save();
             return $this->redirect(['showproject', 'id' => $model->project_id]);
         } else {
             return $this->render('createproject', [
@@ -113,15 +115,42 @@ class ProjectController extends Controller
         //Actions for project (move status)
         if (Yii::$app->request->post('move')) {
 
+            //смена статуса задач проекта
             if ($project->status_id==5) //На разработке
             {
                 $project->status_id=1; //На согласовании
-                //here will be the logic for mail
-                // emailto();
 
+                $tasks=$project->getTasks()->where(['not in','status_id',[3,4]])->all();
+
+                foreach ($tasks as $task){
+                    $task->status_id = 1;
+                    $task->save();
+
+                    //здесь будет логика для оповещений
+                    // желательно сделать отдельную процедуру в этом контроллере для оповещения по конкретной задаче,
+                    // т.к. это пригодится для согласования отдельных задач
+                    // т.е здесь вытаскиваем все задачи проекта на согласование, делаем по ним цикл
+                    // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
+                }
             }
             elseif ($project->status_id==1){$project->status_id=2;} //На исполнение
-            elseif ($project->status_id==2){$project->status_id=3;} //В завершенные
+            elseif ($project->status_id==2) //На исполнении
+            {
+                //проверка, есть ли незавершенные задачи в этом проекте
+
+                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
+
+                if($incompleted_tasks==0)
+                {
+                    $project->status_id=3; //В завершенные
+                }
+                else
+                {
+                    return $this->redirect(['list','status_id' =>2]);//временно. Надо как-то передать обратно во вью
+                }
+
+            }
+
             else {$project->status_id=5;} //Удаленные или завершенные восстановить - в разработку
 
             $project->save();
@@ -144,23 +173,58 @@ class ProjectController extends Controller
             'project' => $project,
             'tasks' => $project->getTasks()->all(),
             'users' => $project->getUsers()->all(),
-            'links' => $project->getTasks()->where(['not',['parent_task_id'=>null]])->all(),
+            'links' => $project->getTasks()->where(['not',['previous_task_id'=>null]])->all(),
         ]);
     }
 
+//    public function actionCreatetask()
+//    {
+//        $model = new Task();
+//        $model->status_id=5;
+//        $model->complete_percentage=0;
+//        $model->project_id= Yii::$app->request->get('project_id');
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->save()){
+//            return $this->redirect(['showtask', 'id' => $model->task_id]);
+//        } else {
+//            return $this->render('createtask', [
+//                'model' => $model,
+//                'project' => Project::findOne(['project_id' => Yii::$app->request->get('project_id')]), // Для breadcrumbs, в $model->project_id пусто :C
+//            ]);
+//        }
+//    }
+
     public function actionCreatetask()
     {
+
         $model = new Task();
-        $model->status_id=5;
+
+        $project=Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+
+        if($project->status_id==5)//на разработке
+        {
+            $model->status_id=5;
+        }
+        else
+        {
+            $model->status_id=1; //на согласовании
+        }
+
         $model->complete_percentage=0;
-        $model->project_id= Yii::$app->request->get('project_id');
+
+        $model->project_id= $project->project_id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()){
+
+            //if($model->status_id==1) { здесь будет логика для оповещения по почте, если она будет }
+
             return $this->redirect(['showtask', 'id' => $model->task_id]);
+
+
         } else {
             return $this->render('createtask', [
                 'model' => $model,
-                'project' => Project::findOne(['project_id' => Yii::$app->request->get('project_id')]), // Для breadcrumbs, в $model->project_id пусто :C
+                'project' => $project,
             ]);
         }
     }
@@ -207,7 +271,18 @@ class ProjectController extends Controller
 
     public function actionUpdatetask($id)
     {
-        $model = $this->findTaskModel($id);
+        $model= $this->findTaskModel($id);
+
+        $project=Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
+
+        if($project->status_id==5)//на разработке
+        {
+            $model->status_id=5;
+        }
+        else
+        {
+            $model->status_id=1; //на согласовании
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['info','project_id' =>$model->project_id]);

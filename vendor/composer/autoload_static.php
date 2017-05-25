@@ -38,7 +38,13 @@ class ComposerStaticInit59aedcc9faeb414576fbc9ba5f8b1643
         'k' => 
         array (
             'kartik\\select2\\' => 15,
+            'kartik\\field\\' => 13,
+            'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
+        ),
+        'd' => 
+        array (
+            'dosamigos\\chartjs\\' => 18,
         ),
         'c' => 
         array (
@@ -137,9 +143,21 @@ class ComposerStaticInit59aedcc9faeb414576fbc9ba5f8b1643
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2',
         ),
+        'kartik\\field\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-field-range',
+        ),
+        'kartik\\date\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datepicker',
+        ),
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
+        ),
+        'dosamigos\\chartjs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-chartjs-widget/src',
         ),
         'cebe\\markdown\\' => 
         array (

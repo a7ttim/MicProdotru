@@ -112,6 +112,8 @@ class ProjectController extends Controller
             ],
         ]);
 
+        $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
+
         //Actions for project (move status)
         if (Yii::$app->request->post('move')) {
 
@@ -138,18 +140,19 @@ class ProjectController extends Controller
             {
                 //проверка, есть ли незавершенные задачи в этом проекте
 
-                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
+//                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
+//
+//                if($incompleted_tasks==0)
+//                {
+                $project->status_id = 3;       //В завершенные
+//                }
 
-                if($incompleted_tasks==0)
-                {
-                    $project->status_id=3; //В завершенные
-                }
-                else
-                {
-                    return $this->redirect(['list','status_id' =>2]);//временно. Надо как-то передать обратно во вью
-                }
-
+//                else
+//                {
+//                    return $this->redirect(['list','status_id' =>2]);//временно. Надо как-то передать обратно во вью
+//                }
             }
+
 
             else {$project->status_id=5;} //Удаленные или завершенные восстановить - в разработку
 
@@ -162,6 +165,8 @@ class ProjectController extends Controller
             'model' => $model,
             'dataProvider' => $dataProvider,
             'project' => $project, // breadcrumbs
+            'incompleted_tasks' => $incompleted_tasks, //для подтверждения завершения
+
         ]);
     }
 

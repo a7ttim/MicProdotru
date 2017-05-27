@@ -21,6 +21,7 @@ use app\models\User;
 use app\models\Department;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
+use yii\i18n\Formatter;
 
 class TaskController extends Controller
 {
@@ -93,6 +94,10 @@ class TaskController extends Controller
             return $this->refresh();
         }
 
+        $date = date_create($tasks->start_date);
+        date_add($date, date_interval_create_from_date_string($tasks->plan_duration.' days'));
+        $plan_end_date = date_format($date, 'd.m.Y');
+
         return $this->render('soglinfo', [
             'model' => $model,
             'modelcom' => $modelcom,
@@ -100,6 +105,7 @@ class TaskController extends Controller
             'previous_task'=>$previous_task,
             'comments'=>$comments,
             'pagination' => $pagination,
+            'plan_end_date'=>$plan_end_date
         ]);
     }
 
@@ -160,6 +166,10 @@ class TaskController extends Controller
             return $this->refresh();
         }
 
+        $date = date_create($tasks->start_date);
+        date_add($date, date_interval_create_from_date_string($tasks->plan_duration.' days'));
+        $plan_end_date = date_format($date, 'd.m.Y');
+
         return $this->render('ispinfo', [
             'model' => $model,
             'modelcom' => $modelcom,
@@ -167,7 +177,8 @@ class TaskController extends Controller
             'previous_task'=>$previous_task,
             'comments'=>$comments,
             'pagination' => $pagination,
-            'time'=>$time
+            'time'=>$time,
+            'plan_end_date'=>$plan_end_date
         ]);
     }
 
@@ -210,6 +221,10 @@ class TaskController extends Controller
             $modelcom->save();
             return $this->refresh();
         }
+        
+        $date = date_create($tasks->start_date);
+        date_add($date, date_interval_create_from_date_string($tasks->fact_duration.' days'));
+        $fact_end_date = date_format($date, 'd.m.Y');
 
         return $this->render('complinfo', [
             'model' => $model,
@@ -218,6 +233,7 @@ class TaskController extends Controller
             'previous_task'=>$previous_task,
             'comments'=>$comments,
             'pagination' => $pagination,
+            'fact_end_date'=>$fact_end_date,
         ]);
     }
 

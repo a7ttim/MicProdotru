@@ -49,7 +49,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'start_date',
                 'format' => ['date', 'php:d.m.Y']
             ],
-            'fact_duration',
+            [
+                'attribute' => 'fact_duration',
+                'label' => 'Фактическое завершение',
+                'value' => function (Task $task) {
+                    $dt = new DateTime($task->start_date);
+                    $dt->add(new DateInterval('P'.$task->fact_duration.'D'));
+                    return $dt->format('d.m.Y');
+                },
+                'format' => 'html',
+            ],
             [
                 'value' => function (Task $task) {
                     return Html::a('Подробнее', Url::to(['complinfo', 'task_id' => $task->task_id]),['class' =>'btn btn-info btn-xs']);

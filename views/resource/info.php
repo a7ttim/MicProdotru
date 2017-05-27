@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $usr['department_name'];
 				'attribute' => 'start_date',
 				'value' => function (Task $task) {
 					$dt = new DateTime($task->start_date);
-					return $dt->format('d-m-Y');
+					return $dt->format('d.m.Y');
 				},
 				'format' => 'html',
 			],
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $usr['department_name'];
 				'value' => function (Task $task) {
                     $dt = new DateTime($task->start_date);
 					$dt->add(new DateInterval('P'.$task->plan_duration.'D'));
-					return $dt->format('d-m-Y');
+					return $dt->format('d.m.Y');
                 },
 				'format' => 'html',
 			],

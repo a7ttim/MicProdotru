@@ -10,7 +10,6 @@ use yii\data\ActiveDataProvider;
 use app\models\Task;
 use app\models\Project;
 use app\models\User;
-use app\models\Project;
 
 class ResourceController extends Controller
 {

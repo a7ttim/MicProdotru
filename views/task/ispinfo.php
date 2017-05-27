@@ -56,12 +56,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?=date("d.m.Y",strtotime($tasks->start_date)) ?></td>
                 </tr>
                 <tr>
-                    <td>Длительность</td>
-                    <td><?= $tasks->plan_duration ?></td>
+                    <td>Плановое завершение</td>
+                    <td><?= $plan_end_date ?></td>
                 </tr>
                 <tr>
                     <td>Загруженность</td>
-                    <td><?=$tasks->employment_percentage ?></td>
+                    <td>
+                        <?= Progress::widget([
+                            'percent' => $tasks->employment_percentage,
+                            'label' => $tasks->employment_percentage."%",
+                            'barOptions' => ['class' => 'progress-bar-success']
+                        ]);
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <td>Описание</td>
@@ -76,12 +83,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'barOptions' => ['class' => 'progress-bar-success']
                         ]);
                         ?>
-                        <?= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+                        <?php $form = ActiveForm::begin(); ?>
                         <div id="cp" class="row" style="margin-top: 2%">
-                            <div class="col-md-3" style="margin-bottom: 2%"><?= Html::input('number', 'cp', $tasks->complete_percentage, ['class' => 'form-control','min'=>1,'max'=>100,'step'=>1]) ?></div>
-                            <div class="col-md-offset-5"><?= Html::submitButton('Принять', ['class' => 'btn btn-md btn-success']) ?></div>
+                            <div class="col-md-6" style="margin-bottom: 2%"><?= $form->field($model, 'text')->textInput(['name'=>'cp','type'=>'number','value'=>$tasks->complete_percentage, 'class' => 'form-control','min'=>1,'max'=>100,'step'=>1])->label(false) ?></div>
+                            <div class="col-md-offset-1"><?= Html::submitButton('Принять', ['class' => 'btn btn-md btn-success']) ?></div>
                         </div>
-                        <?= Html::endForm() ?>
+                        <?php ActiveForm::end(); ?>
                     </td>
                 </tr>
                 <tr>
@@ -108,7 +115,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </table>
         <div style="margin-top: 2%; margin-bottom: 2%">
             <?php $form = ActiveForm::begin(); ?>
-            <?= Html::submitButton('ЗАВЕРШИТЬ', ['name'=>'complete', 'value' => '3', 'class' => 'btn btn-lg btn-success', 'data'=>['confirm' => 'Вы уверены, что хотите завершить задачу?']]) ?>
+            <?= Html::submitButton('ЗАВЕРШИТЬ', ['name'=>'complete', 'value' => '3', 'class' => ($tasks->complete_percentage==100) ?
+                'btn btn-lg btn-success' : 'btn btn-lg btn-warning', 'data'=>['confirm' => 'Вы уверены, что хотите завершить задачу?']]) ?>
             <?php ActiveForm::end(); ?>
         </div>
     </div>

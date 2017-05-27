@@ -156,3 +156,7 @@ a, a:hover, a:focus, a:active{
     color:black;
     text-decoration: none;
 }
+
+.label-as-badge {
+    border-radius: 1em;
+}

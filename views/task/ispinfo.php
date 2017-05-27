@@ -25,6 +25,11 @@ $this->params['breadcrumbs'][] = ['label' => "На исполнение", 'url' 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?=$tasks->name ?></h1>
+<div style="display:flex">
+<h4>Затрачено дней
+    <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$time?></span>
+</h4>
+</div>
 <div class="row">
     <div class="col-md-6">
         <table style="width: 100%">
@@ -102,9 +107,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </tbody>
         </table>
         <div style="margin-top: 2%; margin-bottom: 2%">
-            <?= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-            <?= Html::submitButton('ЗАВЕРШИТЬ', ['name'=>'complete', 'value' => '3', 'class' => 'btn btn-lg btn-success']) ?>
-            <?= Html::endForm() ?>
+            <?php $form = ActiveForm::begin(); ?>
+            <?= Html::submitButton('ЗАВЕРШИТЬ', ['name'=>'complete', 'value' => '3', 'class' => 'btn btn-lg btn-success', 'data'=>['confirm' => 'Вы уверены, что хотите завершить задачу?']]) ?>
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
     <div class="col-md-6">

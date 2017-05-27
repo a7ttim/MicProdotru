@@ -160,9 +160,17 @@ class ProjectController extends Controller
             return $this->redirect(['list','status_id' =>$project->status_id]);
         }
 
+        $cti = Task::find()->where(['and',['status_id'=>2],['project_id'=>$proj_id]])->count();
+        $cts = Task::find()->where(['and',['status_id'=>1],['project_id'=>$proj_id]])->count();
+        $ctcn = Task::find()->where(['and',['status_id'=>6],['project_id'=>$proj_id]])->count();
+        $ctcm = Task::find()->where(['and',['status_id'=>3],['project_id'=>$proj_id]])->count();
 
         return $this->render('info', [
             'model' => $model,
+            'count_isp' => $cti,
+            'count_sogl'=>$cts,
+            'count_cansl'=>$ctcn,
+            'count_compl'=>$ctcm,
             'dataProvider' => $dataProvider,
             'project' => $project, // breadcrumbs
             'incompleted_tasks' => $incompleted_tasks, //для подтверждения завершения

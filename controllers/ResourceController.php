@@ -8,6 +8,7 @@ use app\models\Department;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use app\models\Task;
+use app\models\Project;
 use app\models\User;
 use app\models\Project;
 
@@ -81,18 +82,27 @@ class ResourceController extends Controller
             ],
         ]);
 		$wl = 0;
-		$cnt = 0;
+        $cti = 0;
 		foreach ($dataProvider->models as $model) {
 			if($model->complete_percentage > 0)
 				$wl += ($model->employment_percentage * $model->complete_percentage / 100);
 			else $wl += $model->employment_percentage;
-			$cnt++;
+			$cti++;
 		}
+
+        $ctp = Project::find()->joinWith('tasks')->where(['task.user_id'=>$id])->count();
+        $cts = Task::find()->where(['and',['status_id'=>1],['user_id'=>$id]])->count();
+        $ctcn = Task::find()->where(['and',['status_id'=>6],['user_id'=>$id]])->count();
+        $ctcm = Task::find()->where(['and',['status_id'=>3],['user_id'=>$id]])->count();
         return $this->render('info', [
 			'usr' => $usr[0],
             'model' => $model,
 			'workload' => $wl,
-			'count' => $cnt,
+            'count_project'=>$ctp,
+			'count_isp' => $cti,
+            'count_sogl'=>$cts,
+            'count_cansl'=>$ctcn,
+            'count_compl'=>$ctcm,
             'dataProvider' => $dataProvider,
         ]);
     }

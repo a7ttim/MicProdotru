@@ -75,6 +75,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     </p>
+    <div style="display:flex">
+        <h4>Задачи на исполнении
+            <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_isp?></span>
+        </h4>
+        <h4 style="margin-left: 1%">Задачи на согласовании
+            <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_sogl?></span>
+        </h4>
+        <h4 style="margin-left: 1%">Завершенные задачи
+            <span class="pull-right label label-pill label-success label-as-badge" style="margin-left:10px"><?=$count_compl?></span>
+        </h4>
+        <h4 style="margin-left: 1%">Отклоненные задачи
+            <span class="pull-right label label-pill label-danger label-as-badge" style="margin-left:10px"><?=$count_cansl?></span>
+        </h4>
+    </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

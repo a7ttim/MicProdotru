@@ -83,10 +83,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </tbody>
         </table>
         <div style="margin-top: 2%; margin-bottom: 2%">
-            <?= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+            <?php $form = ActiveForm::begin(); ?>
             <?= Html::submitButton('Принять', ['name'=>'ok', 'value' => '2', 'class' => 'btn btn-success']) ?>
             <?= Html::Button('Отклонить', ['class' => 'btn btn-danger','data-toggle'=>'modal', 'data-target'=>'#modal']) ?>
-            <?= Html::endForm() ?>
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
     <div class="col-md-6">

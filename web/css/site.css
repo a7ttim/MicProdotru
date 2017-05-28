@@ -250,3 +250,7 @@ a, a:hover, a:focus, a:active{
 	margin-right: -80px !important;
     margin-top: 10px;
 }
+
+.label-as-badge {
+    border-radius: 1em;
+}

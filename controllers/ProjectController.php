@@ -12,6 +12,7 @@ use app\models\Comment;
 use app\models\Project;
 use app\models\Task;
 use app\models\User;
+use Codeception\Lib\Notification;
 use Faker\Provider\DateTime;
 use Yii;
 use yii\filters\AccessControl;
@@ -47,10 +48,10 @@ class ProjectController extends Controller
         $model->status_id =5;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model = new WorkingOn();
-            $model->project_id = $this->project_id;
-            $model->user_id = $this->pm_id;
-            $model->save();
+            //$model = new WorkingOn();
+            //$model->project_id = $this->project_id;
+            //$model->user_id = $this->pm_id;
+            //$model->save();
             return $this->redirect(['showproject', 'id' => $model->project_id]);
         } else {
             return $this->render('createproject', [
@@ -111,6 +112,8 @@ class ProjectController extends Controller
             ],
         ]);
 
+        $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
+
         //Actions for project (move status)
         if (Yii::$app->request->post('move')) {
 
@@ -119,40 +122,37 @@ class ProjectController extends Controller
             {
                 $project->status_id=1; //На согласовании
 
-//                $tasks=$project->getTasks()->where('status_id !=[3,4]');
-//
-//                foreach ($tasks as $task) {
-//                        $task->status_id=1;
-//                        $task->save();
-//                }
+                $tasks=$project->getTasks()->where(['not in','status_id',[3,4]])->all();
 
-                //здесь будет логика для оповещений
-                // желательно сделать отдельную процедуру в этом контроллере для оповещения по конкретной задаче,
-                // т.к. это пригодится для согласования отдельных задач
-                // т.е здесь вытаскиваем все задачи проекта на согласование, делаем по ним цикл
-                // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
+                foreach ($tasks as $task){
+                    $task->status_id = 1;
+                    $task->save();
+
+                    //здесь будет логика для оповещений
+                    // желательно сделать отдельную процедуру в этом контроллере для оповещения по конкретной задаче,
+                    // т.к. это пригодится для согласования отдельных задач
+                    // т.е здесь вытаскиваем все задачи проекта на согласование, делаем по ним цикл
+                    // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
+                }
             }
             elseif ($project->status_id==1){$project->status_id=2;} //На исполнение
             elseif ($project->status_id==2) //На исполнении
             {
                 //проверка, есть ли незавершенные задачи в этом проекте
 
-                //$incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' != 3]])->count();
-
-                //$incompleted_tasks = 0;
-
+//                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
+//
 //                if($incompleted_tasks==0)
 //                {
-                    $project->status_id=3; //В завершенные
-
-
+                $project->status_id = 3;       //В завершенные
 //                }
+
 //                else
 //                {
-//                    return $this->goBack();//временно. Надо как-то передать обратно во вью
+//                    return $this->redirect(['list','status_id' =>2]);//временно. Надо как-то передать обратно во вью
 //                }
-
             }
+
 
             else {$project->status_id=5;} //Удаленные или завершенные восстановить - в разработку
 
@@ -160,11 +160,21 @@ class ProjectController extends Controller
             return $this->redirect(['list','status_id' =>$project->status_id]);
         }
 
+        $cti = Task::find()->where(['and',['status_id'=>2],['project_id'=>$proj_id]])->count();
+        $cts = Task::find()->where(['and',['status_id'=>1],['project_id'=>$proj_id]])->count();
+        $ctcn = Task::find()->where(['and',['status_id'=>6],['project_id'=>$proj_id]])->count();
+        $ctcm = Task::find()->where(['and',['status_id'=>3],['project_id'=>$proj_id]])->count();
 
         return $this->render('info', [
             'model' => $model,
+            'count_isp' => $cti,
+            'count_sogl'=>$cts,
+            'count_cansl'=>$ctcn,
+            'count_compl'=>$ctcm,
             'dataProvider' => $dataProvider,
             'project' => $project, // breadcrumbs
+            'incompleted_tasks' => $incompleted_tasks, //для подтверждения завершения
+
         ]);
     }
 

@@ -46,7 +46,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'start_date',
                 'format' => ['date', 'php:d.m.Y']
             ],
-            'plan_duration',
+            [
+                'attribute' => 'plan_duration',
+                'label' => 'Плановое завершение',
+                'value' => function (Task $task) {
+                    $dt = new DateTime($task->start_date);
+                    $dt->add(new DateInterval('P'.$task->plan_duration.'D'));
+                    return $dt->format('d.m.Y');
+                },
+                'format' => 'html',
+            ],
             [
                 'attribute' => 'employment_percentage',
                 'value' => function (Task $task) {

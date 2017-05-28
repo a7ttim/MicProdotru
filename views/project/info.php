@@ -49,12 +49,15 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
 
         <?php $form = ActiveForm::begin(); ?>
+
+
+
         <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
 
         <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
             (($project->status_id==2) ? 'Завершить':'На разработку')),
             [
-                'data' => ($project->status_id==2) ? ['confirm' => 'Вы действительно хотите завершить проект?']:'',//надо как-то перенести наличие незавершенных задач из контроллера
+                'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',//надо как-то перенести наличие незавершенных задач из контроллера
                 'name'=>'move',
                 'value' => $project->project_id,
                 'class' => 'btn btn-success btn-info',
@@ -72,6 +75,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     </p>
+    <div style="display:flex">
+        <h4>Задачи на исполнении
+            <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_isp?></span>
+        </h4>
+        <h4 style="margin-left: 1%">Задачи на согласовании
+            <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_sogl?></span>
+        </h4>
+        <h4 style="margin-left: 1%">Завершенные задачи
+            <span class="pull-right label label-pill label-success label-as-badge" style="margin-left:10px"><?=$count_compl?></span>
+        </h4>
+        <h4 style="margin-left: 1%">Отклоненные задачи
+            <span class="pull-right label label-pill label-danger label-as-badge" style="margin-left:10px"><?=$count_cansl?></span>
+        </h4>
+    </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -114,14 +131,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
             ],
 //       'status_id',
-//            [
-//                'attribute' => 'status',
-//                'value' => 'status.status_name',
-//            ],
-//        [
-//            'attribute' => 'status',
-//            'filter' => array("1"=>"На согласовании","2"=>"На исполнении","3"=>"Завершена","4"=>"Удалена","5"=>"На исполнении"),
-//        ],
 
 //        'complete_percentage',
             [
@@ -133,6 +142,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html',
                 'contentOptions' => ['style' => 'width:200px;'],
+            ],
+
+            [
+                'attribute' => 'status_id',
+                'value' => 'status.status_name',
             ],
 
             [

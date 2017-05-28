@@ -30,4 +30,5 @@ th{
 }
 
 .header-fix{
+    min-height: 100%;
 }

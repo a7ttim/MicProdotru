@@ -28,6 +28,7 @@ h1 { font-family: Rubik-Medium; }
 
 .wrap {
     overflow: hidden;
+    min-height: 100%;
 }
 
 .sidebar {

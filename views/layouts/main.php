@@ -36,6 +36,21 @@ AppAsset::register($this);
     ]);
 
     echo Nav::widget([
+        'items' => [
+            [
+                'label' => 'Уведомления',
+                'items' => [
+                    //'<li class="dropdown-header">Dropdown Header</li>',
+                    ['label' => 'Проекты', 'url' => ['/project/list', 'status_id' => 5]],
+                    ['label' => 'Задачи', 'url' => ['/project/list', 'status_id' => 1]],
+                    ['label' => 'Комментарии', 'url' => ['/project/list', 'status_id' => 2]],
+                ],
+            ],
+        ],
+        'options' => ['class' =>'navbar-nav'],
+    ]);
+
+    echo Nav::widget([
         'options' => ['class' => 'nav navbar-top-links navbar-right pull-right'],
         'items' => [
             Yii::$app->user->isGuest ? (
@@ -89,6 +104,7 @@ AppAsset::register($this);
         </div>
     </div>
 </div>
+
 <footer class="footer">
     <div class="container">
         <div class="pull-left" id='block2'>

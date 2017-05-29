@@ -17,6 +17,7 @@ use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
+use yii\bootstrap\Progress;
 
 $this->title = $tasks->name;
 $this->params['breadcrumbs'][] = ['label' => "На согласование", 'url' => ['sogl']];
@@ -49,12 +50,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?=date("d.m.Y",strtotime($tasks->start_date)) ?></td>
                 </tr>
                 <tr>
-                    <td>Длительность</td>
-                    <td><?= $tasks->plan_duration ?></td>
+                    <td>Плановое завершение</td>
+                    <td><?= $plan_end_date ?></td>
                 </tr>
                 <tr>
                     <td>Загруженность</td>
-                    <td><?=$tasks->employment_percentage ?></td>
+                    <td>
+                        <?= Progress::widget([
+                            'percent' => $tasks->employment_percentage,
+                            'label' => $tasks->employment_percentage."%",
+                            'barOptions' => ['class' => 'progress-bar-success']
+                        ]);
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <td>Описание</td>
@@ -83,10 +91,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </tbody>
         </table>
         <div style="margin-top: 2%; margin-bottom: 2%">
-            <?= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+            <?php $form = ActiveForm::begin(); ?>
             <?= Html::submitButton('Принять', ['name'=>'ok', 'value' => '2', 'class' => 'btn btn-success']) ?>
             <?= Html::Button('Отклонить', ['class' => 'btn btn-danger','data-toggle'=>'modal', 'data-target'=>'#modal']) ?>
-            <?= Html::endForm() ?>
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
     <div class="col-md-6">

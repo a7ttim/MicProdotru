@@ -30,5 +30,5 @@ th{
 }
 
 .header-fix{
-    padding-top: 75px;
+    min-height: 100%;
 }

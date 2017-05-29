@@ -21,6 +21,7 @@ use app\models\User;
 use app\models\Department;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
+use yii\i18n\Formatter;
 
 class TaskController extends Controller
 {
@@ -40,9 +41,9 @@ class TaskController extends Controller
     {
         $model = new Task();
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 3]),
+            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 1]),
             'pagination' => [
-                'pageSize' => 2,
+                'pageSize' => 10,
             ],
         ]);
 
@@ -59,7 +60,7 @@ class TaskController extends Controller
         $previous_task=Task::findOne($tasks->previous_task_id);
         $comments = Comment::find()->where(['task_id'=>$task_id]);
         $pagination = new Pagination([
-            'defaultPageSize' => 1,
+            'defaultPageSize' => 4,
             'totalCount' => $comments->count(),
         ]);
 
@@ -68,14 +69,13 @@ class TaskController extends Controller
             ->all();
 
         if (Yii::$app->request->post('ok')) {
-            $tasks->status_id=Yii::$app->request->post('ok');
+            $tasks->status_id=2;
             $tasks->save();
             return $this->goBack();
         }
 
         if (Yii::$app->request->post('cancel')) {
-            $tasks->status_id=Yii::$app->request->post('cancel');
-            $tasks->user_id=$tasks->project->pm_id;
+            $tasks->status_id=6;
             $tasks->save();
             $modelcom->text=Yii::$app->request->post('mtext');
             $modelcom->user_id=Yii::$app->user->identity->user_id;
@@ -94,6 +94,10 @@ class TaskController extends Controller
             return $this->refresh();
         }
 
+        $date = date_create($tasks->start_date);
+        date_add($date, date_interval_create_from_date_string($tasks->plan_duration.' days'));
+        $plan_end_date = date_format($date, 'd.m.Y');
+
         return $this->render('soglinfo', [
             'model' => $model,
             'modelcom' => $modelcom,
@@ -101,6 +105,7 @@ class TaskController extends Controller
             'previous_task'=>$previous_task,
             'comments'=>$comments,
             'pagination' => $pagination,
+            'plan_end_date'=>$plan_end_date
         ]);
     }
 
@@ -108,9 +113,9 @@ class TaskController extends Controller
     {
         $model = new Task();
         $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 3]),
+            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 2]),
             'pagination' => [
-                'pageSize' => 2,
+                'pageSize' => 10,
             ],
         ]);
 
@@ -127,7 +132,7 @@ class TaskController extends Controller
         $previous_task=Task::findOne($tasks->previous_task_id);
         $comments = Comment::find()->where(['task_id'=>$task_id]);
         $pagination = new Pagination([
-            'defaultPageSize' => 1,
+            'defaultPageSize' => 4,
             'totalCount' => $comments->count(),
         ]);
 
@@ -135,8 +140,13 @@ class TaskController extends Controller
             ->limit($pagination->limit)
             ->all();
 
+        $start_date = date_create($tasks->start_date);
+        $end_date = date_create(date('Y-m-d H:i:s'));
+        $time = date_diff($start_date, $end_date)->format('%a');
+
         if (Yii::$app->request->post('complete')) {
-            $tasks->status_id=Yii::$app->request->post('complete');
+            $tasks->status_id=3;
+            $tasks->fact_duration=$time;
             $tasks->save();
             return $this->goBack();
         }
@@ -156,6 +166,10 @@ class TaskController extends Controller
             return $this->refresh();
         }
 
+        $date = date_create($tasks->start_date);
+        date_add($date, date_interval_create_from_date_string($tasks->plan_duration.' days'));
+        $plan_end_date = date_format($date, 'd.m.Y');
+
         return $this->render('ispinfo', [
             'model' => $model,
             'modelcom' => $modelcom,
@@ -163,6 +177,8 @@ class TaskController extends Controller
             'previous_task'=>$previous_task,
             'comments'=>$comments,
             'pagination' => $pagination,
+            'time'=>$time,
+            'plan_end_date'=>$plan_end_date
         ]);
     }
 
@@ -172,7 +188,7 @@ class TaskController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 3]),
             'pagination' => [
-                'pageSize' => 2,
+                'pageSize' => 10,
             ],
         ]);
 
@@ -189,7 +205,7 @@ class TaskController extends Controller
         $previous_task=Task::findOne($tasks->previous_task_id);
         $comments = Comment::find()->where(['task_id'=>$task_id]);
         $pagination = new Pagination([
-            'defaultPageSize' => 1,
+            'defaultPageSize' => 4,
             'totalCount' => $comments->count(),
         ]);
 
@@ -205,6 +221,10 @@ class TaskController extends Controller
             $modelcom->save();
             return $this->refresh();
         }
+        
+        $date = date_create($tasks->start_date);
+        date_add($date, date_interval_create_from_date_string($tasks->fact_duration.' days'));
+        $fact_end_date = date_format($date, 'd.m.Y');
 
         return $this->render('complinfo', [
             'model' => $model,
@@ -213,6 +233,7 @@ class TaskController extends Controller
             'previous_task'=>$previous_task,
             'comments'=>$comments,
             'pagination' => $pagination,
+            'fact_end_date'=>$fact_end_date,
         ]);
     }
 

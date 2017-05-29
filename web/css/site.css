@@ -1,13 +1,56 @@
+@font-face {
+	font-family: Rubik-Light; 
+	src:url(Rubik-Light.ttf);
+}
+
+@font-face {
+	font-family: Rubik-Regular; 
+	src:url(Rubik-Regular.ttf);
+}
+
+@font-face {
+	font-family: Rubik-Black; 
+	src:url(Rubik-Black.ttf);
+}
+
+@font-face {
+	font-family: Rubik-Medium; 
+	src:url(Rubik-Medium.ttf);
+}
+
 html,
 body {
     height: 100%;
+	font-family: Rubik-Light;
 }
 
+h1 { font-family: Rubik-Medium; }
+
 .wrap {
+    overflow: hidden;
     min-height: 100%;
-    height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
+}
+
+.sidebar {
+	background: #fff;
+}
+
+.header-fix{
+	margin-left: 175px;
+}
+
+#secondary{
+	box-shadow: 2px -9px 20px rgba(0, 0, 0, 0.08);
+	z-index: 1001;
+	margin-top: 60px;
+	position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top:0;
+	width: 175px;
+	height: 100%;
+	padding-top: 37px;
 }
 
 .wrap > .container {
@@ -26,7 +69,6 @@ body {
 }
 
 .main_li {
-	background: #7e949a !important;
 }
 
 .nav-stacked > li + li {
@@ -34,10 +76,12 @@ body {
 }
 
 .footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
+    background-color: white;
+    box-shadow: -1px 0px 20px rgba(0, 0, 0, 0.08);
     padding-top: 20px;
+	position: absolute;
+    width: 100%;
+	z-index: 10005;
 }
 
 .jumbotron {
@@ -155,4 +199,59 @@ a, a:hover, a:focus, a:active{
     outline:none;
     color:black;
     text-decoration: none;
+}
+
+.m-b-0 {
+    margin-bottom: 0!important;
+}
+
+#page-wrapper{
+	background: rgb(247, 247, 247);
+	float: right;
+}
+
+.breadcrumb {
+	padding: 8px 0px 8px 30px !important;
+	border-radius: 0px !important;
+    background-color: white;
+    margin-left: -15px !important;
+}
+
+.hh{ font-family: Rubik-Medium;}
+.hhh{ font-family: Rubik-Regular;}
+.tel { margin-left: 10px; }
+#block2 { margin-left: 60px;}
+#ft { 
+	text-align: center;
+    font-size: 13px;
+}
+#ft p { margin-bottom: 4px !important; }
+
+.navbar-brand{
+	left: 0;
+    position: absolute;
+    font-family: Rubik-Medium;
+    margin-left: 15px !important;
+    font-size: 29px;
+}
+
+.snn { display: flex;}
+.snn h1 {     width: 88%;}
+.snn .btn {     margin-top: 30px;}
+
+.navbar-top-links>li>a:hover {
+    background: rgba(0,0,0,.1);
+}
+
+.pull-right > li > a {
+	color: white !important;
+}
+
+.pull-right {
+	margin-right: -80px !important;
+    margin-top: 10px;
+}
+
+.label-as-badge {
+    border-radius: 1em;
 }

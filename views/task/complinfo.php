@@ -51,12 +51,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?=date("d.m.Y",strtotime($tasks->start_date)) ?></td>
                 </tr>
                 <tr>
-                    <td>Фактическая длительность</td>
-                    <td><?= $tasks->fact_duration ?></td>
+                    <td>Фактическое завершение</td>
+                    <td><?= $fact_end_date ?></td>
                 </tr>
                 <tr>
                     <td>Загруженность</td>
-                    <td><?=$tasks->employment_percentage ?></td>
+                    <td>
+                        <?= Progress::widget([
+                            'percent' => $tasks->employment_percentage,
+                            'label' => $tasks->employment_percentage."%",
+                            'barOptions' => ['class' => 'progress-bar-success']
+                        ]);
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <td>Описание</td>

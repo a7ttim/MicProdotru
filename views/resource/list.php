@@ -12,8 +12,10 @@ use yii\data\ActiveDataProvider;
 $this->title = 'Список ресурсов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class='snn'>
 <h1><?= Html::encode($this->title) ?></h1>
 <?= Html::a('Визуализация', Url::to('gantt'),['class' =>'btn btn-primary btn-md']);?>
+</div>
 <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

@@ -22,12 +22,12 @@ use kartik\select2\Select2;
         ->orderBy('department_name')->all(),
         'department_id', 'department_name'),['prompt'=> 'Выберите подразделение']) ?>
 
-    <?//= $form->field($model, 'pm_id')->dropDownList(ArrayHelper::map(User::find()->andWhere('user_id>1')->orderBy('name')->all(), 'user_id', 'name')) ?>
+    <?= $form->field($model, 'pm_id')->dropDownList(ArrayHelper::map(User::find()->andWhere('user_id>1')->orderBy('name')->all(), 'user_id', 'name')) ?>
 
     <?= $form->field($model, 'users_array' )->widget(Select2::classname(), [
         'attribute' => 'users', // метод для получения пользователей в модели project
         'language' => 'ru', // выбор языка
-        'data' => \yii\helpers\ArrayHelper::map(User::find()->where('user_id != :user_id', ['user_id' => [$model->pm_id, 1]])->all(), 'user_id', 'name'),  // метод для получения пользователей в модели project
+        'data' => \yii\helpers\ArrayHelper::map(User::find()->where(('user_id != :user_id and user_id !=1'), ['user_id' => [$model->pm_id, 1]])->all(), 'user_id', 'name'),  // метод для получения пользователей в модели project
         'options' => ['placeholder' => 'Выбрать исполнителей ...', 'multiple' => true],  // Множественная выборка
         'pluginOptions' => [
         ],

@@ -120,4 +120,13 @@ return array (
       '@kartik/field' => $vendorDir . '/kartik-v/yii2-field-range',
     ),
   ),
+  'stmswitcher/yii2-flipclock' => 
+  array (
+    'name' => 'stmswitcher/yii2-flipclock',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@stmswitcher/flipclock' => $vendorDir . '/stmswitcher/yii2-flipclock',
+    ),
+  ),
 );

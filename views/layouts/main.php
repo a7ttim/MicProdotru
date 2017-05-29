@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use \stmswitcher\flipclock\FlipClock;
 
 AppAsset::register($this);
 ?>
@@ -28,14 +29,18 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'МИКРАН',
+        'brandLabel' => Html::img('@web/images/logo_rus_Micran.png', ['alt'=>Yii::$app->name]),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar navbar-default navbar-static-top m-b-0',
         ],
-    ]);
+    ]);?>
+	
+	<div class="clockwrapper">
+    <?= FlipClock::widget([ 'options' => [ 'clockFace' => 'HourlyCounter'] ]) ?>
+	</div>
 
-    echo Nav::widget([
+    <?php echo Nav::widget([
         'options' => ['class' => 'nav navbar-top-links navbar-right pull-right'],
         'items' => [
             Yii::$app->user->isGuest ? (
@@ -119,7 +124,7 @@ AppAsset::register($this);
             <p>Электрический переулок, </p>
             <p>дом 3/10 строение 3, этаж 4</p>
             <p>Москва, 123557<p>
-            <p class='hhh'>Почта:Телефон: +7 495 909-36-50 </p>
+            <p class='hhh'>Телефон: +7 495 909-36-50 </p>
             <p class='hhh'>Почта: msk@micran.ru</p>
         </div>
     </div>

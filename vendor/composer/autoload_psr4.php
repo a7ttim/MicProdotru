@@ -14,6 +14,7 @@ return array(
     'yii\\composer\\' => array($vendorDir . '/yiisoft/yii2-composer'),
     'yii\\bootstrap\\' => array($vendorDir . '/yiisoft/yii2-bootstrap'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
+    'stmswitcher\\flipclock\\' => array($vendorDir . '/stmswitcher/yii2-flipclock'),
     'shirase\\yii2\\helpers\\' => array($vendorDir . '/shirase55/yii2-helpers/src'),
     'shirase55\\yii\\datetime\\' => array($vendorDir . '/shirase55/yii2-datetime-widget/src'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-docblock/src'),

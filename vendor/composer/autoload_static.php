@@ -28,6 +28,7 @@ class ComposerStaticInit59aedcc9faeb414576fbc9ba5f8b1643
         ),
         's' => 
         array (
+            'stmswitcher\\flipclock\\' => 22,
             'shirase\\yii2\\helpers\\' => 21,
             'shirase55\\yii\\datetime\\' => 23,
         ),
@@ -124,6 +125,10 @@ class ComposerStaticInit59aedcc9faeb414576fbc9ba5f8b1643
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'stmswitcher\\flipclock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stmswitcher/yii2-flipclock',
         ),
         'shirase\\yii2\\helpers\\' => 
         array (

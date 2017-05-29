@@ -23,7 +23,8 @@
         "yiisoft/yii2-jui": "^2.0@dev",
         "2amigos/yii2-chartjs-widget": "~2.0",
         "kartik-v/yii2-widget-datepicker": "@dev",
-        "kartik-v/yii2-field-range": "*"
+        "kartik-v/yii2-field-range": "*",
+        "stmswitcher/yii2-flipclock": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

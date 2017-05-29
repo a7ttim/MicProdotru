@@ -230,9 +230,7 @@ a, a:hover, a:focus, a:active{
 .navbar-brand{
 	left: 0;
     position: absolute;
-    font-family: Rubik-Medium;
-    margin-left: 15px !important;
-    font-size: 29px;
+    margin-left: 5px !important;
 }
 
 .snn { display: flex;}
@@ -254,4 +252,60 @@ a, a:hover, a:focus, a:active{
 
 .label-as-badge {
     border-radius: 1em;
+}
+
+.navbar-brand > img {
+    height: 50px;
+    margin-top: -15px;
+}
+
+.clockwrapper{
+	left: 160px;
+	position: absolute;
+}
+
+.flip-clock-wrapper ul li a div div.inn {
+	color: white !important;
+	font-family: Rubik-Medium;
+    font-size: 57px !important;
+	background-color: #34addb !important;
+	font-size: 30px !important;
+    line-height: 42px !important;
+	width: 80%;
+    height: 200%;
+	text-shadow: 0 1px 2px #0e4890 !important;
+}
+
+.flip-clock-divider .flip-clock-label { display: none; }
+.flip-clock-wrapper ul li { width: 30px !important;}
+.flip-clock-dot {
+    background: #3498db !important;
+}
+.flip-clock-wrapper {
+	margin: 0 !important;
+	margin-top: -3px !important;
+}
+.flip-clock-wrapper .flip {
+    box-shadow: none !important;
+}
+.down { box-shadow: 0px 3px 9px 0px #1a242f; }
+.flip-clock-wrapper ul {
+    margin: 12px !important;
+    width: 10px !important;
+    height: 40px !important;
+    padding: 0px !important;
+}
+
+.flip-clock-dot {
+    width: 5px !important;
+    height: 5px !important;
+	left: 10px !important;
+}
+
+.flip-clock-dot.bottom {top: 35px !important;}
+.flip-clock-dot.top {top: 25px !important;}
+
+.flip-clock-divider {
+    width: 7px !important;
+    height: 50px !important;
 }

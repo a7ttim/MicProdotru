@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae506cb61deecb533ff1b5a1039213a0",
+    "content-hash": "25284e76f1e19aaea058adc3470bbb25",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -565,7 +565,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-09-04T09:29:14+00:00"
+            "time": "2016-09-04 09:29:14"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -670,7 +670,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-04-01T16:03:50+00:00"
+            "time": "2017-04-01 16:03:50"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -801,6 +801,48 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2017-05-04T14:13:32+00:00"
+        },
+        {
+            "name": "stmswitcher/yii2-flipclock",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stmswitcher/yii2-flipclock.git",
+                "reference": "e8c53a6b0be9ebf368e18af92efcbb7c04125a3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stmswitcher/yii2-flipclock/zipball/e8c53a6b0be9ebf368e18af92efcbb7c04125a3d",
+                "reference": "e8c53a6b0be9ebf368e18af92efcbb7c04125a3d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "stmswitcher\\flipclock\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GNU GPL v2"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Alexandrov",
+                    "email": "stm.switcher@gmail.com",
+                    "homepage": "http://github.com/stmswitcher"
+                }
+            ],
+            "description": "Yii2 FlipClock wrapper",
+            "keywords": [
+                "flipclock",
+                "yii2"
+            ],
+            "time": "2016-01-03 01:31:51"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3479,7 +3521,8 @@
         "shirase55/yii2-datetime-widget": 20,
         "kartik-v/yii2-widget-select2": 20,
         "yiisoft/yii2-jui": 20,
-        "kartik-v/yii2-widget-datepicker": 20
+        "kartik-v/yii2-widget-datepicker": 20,
+        "stmswitcher/yii2-flipclock": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

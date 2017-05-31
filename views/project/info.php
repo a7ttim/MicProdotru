@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id' => 'search'
             ],
             'size' => 'modal-lg',
-            'header' => '<h2>Заголовок</h2>',
+            'header' => '<h2>Новая задача</h2>',
             'footer' => 'MicPro.ru'
         ]);
         $model = new Task();

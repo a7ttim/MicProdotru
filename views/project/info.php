@@ -19,10 +19,14 @@ use yii\bootstrap\ActiveForm;
 use yii\widgets\LinkPager;
 use app\models\Project;
 use app\models\Task;
+use app\models\Department;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
+use yii\bootstrap\Modal;
+use yii\helpers\ArrayHelper;
+use kartik\select2\Select2;
 
 $this->title = $project->name;
 $this->params['breadcrumbs'][] = ['label' => \app\models\ProjectStatus::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
@@ -40,36 +44,68 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if($project->status_id==5) {echo Html::a('Редактировать',['updateproject', 'id' => $project->project_id],['class' => 'btn btn-info']);} ?>
         <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Удалить', ['deleteproject', 'id' => $project->project_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Вы дейстительно хотите удалить этот проект?',
-                'method' => 'post',
+        <?= Html::a('+ Новая задача (Modal)', ['#'], ['data-toggle' => 'modal', 'data-target' => '#search', 'class' =>  'btn btn-success']) ?>
+        <?
+        Modal::begin([
+            'options' => [
+                'id' => 'search'
             ],
+            'size' => 'modal-lg',
+            'header' => '<h2>Заголовок</h2>',
+            'footer' => 'MicPro.ru'
+        ]);
+        $model = new Task();
+
+        if($project->status_id == 5)//на разработке
+        {
+            $model->status_id = 5;
+        }
+        else
+        {
+            $model->status_id = 1; //на согласовании
+        }
+
+        $model->complete_percentage = 0;
+
+        $model->project_id = $project->project_id;
+        ?>
+        <?= $this->render('_taskform', [
+            'model' => $model,
+            'project' => $project,
+        ]) ?>
+    <?
+    Modal::end();
+    ?>
+    <?= Html::a('Удалить', ['deleteproject', 'id' => $project->project_id], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => 'Вы дейстительно хотите удалить этот проект?',
+            'method' => 'post',
+        ],
+    ]) ?>
+
+    <?php $form = ActiveForm::begin(); ?>
+
+
+
+    <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+
+    <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
+        (($project->status_id==2) ? 'Завершить':'На разработку')),
+        [
+            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',//надо как-то перенести наличие незавершенных задач из контроллера
+            'name'=>'move',
+            'value' => $project->project_id,
+            'class' => 'btn btn-success btn-info',
+
         ]) ?>
 
-        <?php $form = ActiveForm::begin(); ?>
+    <?//= Html::endForm() ?>
 
+    <?php ActiveForm::end(); ?>
 
-
-        <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-
-        <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
-            (($project->status_id==2) ? 'Завершить':'На разработку')),
-            [
-                'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',//надо как-то перенести наличие незавершенных задач из контроллера
-                'name'=>'move',
-                'value' => $project->project_id,
-                'class' => 'btn btn-success btn-info',
-
-            ]) ?>
-
-        <?//= Html::endForm() ?>
-
-        <?php ActiveForm::end(); ?>
-
-        <?//= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
-<!--        --><?php //echo CHtml::submitButton('Publish',array('disabled'=>($model->status==1)?true:false)); ?>
+    <?//= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
+    <!--        --><?php //echo CHtml::submitButton('Publish',array('disabled'=>($model->status==1)?true:false)); ?>
 
 
 

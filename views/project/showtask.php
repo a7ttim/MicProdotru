@@ -60,9 +60,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             //'parent_task_id',
             //'previous_task_id',
-            //'start_date',
-            //'plan_end_date',
-            //'fact_end_date',
+            [
+                'label' => 'Предыдущая задача',
+                'value' => $model->previousTask->name,
+                'contentOptions' => ['class' => 'bg-red'],     // настройка HTML атрибутов для тега, соответсвующего value
+                'captionOptions' => ['tooltip' => 'Tooltip'],  // настройка HTML атрибутов для тега, соответсвующего label
+            ],
+            'start_date',
+            'plan_duration',
+            'fact_duration',
             'employment_percentage',
             //'status',
             [

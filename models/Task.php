@@ -56,7 +56,20 @@ class Task extends \yii\db\ActiveRecord
             [['parent_task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::className(), 'targetAttribute' => ['parent_task_id' => 'task_id']],
             [['previous_task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::className(), 'targetAttribute' => ['previous_task_id' => 'task_id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => TaskStatus::className(), 'targetAttribute' => ['status_id' => 'status_id']],
+            [['previous_task_id','start_date'],'my_required','skipOnEmpty' => false, 'skipOnError' => false],
+
         ];
+    }
+
+    public function my_required($attribute_name, $params)
+    {
+        if (empty($this->previous_task_id) && empty($this->start_date)) //||(!empty($this->previous_task_id) && !empty($this->start_date))
+        {
+            $this->addError($attribute_name, Yii::t('app', 'Должно быть заполнено либо поле Предыдущая задача, либо поле Дата начала '));
+
+            return false;
+        }
+        return true;
     }
 
     /**

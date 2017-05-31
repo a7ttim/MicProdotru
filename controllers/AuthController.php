@@ -36,6 +36,8 @@ class AuthController extends Controller
      */
     public function actionLogin()
     {
+		$this->layout = '@app/views/layouts/auth.php';
+		
         if (Yii::$app->user->can('pm')) {
             return $this->redirect('./project/list');
         }

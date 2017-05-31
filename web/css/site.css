@@ -28,7 +28,6 @@ h1 { font-family: Rubik-Medium; }
 
 .wrap {
     overflow: hidden;
-    min-height: 100%;
 }
 
 .sidebar {
@@ -208,6 +207,7 @@ a, a:hover, a:focus, a:active{
 #page-wrapper{
 	background: rgb(247, 247, 247);
 	float: right;
+	min-height: 600px;
 }
 
 .breadcrumb {
@@ -237,8 +237,13 @@ a, a:hover, a:focus, a:active{
 .snn h1 {     width: 88%;}
 .snn .btn {     margin-top: 30px;}
 
-.navbar-top-links>li>a:hover {
-    background: rgba(0,0,0,.1);
+.navbar-top-links>li>a:hover , 
+.nav .open > a, 
+.nav .open > a:hover, 
+.nav .open > a:focus,
+.nav > li > a:hover, 
+.nav > li > a:focus{ 
+    background: #3498db;
 }
 
 .pull-right > li > a {
@@ -308,4 +313,60 @@ a, a:hover, a:focus, a:active{
 .flip-clock-divider {
     width: 7px !important;
     height: 50px !important;
+}
+
+#whitediv{
+	background: white;
+    margin-right: 15px;
+	margin-bottom: 20px;
+}
+
+#logodiv{
+	margin-left: 30px;
+}
+
+.form-control { border-radius: 0px; }
+
+.site-login h1 { 
+	color: white; 
+	text-transform: uppercase;
+	font-size: 38px !important;
+}
+.site-login label, .site-login .btn{ 
+	color: white !important; 
+	font-size: 18px; 
+	font-weight: bold;
+}
+
+.site-login .btn:hover{
+	background: rgba(57, 23, 58, 0.62);
+}
+
+.has-success .form-control, .has-success .form-control:focus {
+	border: 2px rgba(52, 152, 219, 0.57) solid;
+}
+
+.form-control { max-width: 300px !important; }
+
+.site-login .btn{ 
+	background: transparent;
+	border: 2px white solid;
+}
+
+a.btn, .pagination li a { border-radius: 0px !important; }
+
+.input-daterange {
+    width: 30%;
+}
+
+.period { display: flex; margin-bottom: 30px; }
+.input-daterange { margin-left: 30px; }
+#main-menu li.active {
+	border-left: 4px #217dbb solid;
+}
+
+@media only screen and (max-width: 1200px) {
+	.pull-left p{
+		font-size: 12px !important;
+	}
 }

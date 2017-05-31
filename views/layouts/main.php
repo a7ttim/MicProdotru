@@ -46,8 +46,14 @@ AppAsset::register($this);
             Yii::$app->user->isGuest ? (
             ['label' => 'Авторизация', 'url' => ['/auth']]
             ) : (
-            ['label' => 'Выйти', 'url' => ['/auth/logout']]
-            ),
+            ['label' => Yii::$app->user->identity->login, 
+			 'items' => [
+				[
+					'label' => 'Выйти',
+					'url' => ['/auth/logout'],
+				],
+			],
+			]),
         ],
     ]);
     NavBar::end();
@@ -91,7 +97,7 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
-            <div class='container-fluid'>
+            <div class='container-fluid' id='whitediv'>
                 <?= $content ?>
             </div>
 		</div>

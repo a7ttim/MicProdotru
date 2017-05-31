@@ -13,7 +13,8 @@ $this->title = 'Статистика';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
-<p>Период:</p>
+<div class='period'>
+<h4>Период:</h4>
 <?php
 $layout = <<< HTML
     <span class="input-group-addon">С</span>
@@ -39,6 +40,7 @@ echo DatePicker::widget([
         'format' => 'dd.mm.yyyy'
     ]
 ]);?>
+</div>
 
 <?=ChartJs::widget([
 	'type' => 'bar',

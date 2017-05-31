@@ -10,7 +10,9 @@ namespace app\controllers;
 
 use app\models\Comment;
 use app\models\Project;
+use app\models\ProjectSearch;
 use app\models\Task;
+use app\models\TaskSearch;
 use app\models\User;
 use Codeception\Lib\Notification;
 use Faker\Provider\DateTime;
@@ -84,15 +86,13 @@ class ProjectController extends Controller
     public function actionList()
     {
         $model = new Project();
+        $searchModel = new ProjectSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $status_id = Yii::$app->request->get('status_id');
         if(!($status_id > 0)) $status_id = 1;
-        $dataProvider = new ActiveDataProvider([
-            'query' => Project::find()->where(['and',['pm_id' => Yii::$app->user->identity->user_id],['status_id'=> $status_id]]),
-            'pagination' => [
-                'pageSize' => 25,
-            ],
-        ]);
+
         return $this->render('list', [
+            'searchModel'=> $searchModel,
             'model' => $model,
             'dataProvider' => $dataProvider,
             'status_id' => $status_id,
@@ -100,17 +100,13 @@ class ProjectController extends Controller
     }
 
 
-    public function actionInfo()    {
+    public function actionInfo()
+    {
         $model = new Task();
         $proj_id=Yii::$app->request->get('project_id');
         $project = Project::findOne(['project_id' => $proj_id]);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $project->getTasks()->with('user'),
-            'pagination' => [
-                'pageSize' => 25,
-            ],
-        ]);
+        $searchModel = new TaskSearch();
+        $dataProvider = $searchModel->projectsearch(Yii::$app->request->queryParams);
 
         $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
 
@@ -167,6 +163,7 @@ class ProjectController extends Controller
 
         return $this->render('info', [
             'model' => $model,
+            'searchModel'=> $searchModel,
             'count_isp' => $cti,
             'count_sogl'=>$cts,
             'count_cansl'=>$ctcn,

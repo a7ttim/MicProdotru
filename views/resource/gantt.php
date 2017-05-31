@@ -27,7 +27,7 @@ gantt.config.subscales = [
 
 gantt.templates.task_text = function(start,end,task){
     if(task.duration === 1 || task.duration === 2) return task.progress*100 + "%";
-    else return "<b>Загруженность исполнителя: </b>" + task.progress*100 + "%";
+    else return "<b>Загруженность исполнителя: </b>" + Math.round(task.progress*100) + "%";
 };
 
 gantt.templates.tooltip_text = function(start, end, task){ 

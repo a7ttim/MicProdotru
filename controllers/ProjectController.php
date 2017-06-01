@@ -131,22 +131,21 @@ class ProjectController extends Controller
                     // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
                 }
             }
-            elseif ($project->status_id==1){$project->status_id=2;} //На исполнение
+            elseif ($project->status_id==1)
+            {
+                $project->status_id=2;//На исполнение
+
+                $tasks=$project->getTasks()->where(['status_id'=>1])->all();
+
+                foreach ($tasks as $task){
+                    $task->status_id = 2;
+                    $task->save();
+                }
+            }
             elseif ($project->status_id==2) //На исполнении
             {
-                //проверка, есть ли незавершенные задачи в этом проекте
-
-//                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
-//
-//                if($incompleted_tasks==0)
-//                {
                 $project->status_id = 3;       //В завершенные
-//                }
 
-//                else
-//                {
-//                    return $this->redirect(['list','status_id' =>2]);//временно. Надо как-то передать обратно во вью
-//                }
             }
 
 

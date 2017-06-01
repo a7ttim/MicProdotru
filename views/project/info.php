@@ -13,6 +13,7 @@
 /* @var $model app\models\project */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\bootstrap\ActiveForm;
@@ -27,6 +28,7 @@ use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
+use app\models\TaskStatus;
 
 $this->title = $project->name;
 $this->params['breadcrumbs'][] = ['label' => \app\models\ProjectStatus::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
@@ -93,10 +95,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
         (($project->status_id==2) ? 'Завершить':'На разработку')),
         [
-            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',//надо как-то перенести наличие незавершенных задач из контроллера
+            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',
+//            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содержит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:
+//                (($project->status_id==1)&&($count_sogl>0)) ? ['confirm' => 'Проект содержит '.$count_sogl.' несогласованных ых(ые) задач(и). Вы действительно хотите перевести проект на исполнение?']:'',
             'name'=>'move',
             'value' => $project->project_id,
             'class' => 'btn btn-success btn-info',
+            'disabled'=>(($project->status_id==1)&&($count_sogl>0)) ? true:false,
 
         ]) ?>
 
@@ -183,6 +188,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status_id',
                 'value' => 'status.status_name',
+                'filter'=>ArrayHelper::map(TaskStatus::find()->asArray()->all(), 'status_id', 'status_name'),
             ],
 
             [

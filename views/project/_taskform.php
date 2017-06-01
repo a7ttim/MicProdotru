@@ -13,7 +13,7 @@ use kartik\select2\Select2;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="task-form">
+<div class="task-form" id="task-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

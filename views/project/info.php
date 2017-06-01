@@ -47,6 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
         <?= Html::a('+ Новая задача (Modal)', ['#'], ['data-toggle' => 'modal', 'data-target' => '#search', 'class' =>  'btn btn-success']) ?>
+        <?= Html::a('x Удалить', ['deleteproject', 'id' => $project->project_id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Вы дейстительно хотите удалить этот проект?',
+                'method' => 'post',
+            ],
+        ]) ?>
         <?
         Modal::begin([
             'options' => [
@@ -78,13 +85,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?
     Modal::end();
     ?>
-    <?= Html::a('Удалить', ['deleteproject', 'id' => $project->project_id], [
-        'class' => 'btn btn-danger',
-        'data' => [
-            'confirm' => 'Вы дейстительно хотите удалить этот проект?',
-            'method' => 'post',
-        ],
-    ]) ?>
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
 
     <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
-        (($project->status_id==2) ? 'Завершить':'На разработку')),
+        (($project->status_id==2) ? '> Завершить':'> На разработку')),
         [
             'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',
 //            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содержит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:

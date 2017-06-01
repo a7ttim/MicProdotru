@@ -49,8 +49,6 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'start_date')->textInput() ?>
 
-<!--    --><?//= $form->field($model, 'start_date')->textInput('disabled'=>()?:;) ?>
-
     <?= $form->field($model, 'plan_duration')->textInput() ?>
 
     <?= $form->field($model, 'fact_duration')->textInput() ?>

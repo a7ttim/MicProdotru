@@ -129,4 +129,13 @@ return array (
       '@stmswitcher/flipclock' => $vendorDir . '/stmswitcher/yii2-flipclock',
     ),
   ),
+  'loveorigami/yii2-slimscroll-widget' => 
+  array (
+    'name' => 'loveorigami/yii2-slimscroll-widget',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@lo/widgets' => $vendorDir . '/loveorigami/yii2-slimscroll-widget',
+    ),
+  ),
 );

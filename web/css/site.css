@@ -355,15 +355,17 @@ a, a:hover, a:focus, a:active{
 
 a.btn, .pagination li a { border-radius: 0px !important; }
 
-.input-daterange {
-    width: 30%;
-}
+.period { display: flex; }
+.input-daterange { margin-left: 30px; width: 40%; margin-right: 20px; }
+hr { margin: 3px !important; }
+#project-status { margin-right: 20px; }
+#proc { height: 43px; }
 
-.period { display: flex; margin-bottom: 30px; }
-.input-daterange { margin-left: 30px; }
 #main-menu li.active {
 	border-left: 4px #217dbb solid;
 }
+
+#stat_res { display: flex; } 
 
 @media only screen and (max-width: 1200px) {
 	.pull-left p{

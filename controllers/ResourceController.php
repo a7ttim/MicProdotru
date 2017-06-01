@@ -148,28 +148,62 @@ class ResourceController extends Controller
 		for($i = 0; $i < count($users); ++$i){
 			$users_ar[] = $users[$i]['user_id'];
 		}
+		
+		$curdt = 365;
+		$lstdt = (new \DateTime('now'))->sub(new \DateInterval( "P1Y" ));
+		
+		$post = Yii::$app->request->post();
+		if($post != null) {
+			if(isset($post['dp_addon_3a']))
+				$lstdt = new \DateTime($post['dp_addon_3a']);
+			if(isset($post['dp_addon_3b']))
+				$curdt = (new \DateTime($post['dp_addon_3b']))->diff($lstdt)->days;
+				
+			if(isset($post['Project']))
+				$proj = $post['Project']['status'];
+		}
+		
+		$ps = $proj ? ['in', 'task.project_id', $proj] : [];
 		$stat= Task::find()
 			->joinWith('user')
 			->joinWith('project')
-			->where(['in', 'task.user_id', $users_ar])
+			->where(['and', ['and', ['and', 
+						['in', 'task.user_id', $users_ar], 
+						['>=', 'task.start_date', $lstdt->format('Y-m-d')]
+					], ['<=', 'task.plan_duration', $curdt] ],
+					$ps, 
+				])
 			->asArray()->all();
 		
 		for($i = 0; $i < count($stat); ++$i){
 			$j = 0;
-			$lbl = $stat[$i]['user']['name'].','.$stat[$i]['project']['name'];
+			$lbl = explode(' ', $stat[$i]['user']['name'])[0].', '.$stat[$i]['project']['name'];
 			for($k = 0; $k < count($tmp); ++$k) {
 				if($tmp[$k]['label'] == $lbl) {
-					$tmp[$k]['data'][0] += round($stat[$i]['fact_duration']/100);
+					$tmp[$k]['data'][0] += $stat[$i]['plan_duration'];
 					$j = 1;
-				
 				}
 			}
 			if(!$j)
-				$tmp[] = ['label' => $lbl, 'data' => [round($stat[$i]['plan_duration']/100)]];
-		}	
-
+				$tmp[] = ['label' => $lbl, 'data' => [$stat[$i]['plan_duration']]];
+		}
+		
+		for($i = 0; $i < count($stat); ++$i){
+			$j = 0;
+			for($k = $i+1; $k < count($stat); ++$k){
+				if($stat[$k]['project_id'] == $stat[$i]['project_id'])
+					$j = 1;
+			}
+			if(!$j)
+				$dropdown_items[$stat[$i]['project_id']] = $stat[$i]['project']['name'] ;
+		}
+	
 		return $this->render('stat', [
             'datasets' => $tmp,
+			'curdt' => $curdt,
+			'lstdt' => $lstdt,
+			'dd_items' => $dropdown_items,
+			'model' => new Project(),
         ]);
 	 }
 

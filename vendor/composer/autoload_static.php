@@ -36,6 +36,10 @@ class ComposerStaticInit59aedcc9faeb414576fbc9ba5f8b1643
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'l' => 
+        array (
+            'lo\\widgets\\' => 11,
+        ),
         'k' => 
         array (
             'kartik\\select2\\' => 15,
@@ -143,6 +147,10 @@ class ComposerStaticInit59aedcc9faeb414576fbc9ba5f8b1643
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'lo\\widgets\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/loveorigami/yii2-slimscroll-widget',
         ),
         'kartik\\select2\\' => 
         array (

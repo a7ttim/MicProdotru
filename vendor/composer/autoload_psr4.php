@@ -18,6 +18,7 @@ return array(
     'shirase\\yii2\\helpers\\' => array($vendorDir . '/shirase55/yii2-helpers/src'),
     'shirase55\\yii\\datetime\\' => array($vendorDir . '/shirase55/yii2-datetime-widget/src'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-docblock/src'),
+    'lo\\widgets\\' => array($vendorDir . '/loveorigami/yii2-slimscroll-widget'),
     'kartik\\select2\\' => array($vendorDir . '/kartik-v/yii2-widget-select2'),
     'kartik\\field\\' => array($vendorDir . '/kartik-v/yii2-field-range'),
     'kartik\\date\\' => array($vendorDir . '/kartik-v/yii2-widget-datepicker'),

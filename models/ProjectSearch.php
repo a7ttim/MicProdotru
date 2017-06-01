@@ -52,6 +52,12 @@ class ProjectSearch extends Project
             'pagination' => [
                 'pageSize' => 25,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'name' => SORT_ASC,
+                ],
+                'attributes' => ['name','description']
+            ],
         ]);
 
         $this->load($params);

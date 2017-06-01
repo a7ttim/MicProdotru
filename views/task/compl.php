@@ -20,6 +20,8 @@ use yii\grid\GridView;
 use yii\helpers\StringHelper;
 use app\models\Task;
 use yii\i18n\Formatter;
+use app\models\Project;
+use yii\helpers\ArrayHelper;
 
 $this->title = 'Завершенные';
 $this->params['breadcrumbs'][] = $this->title;
@@ -37,6 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'project_id',
                 'value' => 'project.name',
+                'filter'=>ArrayHelper::map(Project::find()
+                    ->joinWith('tasks')
+                    ->where(['task.user_id' => Yii::$app->user->identity->user_id])
+                    ->asArray()
+                    ->all(),
+                    'project_id', 'name'),
+                'label'=>'Проект'
             ],
             [
                 'attribute' => 'description',

@@ -10,6 +10,7 @@ use yii\data\ActiveDataProvider;
 use app\models\Task;
 use app\models\Project;
 use app\models\EmploymentSearch;
+use app\models\TaskSearch;
 use app\models\User;
 
 class ResourceController extends Controller
@@ -41,6 +42,7 @@ class ResourceController extends Controller
 
     public function actionInfo()    {
         $model = new Task();
+        $searchModel = new TaskSearch();
 		$id = Yii::$app->request->get('user_id');
 		$usr = Employment::find()
 			->select(['department.department_name','post.post_name', 'user.name'])
@@ -48,14 +50,9 @@ class ResourceController extends Controller
 			->joinWith('user')
 			->joinWith('post')
 			->where(['employment.user_id' => $id])->asArray()->all();
-		
-		$dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->joinWith('project')
-			->where(['and', ['task.user_id' => $id], ['task.status_id' => 2]]),
-            'pagination' => [
-                'pageSize' => 8,
-            ],
-        ]);
+
+        $dataProvider = $searchModel->ressearch(Yii::$app->request->queryParams);
+
 		$wl = 0;
         $cti = 0;
 		foreach ($dataProvider->models as $model) {
@@ -79,6 +76,7 @@ class ResourceController extends Controller
             'count_cansl'=>$ctcn,
             'count_compl'=>$ctcm,
             'dataProvider' => $dataProvider,
+            'searchModel'=> $searchModel,
         ]);
     }
 

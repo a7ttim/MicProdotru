@@ -10,7 +10,9 @@ namespace app\controllers;
 
 use app\models\Comment;
 use app\models\Project;
+use app\models\ProjectSearch;
 use app\models\Task;
+use app\models\TaskSearch;
 use app\models\User;
 use Codeception\Lib\Notification;
 use Faker\Provider\DateTime;
@@ -84,15 +86,13 @@ class ProjectController extends Controller
     public function actionList()
     {
         $model = new Project();
+        $searchModel = new ProjectSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $status_id = Yii::$app->request->get('status_id');
         if(!($status_id > 0)) $status_id = 1;
-        $dataProvider = new ActiveDataProvider([
-            'query' => Project::find()->where(['and',['pm_id' => Yii::$app->user->identity->user_id],['status_id'=> $status_id]]),
-            'pagination' => [
-                'pageSize' => 25,
-            ],
-        ]);
+
         return $this->render('list', [
+            'searchModel'=> $searchModel,
             'model' => $model,
             'dataProvider' => $dataProvider,
             'status_id' => $status_id,
@@ -100,17 +100,13 @@ class ProjectController extends Controller
     }
 
 
-    public function actionInfo()    {
+    public function actionInfo()
+    {
         $model = new Task();
         $proj_id=Yii::$app->request->get('project_id');
         $project = Project::findOne(['project_id' => $proj_id]);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $project->getTasks()->with('user'),
-            'pagination' => [
-                'pageSize' => 25,
-            ],
-        ]);
+        $searchModel = new TaskSearch();
+        $dataProvider = $searchModel->projectsearch(Yii::$app->request->queryParams);
 
         $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
 
@@ -135,24 +131,21 @@ class ProjectController extends Controller
                     // в цикле вызываем процедуру оповещения, где на входе id задачи, и id исполнителя (или модели)
                 }
             }
-            elseif ($project->status_id==1){$project->status_id=2;} //На исполнение
+            elseif ($project->status_id==1)
+            {
+                $project->status_id=2;//На исполнение
+
+                $tasks=$project->getTasks()->where(['status_id'=>1])->all();
+
+                foreach ($tasks as $task){
+                    $task->status_id = 2;
+                    $task->save();
+                }
+            }
             elseif ($project->status_id==2) //На исполнении
             {
-                //проверка, есть ли незавершенные задачи в этом проекте
-
-//                $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
-//
-//                if($incompleted_tasks==0)
-//                {
                 $project->status_id = 3;       //В завершенные
-//                }
-
-//                else
-//                {
-//                    return $this->redirect(['list','status_id' =>2]);//временно. Надо как-то передать обратно во вью
-//                }
             }
-
 
             else {$project->status_id=5;} //Удаленные или завершенные восстановить - в разработку
 
@@ -167,6 +160,7 @@ class ProjectController extends Controller
 
         return $this->render('info', [
             'model' => $model,
+            'searchModel'=> $searchModel,
             'count_isp' => $cti,
             'count_sogl'=>$cts,
             'count_cansl'=>$ctcn,
@@ -314,9 +308,7 @@ class ProjectController extends Controller
         $comment= new Comment();
         $comment->user_id=1;
         $comment->task_id=$model->task_id;
-        $comment->date_time=time();
-        //$user=User::findOne(Yii::$app->user->identity->user_id);
-        //$user_name=
+        $comment->date_time=new \yii\db\Expression('NOW()');
         $comment->text='Задача удалена';
         $comment->save();
         $model->status_id=4;

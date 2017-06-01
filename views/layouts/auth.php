@@ -16,7 +16,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body style='background: url(/web/images/company.jpg) no-repeat fixed; background-size: cover; overflow: hidden;'>
+<body style='background: url("images/company.jpg") no-repeat fixed; background-size: cover; overflow: hidden;'>
 <?php $this->beginBody() ?>
 
 <div id='logodiv'>

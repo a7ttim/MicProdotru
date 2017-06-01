@@ -48,7 +48,6 @@ h1 { font-family: Rubik-Medium; }
     bottom: 0;
     top:0;
 	width: 175px;
-	height: 100%;
 	padding-top: 37px;
 }
 
@@ -78,9 +77,7 @@ h1 { font-family: Rubik-Medium; }
     background-color: white;
     box-shadow: -1px 0px 20px rgba(0, 0, 0, 0.08);
     padding-top: 20px;
-	position: absolute;
     width: 100%;
-	z-index: 10005;
 }
 
 .jumbotron {

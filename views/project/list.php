@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
-    //'filterModel' => $searchModel,
+    'filterModel' => $searchModel,
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         'name',
@@ -51,9 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
             }
         ],
         [
-            'attribute' => 'Информация',
+            'attribute' => '',
             'value' => function (Project $project) {
-                return Html::a('<span class="fa fa-search"></span>Подробнее', Url::to(['info', 'project_id' => $project->project_id]), [
+                return Html::a('<span class="fa fa-search"></span> Подробнее', Url::to(['info', 'project_id' => $project->project_id]), [
                     'title' => Yii::t('app', 'Подробнее'),
                     'class' =>'btn btn-info btn-xs',
                 ]);
@@ -62,9 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'contentOptions' => ['style' => 'width:30px;'],
         ],
         [
-            'attribute' => 'Визуализация',
+            'attribute' => '',
             'value' => function (Project $project) {
-                return Html::a('<span class="fa fa-search"></span>Подробнее', Url::to(['gantt', 'project_id' => $project->project_id]), [
+                return Html::a('<span class="fa fa-search"></span> Визуализация', Url::to(['gantt', 'project_id' => $project->project_id]), [
                     'title' => Yii::t('app', 'Подробнее'),
                     'class' =>'btn btn-primary btn-xs',
                 ]);

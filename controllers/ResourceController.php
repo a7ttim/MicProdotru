@@ -9,6 +9,7 @@ use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use app\models\Task;
 use app\models\Project;
+use app\models\EmploymentSearch;
 use app\models\User;
 
 class ResourceController extends Controller
@@ -27,39 +28,14 @@ class ResourceController extends Controller
 	
     public function actionList()
     {
-		$id = Yii::$app->user->identity->user_id;
-		$dep = Department::findOne(['head_id' => $id]);
-		$deps = Department::find()
-				->select(['department.department_id'])
-				->where(['parent_department_id' => $dep->department_id])
-				->asArray()->all();
-		$deps_ar[] = $dep->department_id;
-		for($i = 0; $i < count($deps); ++$i){
-			$deps_ar[] = $deps[$i]['department_id'];
-		}
-        $dataProvider = new ActiveDataProvider([
-            'query' => Employment::find()
-			->select(['department.department_id', 'department.department_name',
-			'post.post_name', 'post.post_id', 'user.name', 'user.user_id', 'employment_id'])
-			->joinWith('department')
-			->joinWith('user')
-			->joinWith('post')
-			->where(['in', 'department.department_id', $deps_ar])
-			->andWhere(['not', ['employment.user_id' => $id]]),
-            'pagination' => [
-                'pageSize' => 7,
-            ],
-			'sort' => [
-                'defaultOrder' => [
-                    'user.name' => SORT_ASC,
-                ],
-                'attributes' => ['user.name','department.department_name','post.post_name']
-            ],
-        ]);
-		
+        $model = new Task();
+        $searchModel = new EmploymentSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('list', [
-			'model' => new Task(),
+			'model' => $model,
             'dataProvider' => $dataProvider,
+            'searchModel'=> $searchModel,
         ]);
     }
 

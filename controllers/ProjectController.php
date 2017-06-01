@@ -145,9 +145,7 @@ class ProjectController extends Controller
             elseif ($project->status_id==2) //На исполнении
             {
                 $project->status_id = 3;       //В завершенные
-
             }
-
 
             else {$project->status_id=5;} //Удаленные или завершенные восстановить - в разработку
 
@@ -310,9 +308,7 @@ class ProjectController extends Controller
         $comment= new Comment();
         $comment->user_id=1;
         $comment->task_id=$model->task_id;
-        $comment->date_time=time();
-        //$user=User::findOne(Yii::$app->user->identity->user_id);
-        //$user_name=
+        $comment->date_time=new \yii\db\Expression('NOW()');
         $comment->text='Задача удалена';
         $comment->save();
         $model->status_id=4;

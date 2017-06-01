@@ -19,6 +19,7 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\helpers\StringHelper;
 use app\models\Task;
+use app\models\TaskSearch;
 use yii\i18n\Formatter;
 
 $this->title = 'На исполнение';
@@ -26,10 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 <?php Pjax::begin(); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

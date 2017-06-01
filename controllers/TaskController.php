@@ -15,6 +15,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Task;
+use app\models\TaskSearch;
 use app\models\Comment;
 use app\models\Project;
 use app\models\User;
@@ -40,14 +41,11 @@ class TaskController extends Controller
     public function actionSogl()
     {
         $model = new Task();
-        $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 1]),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
+        $searchModel = new TaskSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('sogl', [
+            'searchModel'=> $searchModel,
             'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
@@ -111,15 +109,12 @@ class TaskController extends Controller
 
     public function actionIsp()
     {
+        $searchModel = new TaskSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $model = new Task();
-        $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 2]),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
 
         return $this->render('isp', [
+            'searchModel' => $searchModel,
             'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
@@ -185,14 +180,11 @@ class TaskController extends Controller
     public function actionCompl()
     {
         $model = new Task();
-        $dataProvider = new ActiveDataProvider([
-            'query' => Task::find()->where(['user_id' => Yii::$app->user->identity->user_id ,'status_id' => 3]),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
+        $searchModel = new TaskSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('compl', [
+            'searchModel'=> $searchModel,
             'model' => $model,
             'dataProvider' => $dataProvider,
         ]);

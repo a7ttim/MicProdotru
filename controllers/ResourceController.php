@@ -127,6 +127,7 @@ class ResourceController extends Controller
 		
 		$curdt = 365;
 		$lstdt = (new \DateTime('now'))->sub(new \DateInterval( "P1Y" ));
+		$opt=[];
 		
 		$post = Yii::$app->request->post();
 		if($post != null) {
@@ -135,8 +136,11 @@ class ResourceController extends Controller
 			if(isset($post['dp_addon_3b']))
 				$curdt = (new \DateTime($post['dp_addon_3b']))->diff($lstdt)->days;
 				
-			if(isset($post['Project']))
-				$proj = $post['Project']['status'];
+			if(isset($post['Project'])){
+				if($post['Project']['status'] != -1)
+					$proj = $post['Project']['status'];
+				$opt[$post['Project']['status']] = ['selected' => true];
+			}
 		}
 		
 		$ps = $proj ? ['in', 'task.project_id', $proj] : [];
@@ -161,18 +165,15 @@ class ResourceController extends Controller
 				}
 			}
 			if(!$j)
-				$tmp[] = ['label' => $lbl, 'data' => [$stat[$i]['plan_duration']]];
+				$tmp[] = ['label' => $lbl, 'data' => [$stat[$i]['plan_duration'], 0]];
 		}
 		
-		for($i = 0; $i < count($stat); ++$i){
-			$j = 0;
-			for($k = $i+1; $k < count($stat); ++$k){
-				if($stat[$k]['project_id'] == $stat[$i]['project_id'])
-					$j = 1;
-			}
-			if(!$j)
-				$dropdown_items[$stat[$i]['project_id']] = $stat[$i]['project']['name'] ;
-		}
+		$dd = Task::find()->select('project.project_id, project.name')->distinct()
+		->joinWith('project')->where(['in', 'task.user_id', $users_ar])->asArray()->all();
+		
+		$dropdown_items[-1] = 'Все проекты';
+		for($i = 0; $i < count($dd); ++$i)
+			$dropdown_items[$dd[$i]['project_id']] = $dd[$i]['project']['name'] ;
 	
 		return $this->render('stat', [
             'datasets' => $tmp,
@@ -180,6 +181,7 @@ class ResourceController extends Controller
 			'lstdt' => $lstdt,
 			'dd_items' => $dropdown_items,
 			'model' => new Project(),
+			'opt' => $opt
         ]);
 	 }
 

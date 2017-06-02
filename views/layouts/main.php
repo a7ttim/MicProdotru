@@ -63,15 +63,7 @@ AppAsset::register($this);
 	<div id="secondary"  role="complementary">
 	<?
 		if(!Yii::$app->user->isGuest) {
-			$items[] = ['label' => 'Уведомления', 'items' => [
-					['label' => 'Проекты', 'url' => ['/project/list', 'status_id' => 5]],
-					['label' => 'Задачи', 'url' => ['/project/list', 'status_id' => 1]],
-					['label' => 'Комментарии', 'url' => ['/project/list', 'status_id' => 2]],
-				]
-			];
-			
 			if(Yii::$app->user->can('pe')) {
-				$items[] = '<hr>';
 				$items[] = ['label' => 'Задачи на согласовании', 'url' => ['/task/sogl']];
 				$items[] = ['label' => 'Задачи на исполнении', 'url' => ['/task/isp']];
 				$items[] = ['label' => 'Завершенные задачи', 'url' => ['/task/compl']];
@@ -79,7 +71,7 @@ AppAsset::register($this);
 			}
 			if(Yii::$app->user->can('pm')) {
 				$items[] = '<hr>';
-				$items[] = ['label' => 'Проекты разработке', 'url' => ['project/list', 'status_id' => 5]];
+				$items[] = ['label' => 'Проекты в разработке', 'url' => ['project/list', 'status_id' => 5]];
 				$items[] = ['label' => 'Проекты на согласовании', 'url' => ['project/list', 'status_id' => 1]];
 				$items[] = ['label' => 'Проекты на исполнении', 'url' => ['project/list', 'status_id' => 2]];
 				$items[] = ['label' => 'Завершенные проекты', 'url' => ['project/list', 'status_id' => 3]];
@@ -87,7 +79,7 @@ AppAsset::register($this);
 			}
 			if(Yii::$app->user->can('dh')) {
 				$items[] = '<hr>';
-				$items[] = ['label' => 'Мои ресурсы', 'url' => ['resource/list'],'linkOptions'=>['class'=>'main_li']];
+				$items[] = ['label' => 'Список ресурсов', 'url' => ['resource/list'],'linkOptions'=>['class'=>'main_li']];
 				$items[] = ['label' => 'Статистика', 'url' => ['resource/stat'],'linkOptions'=>['class'=>'main_li']];
 			}
 			

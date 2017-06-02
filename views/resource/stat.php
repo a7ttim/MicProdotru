@@ -42,12 +42,9 @@ echo DatePicker::widget([
     ]
 ]);
 
-$items = $dd_items;
-    $params = [
-        'prompt' => 'Все проекты',
-		'class' => "btn btn-info dropdown-toggle",
-    ];
-    echo $form->field($model, 'status')->dropDownList($items,$params)->label('Выберите проект');
+    $params = ['class' => "btn btn-info dropdown-toggle",
+	'options' => $opt ];
+    echo $form->field($model, 'status')->dropDownList($dd_items,$params)->label('Выберите проект');
 	echo Html::submitButton('Получить', ['class' => 'btn btn-info', 'id' => 'proc']); 
     ActiveForm::end();
 ?>

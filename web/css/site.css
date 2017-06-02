@@ -18,6 +18,11 @@
 	src:url(Rubik-Medium.ttf);
 }
 
+@font-face {
+	font-family: Rubik-LightItalic; 
+	src:url(Rubik-LightItalic.ttf);
+}
+
 html,
 body {
     height: 100%;
@@ -316,11 +321,25 @@ a, a:hover, a:focus, a:active{
 	background: white;
     margin-right: 15px;
 	margin-bottom: 20px;
+	min-height: 580px;
+	padding-bottom: 15px;
 }
 
 #logodiv{
 	margin-left: 30px;
 }
+.vvv { display: flex; }
+.vvv h4 { display: flex; margin-right: 15px; }
+.vvv h4 .label { margin-left: 5px; } 
+#task_tbl tbody > tr > td{ 
+	border-left: none;
+    border-right: none;
+}
+#comment { margin-left: -20px !important; }
+#comment tbody > tr > td, #comt tbody > tr > td{ border: none; padding-bottom: 3px !important; padding-top: 3px !important; }
+#comment-text { max-width: 100% !important; height: 100px; margin-top: 10px; }
+.usr { font-size: 12px; font-weight: bold; font-family: Rubik-LightItalic; }
+.field-project-status .control-label { margin-right: 5px; } 
 
 .form-control { border-radius: 0px; }
 
@@ -343,7 +362,7 @@ a, a:hover, a:focus, a:active{
 	border: 2px rgba(52, 152, 219, 0.57) solid;
 }
 
-.form-control { max-width: 300px !important; }
+.field-loginform-username.form-control { max-width: 300px !important; }
 
 .site-login .btn{ 
 	background: transparent;
@@ -357,11 +376,14 @@ a.btn, .pagination li a { border-radius: 0px !important; }
 hr { margin: 3px !important; }
 #project-status { margin-right: 20px; }
 #proc { height: 43px; }
+.filters .form-control{ height: 15px; font-family: Rubik-Light !important; }
+.table-bordered > thead > tr > td { border: none; }
 
 #main-menu li.active {
 	border-left: 4px #217dbb solid;
 }
 
+.btn { border-radius: 0px !important; }
 #stat_res { display: flex; } 
 
 @media only screen and (max-width: 1200px) {

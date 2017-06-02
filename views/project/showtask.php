@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+	<div class ='col-lg-6'>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -80,9 +81,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'complete_percentage',
         ],
     ]) ?>
+	</div>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6" id='comt'>
     <table style="width: 100%">
         <thead>
         <tr>
@@ -97,7 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
             foreach($comments as $comment)
             {?>
                 <tr>
-                    <td><?=$comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time))?></td>
+                    <td class='usr'><?=$comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time))?></td>
                 </tr>
                 <tr>
                     <td><?=$comment->text?></td>

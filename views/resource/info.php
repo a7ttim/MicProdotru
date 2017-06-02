@@ -21,21 +21,6 @@ $this->params['breadcrumbs'][] = $usr['department_name'];
 	<h4>Загруженность:</h4> 
 	<div class='isp_progr'>
 	<?=Html::decode(\app\components\ProgressBarWidget::widget(['value' => $workload,]));?></div>
-    <h4>Проекты
-        <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_project?></span>
-    </h4>
-	<h4 style="margin-left: 1%">Задачи на исполнении
-		<span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_isp?></span>
-	</h4>
-    <h4 style="margin-left: 1%">Задачи на согласовании
-        <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_sogl?></span>
-    </h4>
-    <h4 style="margin-left: 1%">Завершенные задачи
-        <span class="pull-right label label-pill label-success label-as-badge" style="margin-left:10px"><?=$count_compl?></span>
-    </h4>
-    <h4 style="margin-left: 1%">Отклоненные задачи
-        <span class="pull-right label label-pill label-danger label-as-badge" style="margin-left:10px"><?=$count_cansl?></span>
-    </h4>
 </div>
 
    <?= GridView::widget([

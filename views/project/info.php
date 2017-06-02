@@ -39,9 +39,22 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1>
         <?= $project->name ?>
     </h1>
-    <p>
-        <?= $project->description ?>
-    </p>
+	
+	<div class='vvv'>
+        <h4>Задачи на исполнении
+            <span class="label label-pill label-primary label-as-badge"><?=$count_isp?></span>
+        </h4>
+        <h4>Задачи на согласовании
+            <span class="label label-pill label-primary label-as-badge"><?=$count_sogl?></span>
+        </h4>
+        <h4>Завершенные задачи
+            <span class="label label-pill label-success label-as-badge"><?=$count_compl?></span>
+        </h4>
+        <h4>Отклоненные задачи
+            <span class="label label-pill label-danger label-as-badge"><?=$count_cansl?></span>
+        </h4>
+    </div>
+	
     <p>
         <?php if($project->status_id==5) {echo Html::a('Редактировать',['updateproject', 'id' => $project->project_id],['class' => 'btn btn-info']);} ?>
         <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
@@ -86,50 +99,11 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::end();
     ?>
 
-    <?php $form = ActiveForm::begin(); ?>
-
-
-
-    <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-
-    <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
-        (($project->status_id==2) ? '> Завершить':'> На разработку')),
-        [
-            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',
-//            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содержит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:
-//                (($project->status_id==1)&&($count_sogl>0)) ? ['confirm' => 'Проект содержит '.$count_sogl.' несогласованных ых(ые) задач(и). Вы действительно хотите перевести проект на исполнение?']:'',
-            'name'=>'move',
-            'value' => $project->project_id,
-            'class' => 'btn btn-success btn-info',
-            'disabled'=>(($project->status_id==1)&&($count_sogl>0)) ? true:false,
-
-        ]) ?>
-
-    <?//= Html::endForm() ?>
-
-    <?php ActiveForm::end(); ?>
-
     <?//= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
     <!--        --><?php //echo CHtml::submitButton('Publish',array('disabled'=>($model->status==1)?true:false)); ?>
 
 
-
-
     </p>
-    <div style="display:flex">
-        <h4>Задачи на исполнении
-            <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_isp?></span>
-        </h4>
-        <h4 style="margin-left: 1%">Задачи на согласовании
-            <span class="pull-right label label-pill label-primary label-as-badge" style="margin-left:10px"><?=$count_sogl?></span>
-        </h4>
-        <h4 style="margin-left: 1%">Завершенные задачи
-            <span class="pull-right label label-pill label-success label-as-badge" style="margin-left:10px"><?=$count_compl?></span>
-        </h4>
-        <h4 style="margin-left: 1%">Отклоненные задачи
-            <span class="pull-right label label-pill label-danger label-as-badge" style="margin-left:10px"><?=$count_cansl?></span>
-        </h4>
-    </div>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -205,4 +179,27 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
     <?php Pjax::end(); ?>
+	
+	<?php $form = ActiveForm::begin(); ?>
+
+
+
+    <?//= Html::beginForm('', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+
+    <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
+        (($project->status_id==2) ? '> Завершить':'> На разработку')),
+        [
+            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',
+//            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содержит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:
+//                (($project->status_id==1)&&($count_sogl>0)) ? ['confirm' => 'Проект содержит '.$count_sogl.' несогласованных ых(ые) задач(и). Вы действительно хотите перевести проект на исполнение?']:'',
+            'name'=>'move',
+            'value' => $project->project_id,
+            'class' => 'btn btn-success btn-info',
+            'disabled'=>(($project->status_id==1)&&($count_sogl>0)) ? true:false,
+
+        ]) ?>
+
+    <?//= Html::endForm() ?>
+
+    <?php ActiveForm::end(); ?>
 </div>

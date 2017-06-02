@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1><?=$tasks->name ?></h1>
 <div class="row">
     <div class="col-md-6" style="margin-bottom: 2%">
-        <table style="width: 100%">
+        <table style="width: 100%" id='task_tbl'>
             <thead>
                 <tr>
                     <th>
@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </table>
     </div>
     <div class="col-md-6">
-        <table  style="width: 100%">
+        <table style="width: 100%" id='comment'>
             <thead>
                 <tr>
                     <th>
@@ -118,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     foreach($comments as $comment)
                     {?>
                         <tr>
-                            <td><?=$comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time))?></td>
+                            <td class='usr'><?=$comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time)).":"?></td>
                         </tr>
                         <tr>
                             <td><?=$comment->text?></td>

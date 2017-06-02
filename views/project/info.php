@@ -29,6 +29,7 @@ use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use app\models\TaskStatus;
+use app\models\User;
 
 $this->title = $project->name;
 $this->params['breadcrumbs'][] = ['label' => \app\models\ProjectStatus::findOne(['status_id' => $project->status_id])->status_name, 'url' => ['list', 'status_id' => $project->status_id]];
@@ -122,6 +123,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'user_id',
                 'value' => 'user.name',
+                'filter'=>ArrayHelper::map(User::find()
+                    ->joinWith('tasks')
+                    ->where(['task.project_id' => Yii::$app->request->get('project_id')])
+                    ->asArray()
+                    ->all(),
+                    'user_id', 'name'),
             ],
             [
                 'attribute' => 'description',

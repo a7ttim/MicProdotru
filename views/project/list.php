@@ -22,6 +22,8 @@ use app\models\Task;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
+use app\models\User;
 
 $this->title = \app\models\ProjectStatus::findOne(['status_id' => $status_id])->status_name;
 $this->params['breadcrumbs'][] = $this->title;
@@ -42,6 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute' => 'pm_id',
             'value' => 'pm.name',
+            'filter'=>ArrayHelper::map(User::find()
+                ->joinWith('projects')
+                ->where(['project.status_id' => Yii::$app->request->get('status_id')])
+                ->asArray()
+                ->all(),
+                'user_id', 'name'),
         ],
         [
             'attribute' => 'description',

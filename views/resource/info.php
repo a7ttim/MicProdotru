@@ -7,6 +7,8 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use app\models\Employment;
 use app\models\Task;
+use app\models\Project;
+use yii\helpers\ArrayHelper;
 
 $this->params['breadcrumbs'] = null;
 $this->title = 'Информация о сотруднике';
@@ -33,9 +35,15 @@ $this->params['breadcrumbs'][] = $usr['department_name'];
                 'value' => 'name',
             ],
 			[
-                'attribute' => 'project.name',
-				'label' => 'Название проекта',
+                'attribute' => 'project_id',
                 'value' => 'project.name',
+                'filter'=>ArrayHelper::map(Project::find()
+                    ->joinWith('tasks')
+                    ->where(['task.user_id' => Yii::$app->request->get('user_id')])
+                    ->asArray()
+                    ->all(),
+                    'project_id', 'name'),
+                'label'=>'Проект'
             ],
 			[
 				'attribute' => 'start_date',

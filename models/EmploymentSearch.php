@@ -69,9 +69,9 @@ class EmploymentSearch extends Employment
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'user.name' => SORT_ASC,
+                    'department_id' => SORT_ASC,
                 ],
-                'attributes' => ['user.name','department.department_name','post.post_name']
+                'attributes' => ['department_id','post_id']
             ],
         ]);
 
@@ -86,9 +86,9 @@ class EmploymentSearch extends Employment
         // grid filtering conditions
         $query->andFilterWhere([
             'employment_id' => $this->employment_id,
-            'user_id' => $this->user_id,
-            'department_id' => $this->department_id,
-            'post_id' => $this->post_id,
+            'user.user_id' => $this->user_id,
+            'department.department_id' => $this->department_id,
+            'post.post_id' => $this->post_id,
             'begin_date' => $this->begin_date,
             'end_date' => $this->end_date,
         ]);

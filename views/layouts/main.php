@@ -38,6 +38,7 @@ AppAsset::register($this);
     ]);
 
 //Таймер
+    if (\Yii::$app->user->can('pe')) {
     $Y = date('Y');
     $m = date('m');
     $d = date('d');
@@ -73,7 +74,40 @@ JS;
     $this->registerJs($script);
     ?>
     <div class="clockwrapper" title="Осталось до ближайшего крайнего срока одной из задач"></div>
-<!--    Таймер (конец)-->
+   <?php }?>
+    <?php
+    if (\Yii::$app->user->can('pm')&&!\Yii::$app->user->can('pe')) {
+        $Y = date('Y');
+        $m = date('m');
+        $d = date('d');
+        $H = date('H');
+        $i = date('i');
+        $s = date('s');
+        $plan = \app\models\Project::find()->where(['pm_id'=>Yii::$app->user->identity->user_id,'status_id'=>2])->min('end_date');
+
+        $wY = date('Y',strtotime($plan));
+        $wm = date('m',strtotime($plan));
+        $wd = date('d',strtotime($plan));
+
+        \stmswitcher\flipclock\assets\FlipClockAsset::register($this);
+        $script = <<< JS
+var clock;
+$(document).ready(function() {
+var currentDate = new Date($Y,$m,$d,$H,$i,$s);
+var warningDate = new Date($wY,$wm,$wd);
+var diff = warningDate.getTime() / 1000 - currentDate.getTime() / 1000;
+var clock = $('.clockwrapper').FlipClock(diff, {
+clockFace: 'DailyCounter',
+countdown: true
+});
+});
+JS;
+        $this->registerJs($script);
+        ?>
+        <div class="clockwrapper" title="Осталось до завершения проекта"></div>
+    <?php }?>
+    ?>
+    <!--    Таймер (конец)-->
 
     <?php echo Nav::widget([
         'options' => ['class' => 'nav navbar-top-links navbar-right pull-right'],

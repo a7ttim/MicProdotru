@@ -98,37 +98,61 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col-md-6">
-        <table style="width: 100%">
-            <thead>
-                <tr>
-                    <th>
-                        Комментарии
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($comments))
-                {
-                    foreach($comments as $comment)
-                    {?>
-                        <tr>
-                            <td><?=$comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time))?></td>
-                        </tr>
-                        <tr>
-                            <td><?=$comment->text?></td>
-                        </tr>
-                        <?php
-                    }
-                }
-                else
-                {?>
-                    <tr>
-                        <td>Комментарии отсутствуют</td>
-                    </tr>
+        <h3>Комментарии (<?=\app\models\Comment::find()->where(['task_id'=>Yii::$app->request->get('task_id')])->count()?>)</h3>
+        <?php if (!empty($comments))
+        {
+            foreach($comments as $comment)
+            {?>
+                <b>
                     <?php
-                }?>
-            </tbody>
-        </table>
+                    $start_date = date('d',strtotime($comment->date_time));
+                    $end_date = date('d');
+                    $comment_duration=$end_date-$start_date;
+                    if($comment_duration === 0) echo $comment->user->name.", сегодня в ".date('H:i',strtotime($comment->date_time));
+                    else if($comment_duration === 1) echo $comment->user->name.", вчера в ".date('H:i',strtotime($comment->date_time));
+                    else echo $comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time));
+                    ?>
+                </b>
+                <div class="well text-justify" style="word-wrap: break-word; border: 1px solid #dedede;"><?=$comment->text?></div>
+                <?php
+            }
+        }
+        else
+        {?>
+            Комментарии отсутствуют
+            <?php
+        }?>
+<!--        <table style="width: 100%">-->
+<!--            <thead>-->
+<!--                <tr>-->
+<!--                    <th>-->
+<!--                        Комментарии-->
+<!--                    </th>-->
+<!--                </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--                --><?php //if (!empty($comments))
+//                {
+//                    foreach($comments as $comment)
+//                    {?>
+<!--                        <tr>-->
+<!--                            <td>--><?//=$comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time))?><!--</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>--><?//=$comment->text?><!--</td>-->
+<!--                        </tr>-->
+<!--                        --><?php
+//                    }
+//                }
+//                else
+//                {?>
+<!--                    <tr>-->
+<!--                        <td>Комментарии отсутствуют</td>-->
+<!--                    </tr>-->
+<!--                    --><?php
+//                }?>
+<!--            </tbody>-->
+<!--        </table>-->
         <?= LinkPager::widget(['pagination' => $pagination]); ?>
 
         <?php $form = ActiveForm::begin(); ?>

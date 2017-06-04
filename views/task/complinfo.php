@@ -19,6 +19,7 @@ use yii\helpers\Url;
 use app\models\Task;
 use yii\bootstrap\Modal;
 use yii\bootstrap\Progress;
+use lo\widgets\SlimScroll;
 
 $this->title = $tasks->name;
 $this->params['breadcrumbs'][] = ['label' => "Завершенные", 'url' => ['isp']];
@@ -27,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1><?=$tasks->name ?></h1>
 <div class="row">
     <div class="col-md-6" style="margin-bottom: 2%">
-        <table style="width: 100%" id='task_tbl'>
+        <table style="width: 100%" id="task_tbl">
             <thead>
                 <tr>
                     <th>
@@ -67,7 +68,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 </tr>
                 <tr>
                     <td>Описание</td>
-                    <td  class="detailed"> <div style="max-height: 300px; overflow-y: auto;"><?= $tasks->description ?></div></td>
+                    <td>
+                        <?= SlimScroll::widget([
+                            'options'=>[
+                                'height'=>'250px'
+                            ]
+                        ]);
+                        ?>
+                        <p>
+                            <?= $tasks->description ?>
+                        </p>
+                        <?= SlimScroll::end(); ?>
+                    </td>
                 </tr>
                 <tr>
                     <td>Выполнено</td>
@@ -128,37 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
             Комментарии отсутствуют
             <?php
         }?>
-<!--        <table style="width: 100%" id='comment'>-->
-<!--            <thead>-->
-<!--                <tr>-->
-<!--                    <th>-->
-<!--                        Комментарии-->
-<!--                    </th>-->
-<!--                </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--                --><?php //if (!empty($comments))
-//                {
-//                    foreach($comments as $comment)
-//                    {?>
-<!--                        <tr>-->
-<!--                            <td class='usr'>--><?//=$comment->user->name.", ".date('d.m.Y H:i',strtotime($comment->date_time)).":"?><!--</td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>--><?//=$comment->text?><!--</td>-->
-<!--                        </tr>-->
-<!--                        --><?php
-//                    }
-//                }
-//                else
-//                {?>
-<!--                    <tr>-->
-<!--                        <td>Комментарии отсутствуют</td>-->
-<!--                    </tr>-->
-<!--                    --><?php
-//                }?>
-<!--            </tbody>-->
-<!--        </table>-->
+
         <?= LinkPager::widget(['pagination' => $pagination]); ?>
 
         <?php $form = ActiveForm::begin(); ?>

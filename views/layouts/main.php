@@ -35,80 +35,114 @@ AppAsset::register($this);
         'options' => [
             'class' => 'navbar navbar-default navbar-static-top m-b-0',
         ],
-    ]);?>
-	
-	<div class="clockwrapper">
-    <?= FlipClock::widget([ 'options' => [ 'clockFace' => 'HourlyCounter'] ]) ?>
-	</div>
+    ]);
 
- <?php echo Nav::widget([
+//Таймер
+    $Y = date('Y');
+    $m = date('m');
+    $d = date('d');
+    $H = date('H');
+    $i = date('i');
+    $s = date('s');
+    $plans = \app\models\Task::find()->where(['user_id'=>Yii::$app->user->identity->user_id,'status_id'=>2])->all();
+    $min[]=array();
+    foreach($plans as $plan){
+        $date = date_create($plan->start_date);
+        date_add($date, date_interval_create_from_date_string($plan->plan_duration.' days'));
+        array_push($min,date_format($date, 'd.m.Y'));
+    }
+    $warning_date=min($min);
+
+    $wY = date('Y',strtotime($warning_date));
+    $wm = date('m',strtotime($warning_date));
+    $wd = date('d',strtotime($warning_date));
+
+    \stmswitcher\flipclock\assets\FlipClockAsset::register($this);
+    $script = <<< JS
+var clock;
+$(document).ready(function() {
+var currentDate = new Date($Y,$m,$d,$H,$i,$s);
+var warningDate = new Date($wY,$wm,$wd);
+var diff = warningDate.getTime() / 1000 - currentDate.getTime() / 1000;
+var clock = $('.clockwrapper').FlipClock(diff, {
+clockFace: 'DailyCounter',
+countdown: true
+});
+});
+JS;
+    $this->registerJs($script);
+    ?>
+    <div class="clockwrapper" title="Осталось до ближайшего крайнего срока одной из задач"></div>
+<!--    Таймер (конец)-->
+
+    <?php echo Nav::widget([
         'options' => ['class' => 'nav navbar-top-links navbar-right pull-right'],
         'items' => [
             Yii::$app->user->isGuest ? (
             ['label' => 'Авторизация', 'url' => ['/auth']]
             ) : (
-            ['label' => Yii::$app->user->identity->login, 
-			 'items' => [
-				[
-					'label' => 'Выйти',
-					'url' => ['/auth/logout'],
-				],
-			],
-			]),
+            ['label' => Yii::$app->user->identity->login,
+                'items' => [
+                    [
+                        'label' => 'Выйти',
+                        'url' => ['/auth/logout'],
+                    ],
+                ],
+            ]),
         ],
     ]);
     NavBar::end();
     ?>
-<div class="row header-fix">
-	<div id="secondary"  role="complementary">
-	<?
-		if(!Yii::$app->user->isGuest) {
-			if(Yii::$app->user->can('pe')) {
-				$items[] = ['label' => 'Задачи на согласовании', 'url' => ['/task/sogl']];
-				$items[] = ['label' => 'Задачи на исполнении', 'url' => ['/task/isp']];
-				$items[] = ['label' => 'Завершенные задачи', 'url' => ['/task/compl']];
-				$items[] = ['label' => 'Статистика', 'url' => ['/task/stat']];
-			}
-			if(Yii::$app->user->can('pm')) {
-				$items[] = '<hr>';
-				$items[] = ['label' => 'Проекты в разработке', 'url' => ['project/list', 'status_id' => 5]];
-				$items[] = ['label' => 'Проекты на согласовании', 'url' => ['project/list', 'status_id' => 1]];
-				$items[] = ['label' => 'Проекты на исполнении', 'url' => ['project/list', 'status_id' => 2]];
-				$items[] = ['label' => 'Завершенные проекты', 'url' => ['project/list', 'status_id' => 3]];
-				$items[] = ['label' => 'Корзина', 'url' => ['project/list', 'status_id' => 4]];
-			}
-			if(Yii::$app->user->can('dh')) {
-				$items[] = '<hr>';
-				$items[] = ['label' => 'Список ресурсов', 'url' => ['resource/list'],'linkOptions'=>['class'=>'main_li']];
-				$items[] = ['label' => 'Статистика', 'url' => ['resource/stat'],'linkOptions'=>['class'=>'main_li']];
-			}
-			
-			echo SlimScroll::widget([
-				'options'=>[
-					'height' => '100%',
-					'alwaysVisible' => false,
-				]
-			]);
-		
-			echo Nav::widget([
-					'options' => ['class' => 'navbar-default sidebar', 
-						'id'=>'main-menu', 'role' => 'navigation'], // стили ul
-					'items' => $items,   
-				]);
-			
-			echo SlimScroll::end(); 
-		}
-	?>
-	</div>
-	
-    <div class="col-md-12 col-lg-12 api-content" id='page-wrapper'>
-        <?= Breadcrumbs::widget([
+    <div class="row header-fix">
+        <div id="secondary"  role="complementary">
+            <?
+            if(!Yii::$app->user->isGuest) {
+                if(Yii::$app->user->can('pe')) {
+                    $items[] = ['label' => 'Задачи на согласовании', 'url' => ['/task/sogl']];
+                    $items[] = ['label' => 'Задачи на исполнении', 'url' => ['/task/isp']];
+                    $items[] = ['label' => 'Завершенные задачи', 'url' => ['/task/compl']];
+                    $items[] = ['label' => 'Статистика', 'url' => ['/task/stat']];
+                }
+                if(Yii::$app->user->can('pm')) {
+                    $items[] = '<hr>';
+                    $items[] = ['label' => 'Проекты в разработке', 'url' => ['project/list', 'status_id' => 5]];
+                    $items[] = ['label' => 'Проекты на согласовании', 'url' => ['project/list', 'status_id' => 1]];
+                    $items[] = ['label' => 'Проекты на исполнении', 'url' => ['project/list', 'status_id' => 2]];
+                    $items[] = ['label' => 'Завершенные проекты', 'url' => ['project/list', 'status_id' => 3]];
+                    $items[] = ['label' => 'Корзина', 'url' => ['project/list', 'status_id' => 4]];
+                }
+                if(Yii::$app->user->can('dh')) {
+                    $items[] = '<hr>';
+                    $items[] = ['label' => 'Список ресурсов', 'url' => ['resource/list'],'linkOptions'=>['class'=>'main_li']];
+                    $items[] = ['label' => 'Статистика', 'url' => ['resource/stat'],'linkOptions'=>['class'=>'main_li']];
+                }
+
+                echo SlimScroll::widget([
+                    'options'=>[
+                        'height' => '100%',
+                        'alwaysVisible' => false,
+                    ]
+                ]);
+
+                echo Nav::widget([
+                    'options' => ['class' => 'navbar-default sidebar',
+                        'id'=>'main-menu', 'role' => 'navigation'], // стили ul
+                    'items' => $items,
+                ]);
+
+                echo SlimScroll::end();
+            }
+            ?>
+        </div>
+
+        <div class="col-md-12 col-lg-12 api-content" id='page-wrapper'>
+            <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <div class='container-fluid' id='whitediv'>
                 <?= $content ?>
             </div>
-		</div>
+        </div>
     </div>
 </div>
 

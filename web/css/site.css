@@ -373,7 +373,7 @@ a, a:hover, a:focus, a:active{
 a.btn, .pagination li a { border-radius: 0px !important; }
 
 .period { display: flex; }
-.input-daterange { margin-left: 30px; width: 40%; margin-right: 20px; }
+.input-daterange { width: 40%; margin-right: 1%; }
 hr { margin: 3px !important; }
 #project-status { margin-right: 20px; }
 #proc { height: 43px; }

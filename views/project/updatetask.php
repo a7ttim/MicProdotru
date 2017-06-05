@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_taskform', [
         'model' => $model,
         'project' => $project,
+        'start' => date('d.m.Y', strtotime($model->start_date)),
     ]) ?>
 
 </div>

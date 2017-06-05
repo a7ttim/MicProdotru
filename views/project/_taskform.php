@@ -7,6 +7,7 @@ use app\models\User;
 use app\models\Task;
 use app\models\Project;
 use kartik\select2\Select2;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Task */
@@ -34,7 +35,7 @@ use kartik\select2\Select2;
         // http://demos.krajee.com/widget-details/select2
     ])->label('Исполнитель'); ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description')->textInput(['maxlength' => true, 'style'=>'resize:vertical;']) ?>
 
     <?= $form->field($model, 'employment_percentage')->textInput() ?>
 
@@ -46,9 +47,25 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'previous_task_id')->textInput()->dropDownList(ArrayHelper::map(Task::find()->where(
        ['project_id'=>$model->project_id])->orderBy('start_date')->all(),
         'task_id', 'name'),['prompt'=> 'Выберите предыдущую задачу']) ?>
+    <label class="control-label">Дата начала</label>
+    <div style = "margin-bottom: 1%">
+    <?php
+    $layout = <<< HTML
+{input1}
+HTML;
 
-    <?= $form->field($model, 'start_date')->textInput() ?>
-
+    echo DatePicker::widget([
+        'type' => DatePicker::TYPE_INPUT,
+        'name' => 'start_date',
+        'value' => $start,
+        'layout' => $layout,
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'dd.mm.yyyy',
+        ]
+    ]);
+    ?>
+    </div>
     <?= $form->field($model, 'plan_duration')->textInput() ?>
 
     <?= $form->field($model, 'fact_duration')->textInput() ?>

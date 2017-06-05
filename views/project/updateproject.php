@@ -16,6 +16,8 @@ use yii\helpers\Html;
 
         <?= $this->render('_projectform', [
             'model' => $model,
+            'start' => date('d.m.Y', strtotime($model->start_date)),
+            'end' => date('d.m.Y', strtotime($model->end_date)),
         ]) ?>
 
     </div>

@@ -14,13 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 <div class='period'>
-<h4>Период:</h4>
+<h4 style="margin-right: 1%">Период:</h4>
 <?php
 $form = ActiveForm::begin(['id' => 'stat_res', 'enableAjaxValidation' => true]);
 $layout = <<< HTML
     <span class="input-group-addon">С</span>
     {input1}
-    {separator}
     <span class="input-group-addon">По</span>
     {input2}
     <span class="input-group-addon kv-date-remove">
@@ -34,7 +33,6 @@ echo DatePicker::widget([
     'value' => $lstdt->format('d.m.Y'),
     'name2' => 'dp_addon_3b',
     'value2' => $lstdt->add(new DateInterval('P'.$curdt.'D'))->format('d.m.Y'),
-    'separator' => '<i class="glyphicon glyphicon-resize-horizontal"></i>',
     'layout' => $layout,
     'pluginOptions' => [
         'autoclose' => true,

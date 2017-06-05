@@ -45,11 +45,21 @@ class ProjectController extends Controller
 
     public function actionCreateproject()
     {
-        $model = new project();
-        $model->pm_id=Yii::$app->user->identity->user_id;
-        $model->status_id =5;
+        $now = (new \DateTime('now'));
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $start = $now->format('d.m.Y');
+        $end = $now->add(new \DateInterval('P1Y'))->format('d.m.Y');
+
+        $post = Yii::$app->request->post();
+
+        $model = new project();
+        $model->pm_id = Yii::$app->user->identity->user_id;
+        $model->status_id = 5;
+
+        if ($model->load($post) && $model->save()) {
+            $model->start_date = date('Y-m-d', strtotime($post['start_date']));
+            $model->end_date = date('Y-m-d', strtotime($post['end_date']));
+            $model->save();
             //$model = new WorkingOn();
             //$model->project_id = $this->project_id;
             //$model->user_id = $this->pm_id;
@@ -58,6 +68,8 @@ class ProjectController extends Controller
         } else {
             return $this->render('createproject', [
                 'model' => $model,
+                'start' => $start,
+                'end' => $end
             ]);
         }
     }
@@ -72,12 +84,22 @@ class ProjectController extends Controller
     public function actionUpdateproject($id)
     {
         $model = $this->findProjectModel($id);
+        $start = $model->start_date;
+        $end = $model->end_date;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $post = Yii::$app->request->post();
+
+        if ($model->load($post) && $model->save()) {
+            $model->start_date = date('Y-m-d', strtotime($post['start_date']));
+            $model->end_date = date('Y-m-d', strtotime($post['end_date']));
+            $model->save();
+
             return $this->redirect(['showproject', 'id' => $model->project_id]);
         } else {
             return $this->render('updateproject', [
                 'model' => $model,
+                'start' => $start,
+                'end' => $end
             ]);
         }
     }
@@ -203,8 +225,11 @@ class ProjectController extends Controller
 
     public function actionCreatetask()
     {
-
         $model = new Task();
+
+        $start = (new \DateTime('now'))->format('d.m.Y');
+
+        $post = Yii::$app->request->post();
 
         $project=Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
 
@@ -221,17 +246,17 @@ class ProjectController extends Controller
 
         $model->project_id= $project->project_id;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()){
-
+        if ($model->load($post) && $model->save()){
+            $model->start_date = date('Y-m-d', strtotime($post['start_date']));
+            $model->save();
             //if($model->status_id==1) { здесь будет логика для оповещения по почте, если она будет }
 
             return $this->redirect(['showtask', 'id' => $model->task_id]);
-
-
         } else {
             return $this->render('createtask', [
                 'model' => $model,
                 'project' => $project,
+                'start' => $start,
             ]);
         }
     }
@@ -280,6 +305,10 @@ class ProjectController extends Controller
     {
         $model= $this->findTaskModel($id);
 
+        $start = $model->start_date;
+
+        $post = Yii::$app->request->post();
+
         $project=Project::findOne(['project_id' => Yii::$app->request->get('project_id')]);
 
         if($project->status_id==5)//на разработке
@@ -291,12 +320,15 @@ class ProjectController extends Controller
             $model->status_id=1; //на согласовании
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load($post) && $model->save()) {
+            $model->start_date = date('Y-m-d', strtotime($post['start_date']));
+            $model->save();
             return $this->redirect(['info','project_id' =>$model->project_id]);
         } else {
             return $this->render('updatetask', [
                 'model' => $model,
                 'project' => Project::findOne(['project_id' => $model->project_id]), // Для breadcrumbs
+                'start' => $start,
             ]);
         }
     }

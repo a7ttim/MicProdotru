@@ -6,6 +6,8 @@ use yii\helpers\ArrayHelper;
 use app\models\User;
 use app\models\Department;
 use kartik\select2\Select2;
+use kartik\date\DatePicker;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\project */
@@ -34,18 +36,39 @@ use kartik\select2\Select2;
         // http://demos.krajee.com/widget-details/select2
     ])->label('Исполнители'); ?>
 
-    <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'resize:vertical;']) ?>
 
-    <?= $form->field($model, 'start_date')->textInput() ?>
-    <?//shirase55 datetime?>
-    <?= $form->field($model, 'end_date')->textInput() ?>
+    <?php
+    $layout = <<< HTML
+    <span class="input-group-addon">С</span>
+    {input1}
+    <span class="input-group-addon">По</span>
+    {input2}
+    <span class="input-group-addon kv-date-remove">
+        <i class="glyphicon glyphicon-remove"></i>
+    </span>
+HTML;
+
+        echo DatePicker::widget([
+            'type' => DatePicker::TYPE_RANGE,
+            'name' => 'start_date',
+            'value' => $start,
+            'name2' => 'end_date',
+            'value2' => $end,
+            'layout' => $layout,
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'dd.mm.yyyy'
+            ]
+        ]);
+?>
 
 <!--    --><?//= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
 
 <!--    --><?//= $form->field($model, 'status_id')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'style' => 'margin-top: 1%']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

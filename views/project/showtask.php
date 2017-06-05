@@ -67,7 +67,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['class' => 'bg-red'],     // настройка HTML атрибутов для тега, соответсвующего value
                 'captionOptions' => ['tooltip' => 'Tooltip'],  // настройка HTML атрибутов для тега, соответсвующего label
             ],
-            'start_date',
+            [
+                'attribute' => 'start_date',
+                'format' => ['date', 'php:d.m.Y']
+            ],
             'plan_duration',
             'fact_duration',
             'employment_percentage',

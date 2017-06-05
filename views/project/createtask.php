@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_taskform', [
         'model' => $model,
         'project' => $project,
+        'start' => $start,
     ]) ?>
 
 </div>

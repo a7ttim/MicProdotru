@@ -92,13 +92,20 @@ JS;
         \stmswitcher\flipclock\assets\FlipClockAsset::register($this);
         $script = <<< JS
 var clock;
+var time;
 $(document).ready(function() {
 var currentDate = new Date($Y,$m,$d,$H,$i,$s);
 var warningDate = new Date($wY,$wm,$wd);
 var diff = warningDate.getTime() / 1000 - currentDate.getTime() / 1000;
-var clock = $('.clockwrapper').FlipClock(diff, {
+if(diff>0) time=diff;
+else time=0;
+var clock = $('.clockwrapper').FlipClock(time, {
 clockFace: 'DailyCounter',
-countdown: true
+countdown: true,
+callbacks: {
+stop: function() {
+alert("Время выполнения какой-то задачи истекло!");
+}}
 });
 });
 JS;

@@ -49,8 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             'description',
-            'start_date',
-            'end_date',
+            [
+                'attribute' => 'start_date',
+                'format' => ['date', 'php:d.m.Y']
+            ],
+            [
+                'attribute' => 'end_date',
+                'format' => ['date', 'php:d.m.Y']
+            ],
 //            'type',
             //'status_id',
             [

@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_projectform', [
         'model' => $model,
+        'start' => $start,
+        'end' => $end
     ]) ?>
 
 </div>

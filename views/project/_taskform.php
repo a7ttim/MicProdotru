@@ -35,6 +35,9 @@ use kartik\date\DatePicker;
         // http://demos.krajee.com/widget-details/select2
     ])->label('Исполнитель'); ?>
 
+<!--    --><?//= $form->field($model, 'user_id')->dropDownList(ArrayHelper::map(User::find()->andWhere('user_id>1')->orderBy('name')->all(),
+//        'user_id', 'name'),['prompt'=> 'Выберите исполнителя']) ?>
+
     <?= $form->field($model, 'description')->textInput(['maxlength' => true, 'style'=>'resize:vertical;']) ?>
 
     <?= $form->field($model, 'employment_percentage')->textInput() ?>

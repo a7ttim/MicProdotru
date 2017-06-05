@@ -56,10 +56,10 @@ class ProjectController extends Controller
         $model->pm_id = Yii::$app->user->identity->user_id;
         $model->status_id = 5;
 
+        $model->start_date = date('Y-m-d', strtotime($post['start_date']));
+        $model->end_date = date('Y-m-d', strtotime($post['end_date']));
+
         if ($model->load($post) && $model->save()) {
-            $model->start_date = date('Y-m-d', strtotime($post['start_date']));
-            $model->end_date = date('Y-m-d', strtotime($post['end_date']));
-            $model->save();
             //$model = new WorkingOn();
             //$model->project_id = $this->project_id;
             //$model->user_id = $this->pm_id;
@@ -246,9 +246,10 @@ class ProjectController extends Controller
 
         $model->project_id= $project->project_id;
 
+        $model->start_date = date('Y-m-d', strtotime($post['start_date']));
+
         if ($model->load($post) && $model->save()){
-            $model->start_date = date('Y-m-d', strtotime($post['start_date']));
-            $model->save();
+
             //if($model->status_id==1) { здесь будет логика для оповещения по почте, если она будет }
 
             return $this->redirect(['showtask', 'id' => $model->task_id]);

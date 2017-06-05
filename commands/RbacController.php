@@ -74,7 +74,7 @@ class RbacController extends Controller
 							else 
 								if($pm_find != null) $auth->assign($pm, $uid->user_id);
 								else 
-									$auth->assign($dh, $uid->user_id);
+									$auth->assign($dh, $uid->user_id);			
 		}
         //$auth->assign($pm, 3);
         //$auth->assign($pe, 12);

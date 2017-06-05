@@ -9,7 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use \stmswitcher\flipclock\FlipClock;
-use lo\widgets\SlimScroll;
+use \lo\widgets\SlimScroll;
 
 AppAsset::register($this);
 ?>

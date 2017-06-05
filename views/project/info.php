@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if($project->status_id==5) {echo Html::a('Редактировать',['updateproject', 'id' => $project->project_id],['class' => 'btn btn-info']);} ?>
         <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('+ Новая задача (Modal)', ['#'], ['data-toggle' => 'modal', 'data-target' => '#search', 'class' =>  'btn btn-success']) ?>
+        <?//= Html::a('+ Новая задача (Modal)', ['#'], ['data-toggle' => 'modal', 'data-target' => '#search', 'class' =>  'btn btn-success']) ?>
         <?= Html::a('x Удалить', ['deleteproject', 'id' => $project->project_id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?
+        <?/*
         Modal::begin([
             'options' => [
                 'id' => 'search'
@@ -91,14 +91,14 @@ $this->params['breadcrumbs'][] = $this->title;
         $model->complete_percentage = 0;
 
         $model->project_id = $project->project_id;
-        ?>
-        <?= $this->render('_taskform', [
+        */?><!--
+        <?/*= $this->render('_taskform', [
             'model' => $model,
             'project' => $project,
-        ]) ?>
-    <?
+        ]) */?>
+    --><?/*
     Modal::end();
-    ?>
+    */?>
 
     <?//= Html::a('> На исполнение', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-info']) ?>
     <!--        --><?php //echo CHtml::submitButton('Publish',array('disabled'=>($model->status==1)?true:false)); ?>

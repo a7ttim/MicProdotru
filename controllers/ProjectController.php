@@ -132,7 +132,7 @@ class ProjectController extends Controller
 
         $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
 
-        //Actions for project (move status)
+        /*//Actions for project (move status)
         if (Yii::$app->request->post('move')) {
 
             //смена статуса задач проекта
@@ -170,6 +170,36 @@ class ProjectController extends Controller
             }
 
             else {$project->status_id=5;} //Удаленные или завершенные восстановить - в разработку
+
+            $project->save();
+            return $this->redirect(['list','status_id' =>$project->status_id]);
+        }*/
+        if (Yii::$app->request->post('move')) {
+            switch ($project->status_id){
+                case 1:
+                    $project->status_id = 2;//На исполнение
+
+                    $tasks=$project->getTasks()->where(['status_id' => 1])->all();
+
+                    foreach ($tasks as $task){
+                        $task->status_id = 2;
+                        $task->save();
+                    }
+                    break;
+                case 2:
+                    $project->status_id = 3;
+                    break;
+                case 5:
+                    $project->status_id=1;
+                    $tasks = $project->getTasks()->where(['not in', 'status_id', [3,4]])->all();
+                    foreach ($tasks as $task) {
+                        $task->status_id = 1;
+                        $task->save();
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             $project->save();
             return $this->redirect(['list','status_id' =>$project->status_id]);
@@ -225,6 +255,7 @@ class ProjectController extends Controller
 
     public function actionCreatetask()
     {
+
         $model = new Task();
 
         $start = (new \DateTime('now'))->format('d.m.Y');

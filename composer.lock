@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4dd43c39296486d0af39f236261c7e67",
+    "content-hash": "04d06b453e350ca24197b41b057993eb",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -606,7 +606,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-09-04 09:29:14"
+            "time": "2016-09-04T09:29:14+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -711,7 +711,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-04-01 16:03:50"
+            "time": "2017-04-01T16:03:50+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -809,7 +809,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-09-09 15:28:55"
+            "time": "2015-09-09T15:28:55+00:00"
         },
         {
             "name": "shirase55/yii2-datetime-widget",
@@ -928,7 +928,7 @@
                 "flipclock",
                 "yii2"
             ],
-            "time": "2016-01-03 01:31:51"
+            "time": "2016-01-03T01:31:51+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3608,7 +3608,8 @@
         "kartik-v/yii2-widget-select2": 20,
         "yiisoft/yii2-jui": 20,
         "kartik-v/yii2-widget-datepicker": 20,
-        "stmswitcher/yii2-flipclock": 20
+        "stmswitcher/yii2-flipclock": 20,
+        "loveorigami/yii2-slimscroll-widget": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

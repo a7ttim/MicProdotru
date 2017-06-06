@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\commands\RbacController;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;

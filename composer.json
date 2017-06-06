@@ -25,7 +25,7 @@
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-field-range": "*",
         "stmswitcher/yii2-flipclock": "dev-master",
-        "loveorigami/yii2-slimscroll-widget": "*"
+        "loveorigami/yii2-slimscroll-widget": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

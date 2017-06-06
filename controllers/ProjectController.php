@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use app\models\Comment;
 use app\models\Project;
+use app\models\Department;
 use app\models\ProjectSearch;
 use app\models\Task;
 use app\models\TaskSearch;
@@ -282,7 +283,27 @@ class ProjectController extends Controller
         if ($model->load($post) && $model->save()){
 
             //if($model->status_id==1) { здесь будет логика для оповещения по почте, если она будет }
-
+			
+			$auth = Yii::$app->authManager;
+			$rls = $auth->getRolesByUser($model->user_id);
+			if(count($rls)) {
+				$rl = array_keys($rls)[0];
+ 				if(!substr_count($rl, 'pe') && !substr_count($rl, '+')) {
+						$role = $auth->createRole($rl.'+pe');
+						$auth->revoke($rl, $model->user_id);
+						$auth->assign($role, $model->user_id);
+				}
+				else if(!substr_count($rl, 'super')) {
+						$role = $auth->createRole('super');
+						$auth->revoke($rl, $model->user_id);
+						$auth->assign($role, $model->user_id);
+				}
+			}
+			else {
+				$pe = $auth->createRole('pe');
+				$auth->assign($pe, $model->user_id);
+			}
+		
             return $this->redirect(['showtask', 'id' => $model->task_id]);
         } else {
             return $this->render('createtask', [

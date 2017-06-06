@@ -1,6 +1,5 @@
 <?php
 namespace app\commands;
-
 use Yii;
 use yii\console\Controller;
 use app\models\User;
@@ -12,8 +11,8 @@ class RbacController extends Controller
 {
     public function actionInit()
     {
-        $auth =  \Yii::$app->authManager;
-
+        $auth = Yii::$app->authManager;
+		$auth->removeAll();
         // add "pm" role
         $pm = $auth->createRole('pm');
         $auth->add($pm);
@@ -50,7 +49,6 @@ class RbacController extends Controller
 		$auth->addChild($super, $pe);
 		$auth->addChild($super, $pm);
 		$auth->addChild($super, $dh);
-
         // Assign roles to users. 1 and 2 are IDs returned by IdentityInterface::getId()
         // usually implemented in your User model.
 		$user_ids = User::find('user_id')->all();

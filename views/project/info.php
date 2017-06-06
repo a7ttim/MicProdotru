@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	
     <p>
         <?php if($project->status_id==5) {echo Html::a('Редактировать',['updateproject', 'id' => $project->project_id],['class' => 'btn btn-info']);} ?>
-        <?php if($project->tasks!=null) echo Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
+        <?php if($project->getTasks()->where(['not in', 'status_id', [1,4,6]])->count()>0) echo Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
         <?//= Html::a('+ Новая задача (Modal)', ['#'], ['data-toggle' => 'modal', 'data-target' => '#search', 'class' =>  'btn btn-success']) ?>
         <?= Html::a('x Удалить', ['deleteproject', 'id' => $project->project_id], [

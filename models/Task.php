@@ -46,7 +46,7 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'project_id', 'user_id'], 'required'],
+            [['name', 'project_id', 'user_id', 'plan_duration', 'employment_percentage'], 'required'],
             [['project_id', 'user_id', 'parent_task_id', 'previous_task_id', 'plan_duration', 'fact_duration', 'employment_percentage', 'status_id', 'complete_percentage'], 'integer'],
             [['start_date'], 'safe'],
             [['name'], 'string', 'max' => 255],

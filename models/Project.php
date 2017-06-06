@@ -60,7 +60,7 @@ class Project extends \yii\db\ActiveRecord
      */
     public function attributeLabels()
     {
-        return [
+        return[
             'project_id' => 'Проект',
             'name' => 'Название',
             'department_id' => 'Подразделение',

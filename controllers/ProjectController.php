@@ -10,7 +10,6 @@ namespace app\controllers;
 
 use app\models\Comment;
 use app\models\Project;
-use app\models\Department;
 use app\models\ProjectSearch;
 use app\models\Task;
 use app\models\TaskSearch;
@@ -133,7 +132,7 @@ class ProjectController extends Controller
 
         $incompleted_tasks = Task::find()->where(['and', ['project_id'=>$project->project_id],['status_id' =>[1,2,5,6]]])->count();
 
-        /*//Actions for project (move status)
+        //Actions for project (move status)
         if (Yii::$app->request->post('move')) {
 
             //смена статуса задач проекта
@@ -174,8 +173,8 @@ class ProjectController extends Controller
 
             $project->save();
             return $this->redirect(['list','status_id' =>$project->status_id]);
-        }*/
-        if (Yii::$app->request->post('move')) {
+        }
+        /*if (Yii::$app->request->post('move')) {
             switch ($project->status_id){
                 case 1:
                     $project->status_id = 2;//На исполнение
@@ -204,7 +203,7 @@ class ProjectController extends Controller
 
             $project->save();
             return $this->redirect(['list','status_id' =>$project->status_id]);
-        }
+        }*/
 
         $cti = Task::find()->where(['and',['status_id'=>2],['project_id'=>$proj_id]])->count();
         $cts = Task::find()->where(['and',['status_id'=>1],['project_id'=>$proj_id]])->count();
@@ -228,7 +227,6 @@ class ProjectController extends Controller
     public function actionGantt($project_id)
     {
         $project = Project::findOne(['project_id' => $project_id]);
-
         return $this->render('gantt', [
             'project' => $project,
             'tasks' => $project->getTasks()->all(),
@@ -283,27 +281,7 @@ class ProjectController extends Controller
         if ($model->load($post) && $model->save()){
 
             //if($model->status_id==1) { здесь будет логика для оповещения по почте, если она будет }
-			
-			$auth = Yii::$app->authManager;
-			$rls = $auth->getRolesByUser($model->user_id);
-			if(count($rls)) {
-				$rl = array_keys($rls)[0];
- 				if(!substr_count($rl, 'pe') && !substr_count($rl, '+')) {
-						$role = $auth->createRole($rl.'+pe');
-						$auth->revoke($rl, $model->user_id);
-						$auth->assign($role, $model->user_id);
-				}
-				else if(!substr_count($rl, 'super')) {
-						$role = $auth->createRole('super');
-						$auth->revoke($rl, $model->user_id);
-						$auth->assign($role, $model->user_id);
-				}
-			}
-			else {
-				$pe = $auth->createRole('pe');
-				$auth->assign($pe, $model->user_id);
-			}
-		
+
             return $this->redirect(['showtask', 'id' => $model->task_id]);
         } else {
             return $this->render('createtask', [

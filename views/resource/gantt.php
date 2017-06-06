@@ -64,34 +64,39 @@ foreach ($employments as $employment) {
         print_r($total_compl);
     }*/
 
-    for($i = 0; $i < $employment->user->getTasks()->count('task_id')-1; $i++)
-    {
-        $complete_percentage = $employment->user->getTasks()->sum('complete_percentage')/$employment->user->getTasks()->count('task_id');
-    }
+    if($employment->user->getTasks()->where(['not in', 'status_id', [1,4,6]])->count()>0){
+        $complete_percentage = $employment->user->getTasks()->where(['not in', 'status_id', [1,4,6]])->sum('complete_percentage')/$employment->user->getTasks()->where(['not in', 'status_id', [1,4,6]])->count();
 
-    $script .= '{
+        $script .= '{
             id:' . $employment->employment_id . ',
             text:"' . $employment->user->name . '",
             start_date:"' . date('d.m.Y', strtotime($employment->user->getTasks()->min('start_date'))) . '",
-            progress: ' . (($employment->user->getTasks()->sum('employment_percentage')>100) ? $employment->user->getTasks()->sum('employment_percentage')/100 : $employment->user->getTasks()->sum('employment_percentage')/100) .',
+            progress: ' . (($employment->user->getTasks()->where(['not in', 'status_id', [1,4,6]])->sum('employment_percentage')>100)
+                ? $employment->user->getTasks()->where(['not in', 'status_id', [1,4,6]])->sum('employment_percentage')/100
+                : $employment->user->getTasks()->where(['not in', 'status_id', [1,4,6]])->sum('employment_percentage')/100) .',
             complete_percentage: ' . $complete_percentage . ',
             duration:' . $employment->user->getTasks()->max('start_date' + 'plan_duration') . ', //что тут происходит ваще
-            color:"' . ($employment->user->getTasks()->sum('employment_percentage')>100 ? "red" : "default") . '"
+            color:"' . ($employment->user->getTasks()->where(['not in', 'status_id', [1,4,6]])->sum('employment_percentage')>100 ? "red" : "default") . '"
             },';
+    }
+
 }
 
 foreach ($tasks as $task) {
-    $script .= '{
+    if ($task->status_id === 1 || $task->status_id === 4 || $task->status_id === 6) continue;
+    else {
+        $script .= '{
             id:' . $task->task_id . ',
             text:"' . $task->name . '",
             description:"' . $task->description . '",
             start_date:"' . date('d.m.Y', strtotime($task->start_date)) . '",
-            duration:'.$task->plan_duration.',
-            progress: 0.'.$task->employment_percentage.',
-            complete_percentage: '.$task->complete_percentage.',
-            projectname:"'. $task->project->name .'",
-            parent:'. ($task->user->user_id === \app\models\Task::find()->joinWith('user')->select('user.user_id')->where(['task.task_id'=>$task->parent_task_id])->one()->user_id
-       ? $task->parent_task_id : $task->user->getEmployments()->one()->employment_id) .'},';
+            duration:' . $task->plan_duration . ',
+            progress: 0.' . $task->employment_percentage . ',
+            complete_percentage: ' . $task->complete_percentage . ',
+            projectname:"' . $task->project->name . '",
+            parent:' . ($task->user->user_id === \app\models\Task::find()->joinWith('user')->select('user.user_id')->where(['task.task_id' => $task->parent_task_id])->one()->user_id
+                ? $task->parent_task_id : $task->user->getEmployments()->one()->employment_id) . '},';
+    }
 }
 /*
 \app\models\Task::find()->joinWith('user')->select('user.user_id')->where(['task.task_id'=>$task->parent_task_id])->one()

@@ -24,6 +24,20 @@ $this->params['breadcrumbs'][] = $usr['department_name'];
 	<div class='isp_progr'>
 	<?=Html::decode(\app\components\ProgressBarWidget::widget(['value' => $workload,]));?></div>
 </div>
+    <div class='vvv'>
+        <h4>Задачи на исполнении
+            <span class="label label-pill label-primary label-as-badge"><?=$count_isp?></span>
+        </h4>
+        <h4>Задачи на согласовании
+            <span class="label label-pill label-primary label-as-badge"><?=$count_sogl?></span>
+        </h4>
+        <h4>Завершенные задачи
+            <span class="label label-pill label-success label-as-badge"><?=$count_compl?></span>
+        </h4>
+        <h4>Отклоненные задачи
+            <span class="label label-pill label-danger label-as-badge"><?=$count_cansl?></span>
+        </h4>
+    </div>
 
    <?= GridView::widget([
         'dataProvider' => $dataProvider,

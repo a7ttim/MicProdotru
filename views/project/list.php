@@ -72,10 +72,11 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute' => '',
             'value' => function (Project $project) {
-                return Html::a('<span class="fa fa-search"></span> Визуализация', Url::to(['gantt', 'project_id' => $project->project_id]), [
+                if($project->getTasks()->where(['not in', 'status_id', [1,4,6]])->count()>0) {return Html::a('<span class="fa fa-search"></span> Визуализация', Url::to(['gantt', 'project_id' => $project->project_id]), [
                     'title' => Yii::t('app', 'Подробнее'),
                     'class' =>'btn btn-primary btn-xs',
-                ]);
+                ]);}
+                else return '';
             },
             'format' => 'raw',
             'contentOptions' => ['style' => 'width:30px;'],

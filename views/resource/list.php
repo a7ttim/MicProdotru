@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class='snn'>
 <h1><?= Html::encode($this->title) ?></h1>
-<?= Html::a('Визуализация', Url::to('gantt'),['class' =>'btn btn-primary btn-md']);?>
+    <?php if($tasks!=null) echo  Html::a('Визуализация', Url::to('gantt'),['class' =>'btn btn-primary btn-md']);?>
 </div>
 <?php
 $id = Yii::$app->user->identity->user_id;

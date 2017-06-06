@@ -58,13 +58,13 @@ $this->params['breadcrumbs'][] = $this->title;
 	
     <p>
         <?php if($project->status_id==5) {echo Html::a('Редактировать',['updateproject', 'id' => $project->project_id],['class' => 'btn btn-info']);} ?>
-        <?= Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
+        <?php if($project->tasks!=null) echo Html::a('&#8801; Визуализация', ['gantt', 'project_id' => $project->project_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('+ Новая задача', ['createtask', 'project_id' => $project->project_id], ['class' => 'btn btn-success']) ?>
         <?//= Html::a('+ Новая задача (Modal)', ['#'], ['data-toggle' => 'modal', 'data-target' => '#search', 'class' =>  'btn btn-success']) ?>
         <?= Html::a('x Удалить', ['deleteproject', 'id' => $project->project_id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы дейстительно хотите удалить этот проект?',
+                'confirm' => 'Вы действительно хотите удалить этот проект?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -196,7 +196,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::submitButton(($project->status_id==5) ? '> На согласование': (($project->status_id==1) ? '> На исполнение':
         (($project->status_id==2) ? '> Завершить':'> На разработку')),
         [
-            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:'',
+            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содердит '.$incompleted_tasks.' незавершенных(ые) задач(и). Вы действительно хотите завершить проект?']:'',
 //            'data' => (($project->status_id==2)&&($incompleted_tasks>0)) ? ['confirm' => 'Проект содержит '.$incompleted_tasks.' незавершенныых(ые) задач(и). Вы действительно хотите завершить проект?']:
 //                (($project->status_id==1)&&($count_sogl>0)) ? ['confirm' => 'Проект содержит '.$count_sogl.' несогласованных ых(ые) задач(и). Вы действительно хотите перевести проект на исполнение?']:'',
             'name'=>'move',

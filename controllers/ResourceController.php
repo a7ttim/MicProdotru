@@ -33,10 +33,24 @@ class ResourceController extends Controller
         $searchModel = new EmploymentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $id = Yii::$app->user->identity->user_id;
+
+        $dep = Department::findOne(['head_id' => $id]);
+        $deps = Department::find()
+            ->select(['department_id'])
+            ->where(['parent_department_id' => $dep->department_id])
+            ->asArray()->all();
+        $deps_ar = array();
+        array_push($deps_ar,$dep->department_id,$deps);
+
+        $employments = Employment::find()->where(['in','department_id',$deps_ar])->andWhere(['not', ['user_id' => $id]])->all();
+        $tasks = Task::find()->where(['in','user_id', $employments])->andWhere(['not in', 'status_id', [1,4,6]])->all();
+
         return $this->render('list', [
 			'model' => $model,
             'dataProvider' => $dataProvider,
             'searchModel'=> $searchModel,
+            'tasks' => $tasks
         ]);
     }
 

@@ -83,17 +83,21 @@ $script .= '{
     color:"' . ($project_compl === 100 ? "green" : "default") . '"},';
 
 foreach ($tasks as $task){
-    $script .= '{
-    id:'.$task->task_id.',
-    text:"'.$task->name.'",
-    description:"'.$task->description.'",
-    start_date:"'.date('d.m.Y', strtotime($task->start_date)).'",
-    duration:'.$task->plan_duration.',
-    progress: 0.'.$task->complete_percentage.',
-    employment_percentage: '.$task->employment_percentage.',
-    parent:'.((!isset($task->parent_task_id) || is_null($task->parent_task_id)) ? 1 : $task->parent_task_id).',
-    executor:"'.$task->user->name.'",
-    color:"' . ($task->complete_percentage === 100 ? "green" : "default") . '"},';
+    if($task->status_id===1||$task->status_id===4||$task->status_id===6) continue;
+    else
+    {
+        $script .= '{
+        id:'.$task->task_id.',
+        text:"'.$task->name.'",
+        description:"'.$task->description.'",
+        start_date:"'.date('d.m.Y', strtotime($task->start_date)).'",
+        duration:'.$task->plan_duration.',
+        progress: 0.'.$task->complete_percentage.',
+        employment_percentage: '.$task->employment_percentage.',
+        parent:'.((!isset($task->parent_task_id) || is_null($task->parent_task_id)) ? 1 : $task->parent_task_id).',
+        executor:"'.$task->user->name.'",
+        color:"' . ($task->complete_percentage === 100 ? "green" : "default") . '"},';
+    }
 }
 $script .= <<< JS
    ], 
